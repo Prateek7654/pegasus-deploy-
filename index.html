@@ -378,14 +378,14 @@
         function createEventCard(event, index) {
             const { title, subtitle, desc, icon } = event;
             const isImage = icon.includes('.');
-            const isHermes = icon.includes('hermes.png');
             
-            const sizeClass = isHermes 
-                ? "w-24 h-24 md:w-32 md:h-32 py-5" 
-                : "w-32 h-32 md:w-40 md:h-40 py-7";
+            // UNIFIED SMALLER SIZE LOGIC: 
+            // w-20 h-20 (mobile) / w-24 h-24 (desktop) -> 80px / 96px
+            // top-3 right-3 -> Positioned neatly in the corner with padding
+            const sizeClass = "w-20 h-20 md:w-24 md:h-24 top-3 right-3";
 
             const imageElement = isImage 
-                ? `<img src="${icon}" alt="${title}" class="absolute top-0 right-0 ${sizeClass} object-contain opacity-70 group-hover:opacity-100 transition-all duration-300 group-hover:scale-110 z-0 invert brightness-110 transform-gpu">` 
+                ? `<img src="${icon}" alt="${title}" class="absolute ${sizeClass} object-contain opacity-70 group-hover:opacity-100 transition-all duration-300 group-hover:scale-110 z-0 invert brightness-110 transform-gpu">` 
                 : '';
 
             const iconElement = !isImage
