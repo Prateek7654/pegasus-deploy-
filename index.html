@@ -405,7 +405,7 @@
             // Optimization: Changed backdrop-blur-2xl to backdrop-blur-xl and added transform-gpu + will-change-transform
             // Reduced min-h values to decrease card height and compact content
             return `
-                <div style="animation-delay: ${index * 100}ms" onclick="toggleCard(this)" class="card-enter premium-card group cursor-pointer bg-gradient-to-br from-white/15 to-white/5 backdrop-blur-xl p-5 md:p-8 rounded-sm border border-white/20 hover:border-[#FFD700] transition-all duration-500 hover:-translate-y-2 active:scale-95 relative overflow-hidden flex flex-col h-full min-h-[300px] md:min-h-[380px] shadow-[0_8px_32px_0_rgba(0,0,0,0.5)] hover:shadow-[0_0_30px_rgba(255,215,0,0.15)] transform-gpu will-change-transform">
+                <div style="animation-delay: ${index * 100}ms" onclick="toggleCard(this)" class="card-enter premium-card group cursor-pointer bg-gradient-to-br from-white/15 to-white/5 backdrop-blur-xl p-5 md:p-8 rounded-sm border border-white/20 hover:border-[#FFD700] transition-all duration-500 hover:-translate-y-2 active:scale-95 relative overflow-hidden flex flex-col h-full min-h-[350px] md:min-h-[450px] shadow-[0_8px_32px_0_rgba(0,0,0,0.5)] hover:shadow-[0_0_30px_rgba(255,215,0,0.15)] transform-gpu will-change-transform">
                     
                     ${imageElement}
 
@@ -424,7 +424,7 @@
                         ${iconElement}
                     </div>
                     
-                    <p class="text-sm md:text-base text-white drop-shadow-sm group-hover:text-white transition-colors mb-4 flex-grow pointer-events-none relative z-10 leading-relaxed font-medium italic ${descStyle}">
+                    <p class="text-sm md:text-base text-white drop-shadow-sm group-hover:text-white transition-colors mb-6 md:mb-8 flex-grow pointer-events-none relative z-10 leading-relaxed font-medium italic ${descStyle}">
                         "${desc}"
                     </p>
 
