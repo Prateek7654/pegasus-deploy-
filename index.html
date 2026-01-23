@@ -23,8 +23,6 @@
             --card-bg: #1c1505;
         }
 
-        /* Removed scroll-behavior: smooth to prevent transition conflicts */
-
         body {
             font-family: 'Lato', sans-serif;
             background-color: black;
@@ -62,22 +60,6 @@
             animation: shimmer 3s linear infinite;
         }
 
-        /* Texture Overlay */
-        .bg-texture {
-            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 400 400' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='0.04'/%3E%3C/svg%3E");
-        }
-
-        /* Divine Stars Pattern (Enhanced Gold Dust) */
-        .bg-stars {
-            background-image: 
-                radial-gradient(rgba(255, 215, 0, 0.8), rgba(255, 215, 0, 0.2) 2px, transparent 3px),
-                radial-gradient(rgba(255, 255, 255, 0.9), rgba(255, 255, 255, 0.2) 1px, transparent 2px),
-                radial-gradient(rgba(255, 215, 0, 0.6), rgba(255, 215, 0, 0.1) 2px, transparent 3px),
-                radial-gradient(rgba(255, 250, 205, 0.7), rgba(255, 250, 205, 0.1) 1.5px, transparent 2.5px);
-            background-size: 550px 550px, 350px 350px, 250px 250px, 150px 150px;
-            background-position: 0 0, 40px 60px, 130px 270px, 70px 100px;
-        }
-
         /* Form Styling */
         .custom-input {
             background-color: rgba(255, 255, 255, 0.07); 
@@ -109,21 +91,44 @@
         #nav-overlay.closed { opacity: 0; pointer-events: none; visibility: hidden; }
         #nav-overlay.open { opacity: 1; pointer-events: auto; visibility: visible; }
         
-        /* Removed Page Enter Animations for Smoother Transitions */
-        
-        /* Background Gradient Fix */
-        .olympus-gradient {
-            background: linear-gradient(to bottom, #020100 0%, #1a1200 40%, #3d2b05 100%);
+        /* Reveal on Scroll Animation Class */
+        .reveal-element {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: all 0.8s cubic-bezier(0.5, 0, 0, 1);
+        }
+        .reveal-element.active {
+            opacity: 1;
+            /* Changed from translateY(0) to none to prevent stacking context trapping */
+            transform: none;
+        }
+
+        /* 3D Card Effects */
+        .premium-card {
+            transform-style: preserve-3d;
+            transform: perspective(1000px);
+        }
+        .premium-card-content {
+            transform: translateZ(20px);
+        }
+        /* Spotlight Gradient Overlay */
+        .card-spotlight {
+            background: radial-gradient(
+                800px circle at var(--mouse-x) var(--mouse-y), 
+                rgba(255, 215, 0, 0.06),
+                transparent 40%
+            );
+            z-index: 2; 
         }
     </style>
 </head>
 <body class="flex flex-col min-h-screen relative bg-transparent selection:bg-[#FFD700] selection:text-black">
 
-    <!-- BACKGROUND IMAGE -->
-    <!-- Updated height to 100dvh for perfect fit on mobile screens with dynamic address bars -->
-    <div class="fixed inset-0 z-[-1] pointer-events-none w-full h-[100dvh] bg-black">
-        <!-- Main Background Image -->
-        <!-- Added object-center to ensure the image stays centered on portrait screens -->
+    <!-- CANVAS BACKGROUND (Gold Dust) -->
+    <canvas id="gold-dust" class="fixed inset-0 w-full h-full z-[-1] pointer-events-none"></canvas>
+
+    <!-- BACKGROUND IMAGE OVERLAY (Static Base) -->
+    <div class="fixed inset-0 z-[-2] pointer-events-none w-full h-[100dvh] bg-black">
         <img src="main_bg.jpeg" 
              alt="Background"
              class="absolute inset-0 w-full h-full object-cover object-center opacity-75">
@@ -221,22 +226,83 @@
 
     <!-- JavaScript Logic -->
     <script>
+        // --- 1. Canvas Gold Dust Particle System ---
+        const canvas = document.getElementById('gold-dust');
+        const ctx = canvas.getContext('2d');
+        let particlesArray;
+
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+
+        class Particle {
+            constructor() {
+                this.x = Math.random() * canvas.width;
+                this.y = Math.random() * canvas.height;
+                this.size = Math.random() * 2;
+                this.speedX = (Math.random() * 0.5) - 0.25; // Slow horizontal float
+                this.speedY = (Math.random() * 0.5) - 0.25; // Slow vertical float
+                this.opacity = Math.random() * 0.5 + 0.1;
+            }
+            update() {
+                this.x += this.speedX;
+                this.y += this.speedY;
+                
+                // Wrap around screen
+                if (this.x > canvas.width) this.x = 0;
+                if (this.x < 0) this.x = canvas.width;
+                if (this.y > canvas.height) this.y = 0;
+                if (this.y < 0) this.y = canvas.height;
+            }
+            draw() {
+                ctx.fillStyle = `rgba(255, 215, 0, ${this.opacity})`;
+                ctx.beginPath();
+                ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+                ctx.closePath();
+                ctx.fill();
+            }
+        }
+
+        function initParticles() {
+            particlesArray = [];
+            // Number of particles based on screen size
+            // Increased density: divided by 5000 instead of 15000
+            const numberOfParticles = (canvas.width * canvas.height) / 5000;
+            for (let i = 0; i < numberOfParticles; i++) {
+                particlesArray.push(new Particle());
+            }
+        }
+
+        function animateParticles() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            for (let i = 0; i < particlesArray.length; i++) {
+                particlesArray[i].update();
+                particlesArray[i].draw();
+            }
+            requestAnimationFrame(animateParticles);
+        }
+
+        window.addEventListener('resize', function(){
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+            initParticles();
+        });
+
+        initParticles();
+        animateParticles();
+
+        // --- 3. Existing Logic (Forms, Router, etc.) ---
         let submissionTimeout;
         window.formSubmitted = false;
 
         window.handleFormSubmit = function() { 
             window.formSubmitted = true;
-            
             const submitBtn = document.querySelector('button[type="submit"]');
             if(submitBtn) {
                 submitBtn.disabled = true;
                 submitBtn.innerHTML = '<i class="fa-solid fa-circle-notch fa-spin mr-2"></i> Submitting...';
                 submitBtn.classList.add('opacity-75', 'cursor-not-allowed');
             }
-
-            submissionTimeout = setTimeout(() => {
-                showSuccessMessage();
-            }, 2000);
+            submissionTimeout = setTimeout(() => { showSuccessMessage(); }, 2000);
         };
         
         window.handleIframeLoad = function() {
@@ -248,10 +314,8 @@
 
         function showSuccessMessage() {
             if (!window.formSubmitted) return;
-
             const formContainer = document.getElementById('form-container');
             const successMessage = document.getElementById('success-message');
-            
             if (formContainer && successMessage) {
                 formContainer.scrollTop = 0;
                 successMessage.classList.remove('hidden');
@@ -259,22 +323,53 @@
             window.formSubmitted = false;
         }
 
-        // --- Card Highlight Logic ---
         let expandedCard = null; 
+
+        // --- 4. 3D Tilt & Glow Logic for Cards ---
+        // This function handles the mouse movement over cards
+        window.handleCardMouseMove = function(e, card) {
+            if (expandedCard) return; // Disable tilt if card is expanded/modal active
+
+            const rect = card.getBoundingClientRect();
+            const x = e.clientX - rect.left;
+            const y = e.clientY - rect.top;
+
+            // Set CSS variables for spotlight position
+            card.style.setProperty('--mouse-x', `${x}px`);
+            card.style.setProperty('--mouse-y', `${y}px`);
+
+            // Calculate rotation
+            const centerX = rect.width / 2;
+            const centerY = rect.height / 2;
+            const rotateX = ((y - centerY) / centerY) * -5; // Max 5deg tilt
+            const rotateY = ((x - centerX) / centerX) * 5;
+
+            // Apply transformation to the card content for depth
+            card.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) scale3d(1.02, 1.02, 1.02)`;
+        };
+
+        window.handleCardMouseLeave = function(card) {
+            if (expandedCard === card) return;
+            // Reset transform
+            card.style.transform = 'perspective(1000px) rotateX(0) rotateY(0) scale3d(1, 1, 1)';
+            card.style.setProperty('--mouse-x', `-999px`); // Move spotlight away
+            card.style.setProperty('--mouse-y', `-999px`);
+        };
 
         window.toggleCard = function(card) {
             if (expandedCard === card) {
                 closeCard();
                 return;
             }
-            
-            if (expandedCard) {
-                closeCard();
-            }
+            if (expandedCard) closeCard();
 
             card.classList.remove('card-enter');
+            // Remove tilt effect when expanded
+            card.style.transform = 'none';
+            // We removed the manual nulling of handlers to allow them to work after close
+            // The handleCardMouseMove function has a check for expandedCard to prevent tilt when expanded
+
             card.classList.add('z-[60]', 'border-[#FFD700]', 'shadow-[0_0_50px_rgba(255,215,0,0.2)]');
-            card.classList.remove('hover:-translate-y-2', 'hover:border-[#FFD700]', 'active:scale-95');
             
             const overlay = document.getElementById('blur-overlay');
             if (overlay) overlay.classList.remove('hidden');
@@ -284,15 +379,17 @@
         window.closeCard = function() {
             if (expandedCard) {
                 expandedCard.classList.remove('z-[60]', 'border-[#FFD700]', 'shadow-[0_0_50px_rgba(255,215,0,0.2)]');
-                expandedCard.classList.add('hover:-translate-y-2', 'hover:border-[#FFD700]', 'active:scale-95');
+                
+                // Reset transform explicitly
+                expandedCard.style.transform = ''; 
+                
                 expandedCard = null;
             }
             const overlay = document.getElementById('blur-overlay');
             if (overlay) overlay.classList.add('hidden');
         };
 
-        // --- Configuration & Data ---
-        // UPDATE: All links and Entry IDs have been updated based on the specific forms provided.
+        // --- Data ---
         const eventData = [
             {
                 title: 'Business Quiz',
@@ -300,14 +397,7 @@
                 desc: "With the wisdom of Athena, navigate the labyrinth of corporate questions. Only the sharpest intellects will seize the crown of knowledge.",
                 icon: 'athena-quiz.png',
                 formUrl: "https://docs.google.com/forms/d/e/1FAIpQLSeWP3V9NZXYdOQcuw7FmkZZMNg1bzQIkT_ndqQNYR-MQ7o6WQ/formResponse", 
-                fields: {
-                    p1: "entry.485328278",
-                    p2: "entry.318228743",
-                    college: "entry.2133196025",
-                    phone1: "entry.1055999876",
-                    phone2: "entry.530151173",
-                    utr: "entry.698917705"
-                }
+                fields: { p1: "entry.485328278", p2: "entry.318228743", college: "entry.2133196025", phone1: "entry.1055999876", phone2: "entry.530151173", utr: "entry.698917705" }
             },
             {
                 title: 'Best Manager',
@@ -315,14 +405,7 @@
                 desc: "Wield the authority of Zeus. Prove your resilience, strategy, and leadership to rise above the chaos and rule the corporate Olympus.",
                 icon: 'zeus.png',
                 formUrl: "https://docs.google.com/forms/d/e/1FAIpQLScpqaGs3KmW2kyxAwLCHlJoiktiT6se1d8WzusiaX9w7_diYA/formResponse", 
-                fields: {
-                    p1: "entry.377500350",
-                    p2: null, // Individual Event
-                    college: "entry.1305867052",
-                    phone1: "entry.1777256436",
-                    phone2: null, // Individual Event
-                    utr: "entry.333013597"
-                }
+                fields: { p1: "entry.377500350", p2: null, college: "entry.1305867052", phone1: "entry.1777256436", phone2: null, utr: "entry.333013597" }
             },
             {
                 title: 'Marketing',
@@ -330,14 +413,7 @@
                 desc: "Channel the silver tongue of Hermes, the swift messenger. Pitch with divine persuasion to captivate audiences and dominate the global marketplace.",
                 icon: 'hermes.png',
                 formUrl: "https://docs.google.com/forms/d/e/1FAIpQLSd3xzrzf0oNf__m88sAczsJYGV2MhHskNFpw54yv84ySn64Yw/formResponse", 
-                fields: {
-                    p1: "entry.1815688432",
-                    p2: "entry.1253118098",
-                    college: "entry.1067998425",
-                    phone1: "entry.284112193",
-                    phone2: "entry.656533538",
-                    utr: "entry.1758698015"
-                }
+                fields: { p1: "entry.1815688432", p2: "entry.1253118098", college: "entry.1067998425", phone1: "entry.284112193", phone2: "entry.656533538", utr: "entry.1758698015" }
             },
             {
                 title: 'Human Resources',
@@ -345,14 +421,7 @@
                 desc: "Embody the wisdom of Metis, the titan of wise counsel. Master the art of managing people, the true titans behind every empire's enduring success.",
                 icon: 'metis.png',
                 formUrl: "https://docs.google.com/forms/d/e/1FAIpQLScAm2mngQ9QV7pPn6Ph4ssVpvjohXrXl_mkNY2Jo8js-MfhiA/formResponse", 
-                fields: {
-                    p1: "entry.1688782507",
-                    p2: "entry.1015848407",
-                    college: "entry.1740796744",
-                    phone1: "entry.1097773082",
-                    phone2: "entry.390253753",
-                    utr: "entry.777776160"
-                }
+                fields: { p1: "entry.1688782507", p2: "entry.1015848407", college: "entry.1740796744", phone1: "entry.1097773082", phone2: "entry.390253753", utr: "entry.777776160" }
             },
             {
                 title: 'Finance',
@@ -360,70 +429,66 @@
                 desc: "Unlock the boundless vaults of Plutus. Navigate the bulls and bears with divine foresight to secure eternal prosperity and limitless wealth.",
                 icon: 'plutus.png',
                 formUrl: "https://docs.google.com/forms/d/e/1FAIpQLSebyuvFSQvvw3dJjvi5ZZq57IiZ4ueNTb6V7-KiaM6GKKIrIA/formResponse", 
-                fields: {
-                    p1: "entry.1627460796",
-                    p2: "entry.1764158244",
-                    college: "entry.792494853",
-                    phone1: "entry.679818487",
-                    phone2: "entry.1281336820",
-                    utr: "entry.649158358"
-                }
+                fields: { p1: "entry.1627460796", p2: "entry.1764158244", college: "entry.792494853", phone1: "entry.679818487", phone2: "entry.1281336820", utr: "entry.649158358" }
             }
         ];
 
         function createEventCard(event, index) {
             const { title, subtitle, desc, icon } = event;
             const isImage = icon.includes('.');
-            
-            // UNIFIED SIZE LOGIC: 
-            // All images now use the same size and positioning.
-            // w-32 h-32 (mobile) / w-40 h-40 (desktop) with py-6 to keep them contained.
             const sizeClass = "w-32 h-32 md:w-40 md:h-40 py-6 absolute top-0 right-0";
-
-            // Logic to push description down for single-word titles (Marketing/Finance) to fill space/avoid overlap
             const isSingleWord = title === 'Marketing' || title === 'Finance';
-            // Applied spacing to all cards to ensuring consistent layout and fix overlap issues on mobile for all event types
-            const descStyle = 'mt-8';
+            // Increased margin for single-word titles to prevents overlap with image
+            const descStyle = isSingleWord ? 'mt-16' : 'mt-8';
 
             // MODIFIED: Image is always fully opaque (opacity-100) instead of brightening on hover
             const imageElement = isImage 
-                ? `<img src="${icon}" alt="${title}" class="${sizeClass} object-contain opacity-100 transition-all duration-300 group-hover:scale-110 z-0 invert brightness-110 transform-gpu">` 
+                ? `<img src="${icon}" alt="${title}" class="${sizeClass} object-contain opacity-100 transition-all duration-300 group-hover:scale-110 z-0 invert brightness-110 transform-gpu premium-card-content">` 
                 : '';
 
             const iconElement = !isImage
-                ? `<i class="${icon} text-3xl md:text-4xl text-[#FFD700]/80 group-hover:text-[#FFD700] transition-colors drop-shadow-[0_0_15px_rgba(255,215,0,0.5)]"></i>`
+                ? `<i class="${icon} text-3xl md:text-4xl text-[#FFD700]/80 group-hover:text-[#FFD700] transition-colors drop-shadow-[0_0_15px_rgba(255,215,0,0.5)] premium-card-content"></i>`
                 : '';
 
             const titlePadding = isImage ? 'pr-24' : '';
 
-            // Optimization: Changed backdrop-blur-2xl to backdrop-blur-xl and added transform-gpu + will-change-transform
-            // Reduced min-h values to decrease card height and compact content
+            // Added premium-card class, onmousemove, onmouseleave, and the card-spotlight div
             return `
-                <div onclick="toggleCard(this)" class="card-enter premium-card group cursor-pointer bg-gradient-to-br from-white/15 to-white/5 backdrop-blur-xl p-5 md:p-8 rounded-sm border border-white/20 hover:border-[#FFD700] transition-all duration-500 hover:-translate-y-2 active:scale-95 relative overflow-hidden flex flex-col h-full min-h-[300px] md:min-h-[380px] shadow-[0_8px_32px_0_rgba(0,0,0,0.5)] hover:shadow-[0_0_30px_rgba(255,215,0,0.15)] transform-gpu will-change-transform">
+                <div data-index="${index}"
+                     onmousemove="handleCardMouseMove(event, this)" 
+                     onmouseleave="handleCardMouseLeave(this)"
+                     onclick="toggleCard(this)" 
+                     style="animation-delay: ${index * 100}ms"
+                     class="card-enter premium-card group cursor-pointer bg-gradient-to-br from-white/10 to-white/5 backdrop-blur-xl p-5 md:p-8 rounded-sm border border-white/20 transition-all duration-200 relative overflow-hidden flex flex-col h-full min-h-[300px] md:min-h-[380px] shadow-[0_8px_32px_0_rgba(0,0,0,0.5)]">
                     
+                    <!-- Spotlight Effect -->
+                    <div class="card-spotlight absolute inset-0 pointer-events-none opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+
                     ${imageElement}
 
                     <div class="absolute top-0 left-0 w-full h-[1px] bg-gradient-to-r from-transparent via-white/20 to-transparent opacity-50 pointer-events-none"></div>
                     <div class="absolute top-0 left-0 w-[1px] h-full bg-gradient-to-b from-white/10 via-transparent to-transparent opacity-30 pointer-events-none"></div>
 
+                    <!-- Enhanced Golden Corners -->
                     <div class="absolute top-0 left-0 w-4 h-4 border-t-2 border-l-2 border-[#FFD700] opacity-100 drop-shadow-[0_0_5px_rgba(255,215,0,0.8)] group-hover:w-6 group-hover:h-6 transition-all duration-300"></div>
                     <div class="absolute top-0 right-0 w-4 h-4 border-t-2 border-r-2 border-[#FFD700] opacity-100 drop-shadow-[0_0_5px_rgba(255,215,0,0.8)] group-hover:w-6 group-hover:h-6 transition-all duration-300"></div>
                     <div class="absolute bottom-0 left-0 w-4 h-4 border-b-2 border-l-2 border-[#FFD700] opacity-100 drop-shadow-[0_0_5px_rgba(255,215,0,0.8)] group-hover:w-6 group-hover:h-6 transition-all duration-300"></div>
                     <div class="absolute bottom-0 right-0 w-4 h-4 border-b-2 border-r-2 border-[#FFD700] opacity-100 drop-shadow-[0_0_5px_rgba(255,215,0,0.8)] group-hover:w-6 group-hover:h-6 transition-all duration-300"></div>
                     
-                    <h4 class="text-xs md:text-sm font-bold text-white uppercase tracking-[0.2em] mb-1 pointer-events-none relative z-10 opacity-90 inline-block transition-colors">${subtitle}</h4>
+                    <div class="premium-card-content relative z-10">
+                        <h4 class="text-xs md:text-sm font-bold text-white uppercase tracking-[0.2em] mb-1 inline-block transition-colors">${subtitle}</h4>
 
-                    <div class="flex items-center justify-between mb-6 pointer-events-none relative z-10 ${titlePadding}">
-                        <h3 class="brand-font text-2xl md:text-3xl text-white group-hover:text-[#FFD700] transition-colors drop-shadow-md text-inscribed tracking-widest inline-block">${title}</h3>
-                        ${iconElement}
+                        <div class="flex items-center justify-between mb-6 ${titlePadding}">
+                            <h3 class="brand-font text-2xl md:text-3xl text-white group-hover:text-[#FFD700] transition-colors drop-shadow-md text-inscribed tracking-widest inline-block">${title}</h3>
+                            ${iconElement}
+                        </div>
+                        
+                        <p class="text-sm md:text-base text-white drop-shadow-sm group-hover:text-white transition-colors mb-4 leading-relaxed font-medium italic ${descStyle}">
+                            "${desc}"
+                        </p>
                     </div>
-                    
-                    <p class="text-sm md:text-base text-white drop-shadow-sm group-hover:text-white transition-colors mb-4 flex-grow pointer-events-none relative z-10 leading-relaxed font-medium italic ${descStyle}">
-                        "${desc}"
-                    </p>
 
-                    <div class="mt-auto pt-4 relative z-10">
-                        <!-- Updated to pass index -->
+                    <div class="mt-auto pt-4 relative z-10 premium-card-content">
                         <button onclick="event.stopPropagation(); router('registration', ${index})" 
                                 class="w-full btn-shimmer bg-gradient-to-r from-[#FFD700] via-[#FFF9C4] to-[#FFD700] text-black font-bold py-3 px-6 rounded-sm text-sm md:text-base shadow-[0_0_15px_rgba(255,215,0,0.4)] hover:shadow-[0_0_20px_rgba(255,215,0,0.6)] transition-transform duration-200 hover:scale-105 active:scale-95 uppercase tracking-widest">
                             Register Now
@@ -443,7 +508,6 @@
             const event = eventData[index];
             if (!event) return '<div class="text-white text-center pt-32">Event Not Found</div>';
 
-            // Conditional Rendering Logic
             const p2Input = event.fields.p2 ? `
                 <div>
                     <label class="block text-white text-xs font-bold mb-1 uppercase tracking-wider">Participant 2 Name</label>
@@ -467,7 +531,7 @@
                     </div>
 
                     <div id="form-container" class="transform-gpu bg-gradient-to-br from-white/15 to-white/5 backdrop-blur-2xl rounded-sm border border-white/20 p-5 md:p-6 shadow-[0_8px_32px_0_rgba(0,0,0,0.5)] relative overflow-hidden">
-                        
+                        <!-- Borders remain same -->
                         <div class="absolute top-0 left-0 w-6 h-6 border-t-2 border-l-2 border-[#FFD700]"></div>
                         <div class="absolute top-0 right-0 w-6 h-6 border-t-2 border-r-2 border-[#FFD700]"></div>
                         <div class="absolute bottom-0 left-0 w-6 h-6 border-b-2 border-l-2 border-[#FFD700]"></div>
@@ -484,32 +548,25 @@
 
                         <form action="${event.formUrl}" method="post" target="hidden_iframe" onsubmit="handleFormSubmit()">
                             <div class="space-y-4">
-                                
                                 <div>
                                     <label class="block text-white text-xs font-bold mb-1 uppercase tracking-wider">Participant 1 Name *</label>
                                     <input type="text" name="${event.fields.p1}" required placeholder="Enter name" class="w-full p-3 rounded-sm border border-white/20 bg-white/5 text-white focus:border-[#FFD700] focus:ring-0 custom-input text-sm backdrop-blur-sm">
                                 </div>
-
                                 ${p2Input}
-
                                 <div>
                                     <label class="block text-white text-xs font-bold mb-1 uppercase tracking-wider">College and Degree</label>
                                     <input type="text" name="${event.fields.college}" required placeholder="e.g. KLE Tech, MBA" class="w-full p-3 rounded-sm border border-white/20 bg-white/5 text-white focus:border-[#FFD700] focus:ring-0 custom-input text-sm backdrop-blur-sm">
                                 </div>
-
                                 <div>
                                     <label class="block text-white text-xs font-bold mb-1 uppercase tracking-wider">${contactLabel}</label>
                                     <input type="tel" name="${event.fields.phone1}" required placeholder="+91 XXXXX XXXXX" class="w-full p-3 rounded-sm border border-white/20 bg-white/5 text-white focus:border-[#FFD700] focus:ring-0 custom-input text-sm backdrop-blur-sm">
                                 </div>
-
                                 ${phone2Input}
-
                                 <div class="bg-black/30 p-4 rounded-sm border border-[#FFD700]/20 flex flex-col items-center mt-4">
                                     <div class="w-full mb-4">
                                         <label class="block text-white text-xs font-bold mb-1 uppercase tracking-wider">UTR Number</label>
                                         <input type="text" name="${event.fields.utr}" required minlength="10" placeholder="Enter UTR Number" class="w-full p-3 rounded-sm border border-white/20 bg-white/5 text-white focus:border-[#FFD700] focus:ring-0 custom-input font-mono uppercase text-sm backdrop-blur-sm">
                                     </div>
-
                                     <div class="flex flex-col items-center justify-center">
                                         <div class="bg-white p-2 rounded-sm shadow-2xl border-2 border-white/10 relative group cursor-pointer hover:scale-105 transition-transform duration-300">
                                             <i class="fa-solid fa-qrcode text-[8rem] text-black opacity-90 leading-none"></i>
@@ -519,7 +576,6 @@
                                         </div>
                                     </div>
                                 </div>
-
                                 <button type="submit" class="w-full btn-shimmer bg-gradient-to-r from-[#FFD700] via-[#FFF9C4] to-[#FFD700] text-black font-bold py-3 rounded-sm mt-2 hover:brightness-110 transition-all shadow-lg uppercase tracking-widest text-sm border border-[#FFD700]">
                                     Confirm Registration
                                 </button>
@@ -533,9 +589,8 @@
 
         const content = {
             home: `
-                <!-- Compact Header Section -->
                 <div class="relative z-10 text-center px-4 pt-36 md:pt-48 pb-8">
-                    <div>
+                    <div class="reveal-element">
                         <div class="flex justify-center items-center gap-4 mb-4">
                             <h2 class="bg-gradient-to-b from-[#FFF9C4] via-[#FFD700] to-[#B8860B] bg-clip-text text-transparent tracking-[0.3em] uppercase text-2xl md:text-4xl font-bold drop-shadow-md">DEPARTMENT OF MBA Presents</h2>
                         </div>
@@ -545,34 +600,37 @@
                         </h1>
                     </div>
 
-                    <div class="max-w-3xl mx-auto mt-8 flex flex-col items-center">
+                    <div class="max-w-3xl mx-auto mt-8 flex flex-col items-center reveal-element" style="transition-delay: 200ms;">
                         <p class="text-white drop-shadow-md text-base md:text-lg leading-relaxed mb-10 text-shadow-sm font-medium px-6 py-2 italic">
                             Pegasus, the legendary winged divine stallion, symbolizes the extraordinary journey of heroes who ride him to triumph over their adversaries. Inspired by this mythic symbol, Pegasus 2026 is a premier two-day management fest organized by the Department of MBA.
                         </p>
                     </div>
                 </div>
 
-                <!-- Main Event Grid -->
                 <div id="main-event-grid" class="px-4 max-w-7xl mx-auto relative pb-12 md:pb-16 pt-0">
-                    <div class="text-center mb-10">
+                    <div class="text-center mb-10 reveal-element" style="transition-delay: 300ms;">
                         <h2 class="brand-font text-3xl md:text-5xl text-white text-inscribed drop-shadow-lg">Explore Events</h2>
                         <div class="h-1 w-32 bg-gradient-to-r from-transparent via-[#FFD700] to-transparent mx-auto mt-4"></div>
                     </div>
-                    ${eventGridHTML}
+                    <div class="reveal-element" style="transition-delay: 400ms;">
+                        ${eventGridHTML}
+                    </div>
                 </div>
             `,
             events: `
                 <div class="pt-32 md:pt-36 pb-20 px-4 max-w-7xl mx-auto">
-                    <div class="text-center mb-12 md:mb-16">
+                    <div class="text-center mb-12 md:mb-16 reveal-element">
                         <h1 class="brand-font text-4xl md:text-6xl text-white mb-4 text-inscribed">The Arenas</h1>
                         <p class="text-[#FFD700] uppercase tracking-widest text-xs md:text-base">Click a card to learn more</p>
                     </div>
-                    ${eventGridHTML}
+                    <div class="reveal-element" style="transition-delay: 200ms;">
+                        ${eventGridHTML}
+                    </div>
                 </div>
             `,
             contact: `
                 <div class="pt-32 md:pt-36 pb-20 px-4 max-w-7xl mx-auto">
-                    <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+                    <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center reveal-element">
                         <div>
                             <h1 class="brand-font text-4xl text-white mb-6 text-inscribed">Get In Touch</h1>
                             <div class="space-y-6 mt-8">
@@ -599,11 +657,28 @@
             `
         };
 
+        // Scroll Observer
+        function setupObserver() {
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if(entry.isIntersecting) {
+                        entry.target.classList.add('active');
+                    }
+                });
+            }, { threshold: 0.1 });
+
+            document.querySelectorAll('.reveal-element').forEach(el => observer.observe(el));
+        }
+
         function router(view, index = null) {
             const app = document.getElementById('app-content');
             
-            // Just instant scroll for 0 animation
+            document.documentElement.style.scrollBehavior = 'auto';
             window.scrollTo(0, 0);
+            
+            setTimeout(() => {
+                 document.documentElement.style.removeProperty('scroll-behavior');
+            }, 0);
 
             closeCard();
             
@@ -617,7 +692,10 @@
                 app.innerHTML = content['home'];
             }
             
-            if(nav) nav.classList.remove('hidden'); 
+            if(nav) nav.classList.remove('hidden');
+            
+            // Re-run observer on new content
+            setTimeout(setupObserver, 50);
         }
 
         function toggleNav() {
