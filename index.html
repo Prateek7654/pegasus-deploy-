@@ -23,9 +23,7 @@
             --card-bg: #1c1505;
         }
 
-        html {
-            scroll-behavior: smooth;
-        }
+        /* Removed scroll-behavior: smooth to prevent transition conflicts */
 
         body {
             font-family: 'Lato', sans-serif;
@@ -111,12 +109,7 @@
         #nav-overlay.closed { opacity: 0; pointer-events: none; visibility: hidden; }
         #nav-overlay.open { opacity: 1; pointer-events: auto; visibility: visible; }
         
-        /* Animations */
-        @keyframes simpleFadeUp {
-            0% { opacity: 0; transform: translateY(20px); }
-            100% { opacity: 1; transform: translateY(0); }
-        }
-        .page-enter { animation: simpleFadeUp 0.4s ease-out forwards; }
+        /* Removed Page Enter Animations for Smoother Transitions */
         
         /* Background Gradient Fix */
         .olympus-gradient {
@@ -405,7 +398,7 @@
             // Optimization: Changed backdrop-blur-2xl to backdrop-blur-xl and added transform-gpu + will-change-transform
             // Reduced min-h values to decrease card height and compact content
             return `
-                <div style="animation-delay: ${index * 100}ms" onclick="toggleCard(this)" class="card-enter premium-card group cursor-pointer bg-gradient-to-br from-white/15 to-white/5 backdrop-blur-xl p-5 md:p-8 rounded-sm border border-white/20 hover:border-[#FFD700] transition-all duration-500 hover:-translate-y-2 active:scale-95 relative overflow-hidden flex flex-col h-full min-h-[300px] md:min-h-[380px] shadow-[0_8px_32px_0_rgba(0,0,0,0.5)] hover:shadow-[0_0_30px_rgba(255,215,0,0.15)] transform-gpu will-change-transform">
+                <div onclick="toggleCard(this)" class="card-enter premium-card group cursor-pointer bg-gradient-to-br from-white/15 to-white/5 backdrop-blur-xl p-5 md:p-8 rounded-sm border border-white/20 hover:border-[#FFD700] transition-all duration-500 hover:-translate-y-2 active:scale-95 relative overflow-hidden flex flex-col h-full min-h-[300px] md:min-h-[380px] shadow-[0_8px_32px_0_rgba(0,0,0,0.5)] hover:shadow-[0_0_30px_rgba(255,215,0,0.15)] transform-gpu will-change-transform">
                     
                     ${imageElement}
 
@@ -467,7 +460,7 @@
             const contactLabel = event.fields.phone2 ? "Contact Number (Participant 1)" : "Contact Number";
 
             return `
-                <div class="pt-12 md:pt-16 pb-10 px-4 max-w-3xl mx-auto page-enter">
+                <div class="pt-12 md:pt-16 pb-10 px-4 max-w-3xl mx-auto">
                     <div class="text-center mb-4 md:mb-6">
                         <h2 class="text-[#B8860B] tracking-widest uppercase text-sm">${event.title} - ${event.subtitle}</h2>
                     </div>
@@ -608,15 +601,8 @@
         function router(view, index = null) {
             const app = document.getElementById('app-content');
             
-            // Override smooth scroll for instant page transition to prevent stuttering
-            // caused by the conflict between smooth scroll and DOM replacement
-            document.documentElement.style.scrollBehavior = 'auto';
+            // Just instant scroll for 0 animation
             window.scrollTo(0, 0);
-            
-            // Restore smooth scrolling via CSS cascade after the instant scroll
-            setTimeout(() => {
-                 document.documentElement.style.removeProperty('scroll-behavior');
-            }, 0);
 
             closeCard();
             
