@@ -203,23 +203,23 @@
     </main>
 
     <!-- Footer -->
-    <footer class="bg-[#0a0803] border-t border-[#FFD700]/20 pt-10 pb-6 relative z-10 greek-pattern-border" style="background-position: top;">
+    <footer class="bg-[#0a0803] border-t border-[#FFD700]/20 pt-6 pb-4 relative z-10 greek-pattern-border" style="background-position: top;">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-4 items-center">
                 <div class="text-center md:text-left">
-                    <h3 class="brand-font text-2xl text-[#FFD700] mb-2 text-inscribed">PEGASUS 2026</h3>
-                    <p class="text-gray-400 text-sm">Department of MBA<br>KLE Technological University<br>Dr. M. S. Sheshgiri College of Engg & Tech</p>
+                    <h3 class="brand-font text-xl text-[#FFD700] mb-1 text-inscribed">PEGASUS 2026</h3>
+                    <p class="text-gray-400 text-xs">Department of MBA<br>KLE Technological University</p>
                 </div>
                 <div class="text-center">
-                    <h4 class="text-white font-bold mb-4 uppercase tracking-wider">Follow Us</h4>
-                    <div class="flex justify-center space-x-6">
-                        <a href="https://www.instagram.com/kle_mba/" target="_blank" rel="noopener noreferrer" class="text-[#B8860B] hover:text-[#E1306C] transition-colors"><i class="fa-brands fa-instagram text-2xl"></i></a>
-                        <a href="https://www.facebook.com/klecet/" target="_blank" rel="noopener noreferrer" class="text-[#B8860B] hover:text-[#1877F2] transition-colors"><i class="fa-brands fa-facebook text-2xl"></i></a>
-                        <a href="https://www.linkedin.com/company/kle-technological-university-msscet-belagavi-campus/" target="_blank" rel="noopener noreferrer" class="text-[#B8860B] hover:text-[#0A66C2] transition-colors"><i class="fa-brands fa-linkedin text-2xl"></i></a>
+                    <h4 class="text-white font-bold mb-2 text-xs uppercase tracking-wider">Follow Us</h4>
+                    <div class="flex justify-center space-x-4">
+                        <a href="https://www.instagram.com/kle_mba/" target="_blank" rel="noopener noreferrer" class="text-[#B8860B] hover:text-[#E1306C] transition-colors"><i class="fa-brands fa-instagram text-lg"></i></a>
+                        <a href="https://www.facebook.com/klecet/" target="_blank" rel="noopener noreferrer" class="text-[#B8860B] hover:text-[#1877F2] transition-colors"><i class="fa-brands fa-facebook text-lg"></i></a>
+                        <a href="https://www.linkedin.com/company/kle-technological-university-msscet-belagavi-campus/" target="_blank" rel="noopener noreferrer" class="text-[#B8860B] hover:text-[#0A66C2] transition-colors"><i class="fa-brands fa-linkedin text-lg"></i></a>
                     </div>
                 </div>
                 <div class="text-center md:text-right">
-                    <p class="text-gray-500 text-sm">© 2026 Pegasus DEPARTMENT OF MBA.<br>All rights reserved.</p>
+                    <p class="text-gray-500 text-xs">© 2026 Pegasus DEPARTMENT OF MBA.<br>Developed by Prateek Desai</p>
                 </div>
             </div>
         </div>
@@ -422,7 +422,7 @@
                         ${iconElement}
                     </div>
                     
-                    <p class="text-sm md:text-base text-gray-200 group-hover:text-white transition-colors mb-6 md:mb-8 flex-grow pointer-events-none relative z-10 leading-relaxed font-medium italic ${descStyle}">
+                    <p class="text-sm md:text-base text-white drop-shadow-sm group-hover:text-white transition-colors mb-6 md:mb-8 flex-grow pointer-events-none relative z-10 leading-relaxed font-medium italic ${descStyle}">
                         "${desc}"
                     </p>
 
@@ -540,7 +540,7 @@
                 <!-- Compact Header Section -->
                 <div class="relative z-10 text-center px-4 pt-36 md:pt-48 pb-8">
                     <div>
-                        <div class="flex justify-center items-center gap-4 mb-4 opacity-80">
+                        <div class="flex justify-center items-center gap-4 mb-4">
                             <h2 class="text-[#FFD700] tracking-[0.3em] uppercase text-xl md:text-3xl font-bold text-shadow-sm">DEPARTMENT OF MBA Presents</h2>
                         </div>
                         
@@ -550,7 +550,7 @@
                     </div>
 
                     <div class="max-w-3xl mx-auto mt-8 flex flex-col items-center">
-                        <p class="text-gray-300 text-base md:text-lg leading-relaxed mb-10 text-shadow-sm font-medium px-6 py-2 italic">
+                        <p class="text-white drop-shadow-md text-base md:text-lg leading-relaxed mb-10 text-shadow-sm font-medium px-6 py-2 italic">
                             Pegasus, the legendary winged divine stallion, symbolizes the extraordinary journey of heroes who ride him to triumph over their adversaries. Inspired by this mythic symbol, Pegasus 2026 is a premier two-day management fest organized by the Department of MBA.
                         </p>
                     </div>
@@ -559,7 +559,7 @@
                 <!-- Main Event Grid -->
                 <div id="main-event-grid" class="px-4 max-w-7xl mx-auto relative pb-12 md:pb-16 pt-0">
                       <div class="text-center mb-10">
-                          <h2 class="brand-font text-3xl md:text-5xl text-white text-inscribed">Explore Events</h2>
+                          <h2 class="brand-font text-3xl md:text-5xl text-white text-inscribed drop-shadow-lg">Explore Events</h2>
                           <div class="h-1 w-32 bg-gradient-to-r from-transparent via-[#FFD700] to-transparent mx-auto mt-4"></div>
                       </div>
                       ${eventGridHTML}
@@ -638,5 +638,3 @@
     </script>
 </body>
 </html>
-
-
