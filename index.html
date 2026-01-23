@@ -133,7 +133,7 @@
         <!-- Added object-center to ensure the image stays centered on portrait screens -->
         <img src="main_bg.jpeg" 
              alt="Background"
-             class="absolute inset-0 w-full h-full object-cover object-center opacity-10">
+             class="absolute inset-0 w-full h-full object-cover object-center opacity-60">
         
         <!-- Dark Overlay for Text Readability -->
         <div class="absolute inset-0 bg-black/30"></div>
@@ -405,7 +405,7 @@
             // Optimization: Changed backdrop-blur-2xl to backdrop-blur-xl and added transform-gpu + will-change-transform
             // Reduced min-h values to decrease card height and compact content
             return `
-                <div style="animation-delay: ${index * 100}ms" onclick="toggleCard(this)" class="card-enter premium-card group cursor-pointer bg-gradient-to-br from-white/15 to-white/5 backdrop-blur-xl p-5 md:p-8 rounded-sm border border-white/20 hover:border-[#FFD700] transition-all duration-500 hover:-translate-y-2 active:scale-95 relative overflow-hidden flex flex-col h-full min-h-[350px] md:min-h-[450px] shadow-[0_8px_32px_0_rgba(0,0,0,0.5)] hover:shadow-[0_0_30px_rgba(255,215,0,0.15)] transform-gpu will-change-transform">
+                <div style="animation-delay: ${index * 100}ms" onclick="toggleCard(this)" class="card-enter premium-card group cursor-pointer bg-gradient-to-br from-white/15 to-white/5 backdrop-blur-xl p-5 md:p-8 rounded-sm border border-white/20 hover:border-[#FFD700] transition-all duration-500 hover:-translate-y-2 active:scale-95 relative overflow-hidden flex flex-col h-full min-h-[300px] md:min-h-[380px] shadow-[0_8px_32px_0_rgba(0,0,0,0.5)] hover:shadow-[0_0_30px_rgba(255,215,0,0.15)] transform-gpu will-change-transform">
                     
                     ${imageElement}
 
