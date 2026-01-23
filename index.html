@@ -607,7 +607,17 @@
 
         function router(view, index = null) {
             const app = document.getElementById('app-content');
+            
+            // Override smooth scroll for instant page transition to prevent stuttering
+            // caused by the conflict between smooth scroll and DOM replacement
+            document.documentElement.style.scrollBehavior = 'auto';
             window.scrollTo(0, 0);
+            
+            // Restore smooth scrolling via CSS cascade after the instant scroll
+            setTimeout(() => {
+                 document.documentElement.style.removeProperty('scroll-behavior');
+            }, 0);
+
             closeCard();
             
             const nav = document.getElementById('main-nav');
