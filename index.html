@@ -130,13 +130,12 @@
 
     <!-- BACKGROUND IMAGE OVERLAY (Static Base) -->
     <div class="fixed inset-0 z-[-2] pointer-events-none w-full h-[100dvh] bg-black">
-        <!-- Replaced local image with abstract dark gold background URL -->
-        <img src="https://images.unsplash.com/photo-1634153796582-7d0d0f50774a?q=80&w=2070&auto=format&fit=crop" 
+        <img src="main_bg.jpeg" 
              alt="Background"
-             class="absolute inset-0 w-full h-full object-cover object-center opacity-30">
+             class="absolute inset-0 w-full h-full object-cover object-center opacity-75">
         
         <!-- Dark Overlay for Text Readability -->
-        <div class="absolute inset-0 bg-black/60"></div>
+        <div class="absolute inset-0 bg-black/30"></div>
     </div>
 
     <!-- Blur Overlay (Fixed) -->
@@ -148,8 +147,8 @@
             
             <!-- Brand (Centered) -->
             <div class="flex items-center gap-3 cursor-pointer group" onclick="router('home')">
-                <!-- Replaced horse.png with FontAwesome Icon -->
-                <i class="fa-solid fa-horse-head text-3xl text-white group-hover:text-[#FFD700] transition-colors duration-300"></i>
+                <!-- Horse Image: Filters force it to be white regardless of source color -->
+                <img src="horse.png" alt="Pegasus" class="h-10 md:h-12 w-auto object-contain invert brightness-0 transition-transform duration-300 group-hover:scale-110">
                 
                 <div class="flex flex-col items-center">
                     <span class="brand-font font-bold text-white tracking-widest text-lg group-hover:text-[#FFD700] transition-colors text-inscribed">PEGASUS</span>
@@ -390,13 +389,13 @@
             if (overlay) overlay.classList.add('hidden');
         };
 
-        // --- Data (Updated to use FontAwesome classes instead of missing image files) ---
+        // --- Data (Restored to use original files) ---
         const eventData = [
             {
                 title: 'Business Quiz',
                 subtitle: 'Athena',
                 desc: "With the wisdom of Athena, navigate the labyrinth of corporate questions. Only the sharpest intellects will seize the crown of knowledge.",
-                icon: 'fa-solid fa-brain', // Replaced 'athena-quiz.png'
+                icon: 'athena-quiz.png',
                 formUrl: "https://docs.google.com/forms/d/e/1FAIpQLSeWP3V9NZXYdOQcuw7FmkZZMNg1bzQIkT_ndqQNYR-MQ7o6WQ/formResponse", 
                 fields: { p1: "entry.485328278", p2: "entry.318228743", college: "entry.2133196025", phone1: "entry.1055999876", phone2: "entry.530151173", utr: "entry.698917705" }
             },
@@ -404,7 +403,7 @@
                 title: 'Best Manager',
                 subtitle: 'Zeus',
                 desc: "Wield the authority of Zeus. Prove your resilience, strategy, and leadership to rise above the chaos and rule the corporate Olympus.",
-                icon: 'fa-solid fa-bolt', // Replaced 'zeus.png'
+                icon: 'zeus.png',
                 formUrl: "https://docs.google.com/forms/d/e/1FAIpQLScpqaGs3KmW2kyxAwLCHlJoiktiT6se1d8WzusiaX9w7_diYA/formResponse", 
                 fields: { p1: "entry.377500350", p2: null, college: "entry.1305867052", phone1: "entry.1777256436", phone2: null, utr: "entry.333013597" }
             },
@@ -412,7 +411,7 @@
                 title: 'Marketing',
                 subtitle: 'Hermes',
                 desc: "Channel the silver tongue of Hermes, the swift messenger. Pitch with divine persuasion to captivate audiences and dominate the global marketplace.",
-                icon: 'fa-solid fa-bullhorn', // Replaced 'hermes.png'
+                icon: 'hermes.png',
                 formUrl: "https://docs.google.com/forms/d/e/1FAIpQLSd3xzrzf0oNf__m88sAczsJYGV2MhHskNFpw54yv84ySn64Yw/formResponse", 
                 fields: { p1: "entry.1815688432", p2: "entry.1253118098", college: "entry.1067998425", phone1: "entry.284112193", phone2: "entry.656533538", utr: "entry.1758698015" }
             },
@@ -420,7 +419,7 @@
                 title: 'Human Resources',
                 subtitle: 'Metis',
                 desc: "Embody the wisdom of Metis, the titan of wise counsel. Master the art of managing people, the true titans behind every empire's enduring success.",
-                icon: 'fa-solid fa-users-gear', // Replaced 'metis.png'
+                icon: 'metis.png',
                 formUrl: "https://docs.google.com/forms/d/e/1FAIpQLScAm2mngQ9QV7pPn6Ph4ssVpvjohXrXl_mkNY2Jo8js-MfhiA/formResponse", 
                 fields: { p1: "entry.1688782507", p2: "entry.1015848407", college: "entry.1740796744", phone1: "entry.1097773082", phone2: "entry.390253753", utr: "entry.777776160" }
             },
@@ -428,7 +427,7 @@
                 title: 'Finance',
                 subtitle: 'Plutus',
                 desc: "Unlock the boundless vaults of Plutus. Navigate the bulls and bears with divine foresight to secure eternal prosperity and limitless wealth.",
-                icon: 'fa-solid fa-coins', // Replaced 'plutus.png'
+                icon: 'plutus.png',
                 formUrl: "https://docs.google.com/forms/d/e/1FAIpQLSebyuvFSQvvw3dJjvi5ZZq57IiZ4ueNTb6V7-KiaM6GKKIrIA/formResponse", 
                 fields: { p1: "entry.1627460796", p2: "entry.1764158244", college: "entry.792494853", phone1: "entry.679818487", phone2: "entry.1281336820", utr: "entry.649158358" }
             }
@@ -442,6 +441,7 @@
             // Unified margin to ensure consistent spacing across all cards, specifically for mobile
             const descStyle = 'mt-8';
 
+            // Restored original image styling for the god icons
             const imageElement = isImage 
                 ? `<img src="${icon}" alt="${title}" class="${sizeClass} object-contain opacity-100 transition-all duration-300 group-hover:scale-110 z-0 invert brightness-110 transform-gpu premium-card-content">` 
                 : '';
@@ -578,7 +578,7 @@
                 </div>
             `;
         }
-
+        
         const content = {
             home: `
                 <div class="relative z-10 text-center px-4 pt-36 md:pt-48 pb-8">
