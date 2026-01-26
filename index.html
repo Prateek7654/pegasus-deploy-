@@ -130,12 +130,13 @@
 
     <!-- BACKGROUND IMAGE OVERLAY (Static Base) -->
     <div class="fixed inset-0 z-[-2] pointer-events-none w-full h-[100dvh] bg-black">
-        <img src="main_bg.jpeg" 
+        <!-- Replaced local image with abstract dark gold background URL -->
+        <img src="https://images.unsplash.com/photo-1634153796582-7d0d0f50774a?q=80&w=2070&auto=format&fit=crop" 
              alt="Background"
-             class="absolute inset-0 w-full h-full object-cover object-center opacity-75">
+             class="absolute inset-0 w-full h-full object-cover object-center opacity-30">
         
         <!-- Dark Overlay for Text Readability -->
-        <div class="absolute inset-0 bg-black/30"></div>
+        <div class="absolute inset-0 bg-black/60"></div>
     </div>
 
     <!-- Blur Overlay (Fixed) -->
@@ -147,8 +148,8 @@
             
             <!-- Brand (Centered) -->
             <div class="flex items-center gap-3 cursor-pointer group" onclick="router('home')">
-                <!-- Horse Image: Filters force it to be white regardless of source color -->
-                <img src="horse.png" alt="Pegasus" class="h-10 md:h-12 w-auto object-contain invert brightness-0 transition-transform duration-300 group-hover:scale-110">
+                <!-- Replaced horse.png with FontAwesome Icon -->
+                <i class="fa-solid fa-horse-head text-3xl text-white group-hover:text-[#FFD700] transition-colors duration-300"></i>
                 
                 <div class="flex flex-col items-center">
                     <span class="brand-font font-bold text-white tracking-widest text-lg group-hover:text-[#FFD700] transition-colors text-inscribed">PEGASUS</span>
@@ -389,13 +390,13 @@
             if (overlay) overlay.classList.add('hidden');
         };
 
-        // --- Data ---
+        // --- Data (Updated to use FontAwesome classes instead of missing image files) ---
         const eventData = [
             {
                 title: 'Business Quiz',
                 subtitle: 'Athena',
                 desc: "With the wisdom of Athena, navigate the labyrinth of corporate questions. Only the sharpest intellects will seize the crown of knowledge.",
-                icon: 'athena-quiz.png',
+                icon: 'fa-solid fa-brain', // Replaced 'athena-quiz.png'
                 formUrl: "https://docs.google.com/forms/d/e/1FAIpQLSeWP3V9NZXYdOQcuw7FmkZZMNg1bzQIkT_ndqQNYR-MQ7o6WQ/formResponse", 
                 fields: { p1: "entry.485328278", p2: "entry.318228743", college: "entry.2133196025", phone1: "entry.1055999876", phone2: "entry.530151173", utr: "entry.698917705" }
             },
@@ -403,7 +404,7 @@
                 title: 'Best Manager',
                 subtitle: 'Zeus',
                 desc: "Wield the authority of Zeus. Prove your resilience, strategy, and leadership to rise above the chaos and rule the corporate Olympus.",
-                icon: 'zeus.png',
+                icon: 'fa-solid fa-bolt', // Replaced 'zeus.png'
                 formUrl: "https://docs.google.com/forms/d/e/1FAIpQLScpqaGs3KmW2kyxAwLCHlJoiktiT6se1d8WzusiaX9w7_diYA/formResponse", 
                 fields: { p1: "entry.377500350", p2: null, college: "entry.1305867052", phone1: "entry.1777256436", phone2: null, utr: "entry.333013597" }
             },
@@ -411,7 +412,7 @@
                 title: 'Marketing',
                 subtitle: 'Hermes',
                 desc: "Channel the silver tongue of Hermes, the swift messenger. Pitch with divine persuasion to captivate audiences and dominate the global marketplace.",
-                icon: 'hermes.png',
+                icon: 'fa-solid fa-bullhorn', // Replaced 'hermes.png'
                 formUrl: "https://docs.google.com/forms/d/e/1FAIpQLSd3xzrzf0oNf__m88sAczsJYGV2MhHskNFpw54yv84ySn64Yw/formResponse", 
                 fields: { p1: "entry.1815688432", p2: "entry.1253118098", college: "entry.1067998425", phone1: "entry.284112193", phone2: "entry.656533538", utr: "entry.1758698015" }
             },
@@ -419,7 +420,7 @@
                 title: 'Human Resources',
                 subtitle: 'Metis',
                 desc: "Embody the wisdom of Metis, the titan of wise counsel. Master the art of managing people, the true titans behind every empire's enduring success.",
-                icon: 'metis.png',
+                icon: 'fa-solid fa-users-gear', // Replaced 'metis.png'
                 formUrl: "https://docs.google.com/forms/d/e/1FAIpQLScAm2mngQ9QV7pPn6Ph4ssVpvjohXrXl_mkNY2Jo8js-MfhiA/formResponse", 
                 fields: { p1: "entry.1688782507", p2: "entry.1015848407", college: "entry.1740796744", phone1: "entry.1097773082", phone2: "entry.390253753", utr: "entry.777776160" }
             },
@@ -427,7 +428,7 @@
                 title: 'Finance',
                 subtitle: 'Plutus',
                 desc: "Unlock the boundless vaults of Plutus. Navigate the bulls and bears with divine foresight to secure eternal prosperity and limitless wealth.",
-                icon: 'plutus.png',
+                icon: 'fa-solid fa-coins', // Replaced 'plutus.png'
                 formUrl: "https://docs.google.com/forms/d/e/1FAIpQLSebyuvFSQvvw3dJjvi5ZZq57IiZ4ueNTb6V7-KiaM6GKKIrIA/formResponse", 
                 fields: { p1: "entry.1627460796", p2: "entry.1764158244", college: "entry.792494853", phone1: "entry.679818487", phone2: "entry.1281336820", utr: "entry.649158358" }
             }
@@ -458,7 +459,7 @@
                      onmouseleave="handleCardMouseLeave(this)"
                      onclick="toggleCard(this)" 
                      style="animation-delay: ${index * 100}ms"
-                     class="card-enter premium-card group cursor-pointer bg-gradient-to-br from-white/10 to-white/5 backdrop-blur-xl p-5 md:p-6 rounded-sm border border-white/20 transition-all duration-200 relative overflow-hidden flex flex-col h-full min-h-[260px] md:min-h-[320px] shadow-[0_8px_32px_0_rgba(0,0,0,0.5)]">
+                     class="card-enter premium-card group cursor-pointer bg-gradient-to-br from-white/10 to-white/5 backdrop-blur-xl p-5 md:p-6 rounded-2xl border border-white/20 transition-all duration-200 relative overflow-hidden flex flex-col h-full min-h-[260px] md:min-h-[320px] shadow-[0_8px_32px_0_rgba(0,0,0,0.5)]">
                     
                     <!-- Spotlight Effect -->
                     <div class="card-spotlight absolute inset-0 pointer-events-none opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
@@ -468,12 +469,6 @@
                     <div class="absolute top-0 left-0 w-full h-[1px] bg-gradient-to-r from-transparent via-white/20 to-transparent opacity-50 pointer-events-none"></div>
                     <div class="absolute top-0 left-0 w-[1px] h-full bg-gradient-to-b from-white/10 via-transparent to-transparent opacity-30 pointer-events-none"></div>
 
-                    <!-- Enhanced Gold Corners -->
-                    <div class="absolute top-0 left-0 w-4 h-4 border-t-2 border-l-2 border-[#FFD700] opacity-100 drop-shadow-[0_0_5px_rgba(255,215,0,0.8)] group-hover:w-6 group-hover:h-6 transition-all duration-300"></div>
-                    <div class="absolute top-0 right-0 w-4 h-4 border-t-2 border-r-2 border-[#FFD700] opacity-100 drop-shadow-[0_0_5px_rgba(255,215,0,0.8)] group-hover:w-6 group-hover:h-6 transition-all duration-300"></div>
-                    <div class="absolute bottom-0 left-0 w-4 h-4 border-b-2 border-l-2 border-[#FFD700] opacity-100 drop-shadow-[0_0_5px_rgba(255,215,0,0.8)] group-hover:w-6 group-hover:h-6 transition-all duration-300"></div>
-                    <div class="absolute bottom-0 right-0 w-4 h-4 border-b-2 border-r-2 border-[#FFD700] opacity-100 drop-shadow-[0_0_5px_rgba(255,215,0,0.8)] group-hover:w-6 group-hover:h-6 transition-all duration-300"></div>
-                    
                     <div class="premium-card-content relative z-10">
                         <h4 class="text-xs md:text-sm font-bold text-white uppercase tracking-[0.2em] mb-1 inline-block transition-colors">${subtitle}</h4>
 
@@ -489,9 +484,9 @@
                     </div>
 
                     <div class="mt-auto pt-2 relative z-10 premium-card-content">
-                        <!-- Updated Button to Gold Gradient -->
+                        <!-- Updated Button to Gold Gradient and rounded-full -->
                         <button onclick="event.stopPropagation(); router('registration', ${index})" 
-                                class="w-full btn-shimmer bg-gradient-to-r from-[#FFD700] via-[#FFF9C4] to-[#FFD700] text-black font-bold py-3 px-6 rounded-sm text-sm md:text-base shadow-[0_0_15px_rgba(255,215,0,0.4)] hover:shadow-[0_0_20px_rgba(255,215,0,0.6)] transition-transform duration-200 hover:scale-105 active:scale-95 uppercase tracking-widest">
+                                class="w-full btn-shimmer bg-gradient-to-r from-[#FFD700] via-[#FFF9C4] to-[#FFD700] text-black font-bold py-3 px-6 rounded-full text-sm md:text-base shadow-[0_0_15px_rgba(255,215,0,0.4)] hover:shadow-[0_0_20px_rgba(255,215,0,0.6)] transition-transform duration-200 hover:scale-105 active:scale-95 uppercase tracking-widest">
                             Register Now
                         </button>
                     </div>
@@ -512,14 +507,14 @@
             const p2Input = event.fields.p2 ? `
                 <div>
                     <label class="block text-white text-xs font-bold mb-1 uppercase tracking-wider">Participant 2 Name</label>
-                    <input type="text" name="${event.fields.p2}" required placeholder="Enter name" class="w-full p-3 rounded-sm border border-white/20 bg-white/5 text-white focus:border-[#FFD700] focus:ring-0 custom-input text-sm backdrop-blur-sm">
+                    <input type="text" name="${event.fields.p2}" required placeholder="Enter name" class="w-full p-3 rounded-xl border border-white/20 bg-white/5 text-white focus:border-[#FFD700] focus:ring-0 custom-input text-sm backdrop-blur-sm">
                 </div>
             ` : '';
 
             const phone2Input = event.fields.phone2 ? `
                 <div class="mt-4">
                     <label class="block text-white text-xs font-bold mb-1 uppercase tracking-wider">Contact Number (Participant 2)</label>
-                    <input type="tel" name="${event.fields.phone2}" required placeholder="+91 XXXXX XXXXX" class="w-full p-3 rounded-sm border border-white/20 bg-white/5 text-white focus:border-[#FFD700] focus:ring-0 custom-input text-sm backdrop-blur-sm">
+                    <input type="tel" name="${event.fields.phone2}" required placeholder="+91 XXXXX XXXXX" class="w-full p-3 rounded-xl border border-white/20 bg-white/5 text-white focus:border-[#FFD700] focus:ring-0 custom-input text-sm backdrop-blur-sm">
                 </div>
             ` : '';
 
@@ -532,13 +527,8 @@
                         <h2 class="text-[#B8860B] tracking-widest uppercase text-sm">${event.title} - ${event.subtitle}</h2>
                     </div>
 
-                    <div id="form-container" class="transform-gpu bg-gradient-to-br from-white/15 to-white/5 backdrop-blur-2xl rounded-sm border border-white/20 p-5 md:p-6 shadow-[0_8px_32px_0_rgba(0,0,0,0.5)] relative overflow-hidden">
-                        <!-- Borders remain same -->
-                        <div class="absolute top-0 left-0 w-6 h-6 border-t-2 border-l-2 border-[#FFD700]"></div>
-                        <div class="absolute top-0 right-0 w-6 h-6 border-t-2 border-r-2 border-[#FFD700]"></div>
-                        <div class="absolute bottom-0 left-0 w-6 h-6 border-b-2 border-l-2 border-[#FFD700]"></div>
-                        <div class="absolute bottom-0 right-0 w-6 h-6 border-b-2 border-r-2 border-[#FFD700]"></div>
-
+                    <div id="form-container" class="transform-gpu bg-gradient-to-br from-white/15 to-white/5 backdrop-blur-2xl rounded-2xl border border-white/20 p-5 md:p-6 shadow-[0_8px_32px_0_rgba(0,0,0,0.5)] relative overflow-hidden">
+                        
                         <div id="success-message" class="hidden absolute inset-0 bg-black/95 z-20 flex flex-col items-center justify-center text-center p-8">
                             <i class="fa-solid fa-circle-check text-6xl text-[#FFD700] mb-4"></i>
                             <h2 class="brand-font text-2xl text-white mb-2">Thank You!</h2>
@@ -552,25 +542,25 @@
                             <div class="space-y-4">
                                 <div>
                                     <label class="block text-white text-xs font-bold mb-1 uppercase tracking-wider">Participant 1 Name *</label>
-                                    <input type="text" name="${event.fields.p1}" required placeholder="Enter name" class="w-full p-3 rounded-sm border border-white/20 bg-white/5 text-white focus:border-[#FFD700] focus:ring-0 custom-input text-sm backdrop-blur-sm">
+                                    <input type="text" name="${event.fields.p1}" required placeholder="Enter name" class="w-full p-3 rounded-xl border border-white/20 bg-white/5 text-white focus:border-[#FFD700] focus:ring-0 custom-input text-sm backdrop-blur-sm">
                                 </div>
                                 ${p2Input}
                                 <div>
                                     <label class="block text-white text-xs font-bold mb-1 uppercase tracking-wider">College and Degree</label>
-                                    <input type="text" name="${event.fields.college}" required placeholder="e.g. KLE Tech, MBA" class="w-full p-3 rounded-sm border border-white/20 bg-white/5 text-white focus:border-[#FFD700] focus:ring-0 custom-input text-sm backdrop-blur-sm">
+                                    <input type="text" name="${event.fields.college}" required placeholder="e.g. KLE Tech, MBA" class="w-full p-3 rounded-xl border border-white/20 bg-white/5 text-white focus:border-[#FFD700] focus:ring-0 custom-input text-sm backdrop-blur-sm">
                                 </div>
                                 <div>
                                     <label class="block text-white text-xs font-bold mb-1 uppercase tracking-wider">${contactLabel}</label>
-                                    <input type="tel" name="${event.fields.phone1}" required placeholder="+91 XXXXX XXXXX" class="w-full p-3 rounded-sm border border-white/20 bg-white/5 text-white focus:border-[#FFD700] focus:ring-0 custom-input text-sm backdrop-blur-sm">
+                                    <input type="tel" name="${event.fields.phone1}" required placeholder="+91 XXXXX XXXXX" class="w-full p-3 rounded-xl border border-white/20 bg-white/5 text-white focus:border-[#FFD700] focus:ring-0 custom-input text-sm backdrop-blur-sm">
                                 </div>
                                 ${phone2Input}
-                                <div class="bg-black/30 p-4 rounded-sm border border-[#FFD700]/20 flex flex-col items-center mt-4">
+                                <div class="bg-black/30 p-4 rounded-xl border border-[#FFD700]/20 flex flex-col items-center mt-4">
                                     <div class="w-full mb-4">
                                         <label class="block text-white text-xs font-bold mb-1 uppercase tracking-wider">UTR Number</label>
-                                        <input type="text" name="${event.fields.utr}" required minlength="10" placeholder="Enter UTR Number" class="w-full p-3 rounded-sm border border-white/20 bg-white/5 text-white focus:border-[#FFD700] focus:ring-0 custom-input font-mono uppercase text-sm backdrop-blur-sm">
+                                        <input type="text" name="${event.fields.utr}" required minlength="10" placeholder="Enter UTR Number" class="w-full p-3 rounded-xl border border-white/20 bg-white/5 text-white focus:border-[#FFD700] focus:ring-0 custom-input font-mono uppercase text-sm backdrop-blur-sm">
                                     </div>
                                     <div class="flex flex-col items-center justify-center">
-                                        <div class="bg-white p-2 rounded-sm shadow-2xl border-2 border-white/10 relative group cursor-pointer hover:scale-105 transition-transform duration-300">
+                                        <div class="bg-white p-2 rounded-xl shadow-2xl border-2 border-white/10 relative group cursor-pointer hover:scale-105 transition-transform duration-300">
                                             <i class="fa-solid fa-qrcode text-[8rem] text-black opacity-90 leading-none"></i>
                                             <div class="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity bg-black/10 rounded-lg">
                                                 <span class="bg-black/80 text-[#FFD700] text-xs font-bold px-2 py-1 rounded">SCAN</span>
@@ -578,7 +568,7 @@
                                         </div>
                                     </div>
                                 </div>
-                                <button type="submit" class="w-full btn-shimmer bg-gradient-to-r from-[#FFD700] via-[#FFF9C4] to-[#FFD700] text-black font-bold py-3 rounded-sm mt-2 hover:brightness-110 transition-all shadow-lg uppercase tracking-widest text-sm border border-[#FFD700]">
+                                <button type="submit" class="w-full btn-shimmer bg-gradient-to-r from-[#FFD700] via-[#FFF9C4] to-[#FFD700] text-black font-bold py-3 rounded-full mt-2 hover:brightness-110 transition-all shadow-lg uppercase tracking-widest text-sm border border-[#FFD700]">
                                     Confirm Registration
                                 </button>
                                 <p class="text-[10px] text-center text-gray-500 mt-1">Data sent securely to Google Forms</p>
