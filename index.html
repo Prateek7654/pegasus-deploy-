@@ -456,7 +456,7 @@
                      onmouseleave="handleCardMouseLeave(this)"
                      onclick="toggleCard(this)" 
                      style="animation-delay: ${index * 100}ms"
-                     class="card-enter premium-card group cursor-pointer bg-gradient-to-br from-white/10 to-white/5 backdrop-blur-xl p-5 md:p-8 rounded-sm border border-white/20 transition-all duration-200 relative overflow-hidden flex flex-col h-full min-h-[300px] md:min-h-[380px] shadow-[0_8px_32px_0_rgba(0,0,0,0.5)]">
+                     class="card-enter premium-card group cursor-pointer bg-gradient-to-br from-white/10 to-white/5 backdrop-blur-xl p-5 md:p-6 rounded-sm border border-white/20 transition-all duration-200 relative overflow-hidden flex flex-col h-full min-h-[260px] md:min-h-[320px] shadow-[0_8px_32px_0_rgba(0,0,0,0.5)]">
                     
                     <!-- Spotlight Effect -->
                     <div class="card-spotlight absolute inset-0 pointer-events-none opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
@@ -481,12 +481,12 @@
                             ${iconElement}
                         </div>
                         
-                        <p class="text-sm md:text-base text-white drop-shadow-sm group-hover:text-white transition-colors mb-4 leading-relaxed font-medium italic ${descStyle}">
+                        <p class="text-sm md:text-base text-white drop-shadow-sm group-hover:text-white transition-colors mb-2 leading-relaxed font-medium italic ${descStyle}">
                             "${desc}"
                         </p>
                     </div>
 
-                    <div class="mt-auto pt-4 relative z-10 premium-card-content">
+                    <div class="mt-auto pt-2 relative z-10 premium-card-content">
                         <!-- Updated Button to Gold Gradient -->
                         <button onclick="event.stopPropagation(); router('registration', ${index})" 
                                 class="w-full btn-shimmer bg-gradient-to-r from-[#FFD700] via-[#FFF9C4] to-[#FFD700] text-black font-bold py-3 px-6 rounded-sm text-sm md:text-base shadow-[0_0_15px_rgba(255,215,0,0.4)] hover:shadow-[0_0_20px_rgba(255,215,0,0.6)] transition-transform duration-200 hover:scale-105 active:scale-95 uppercase tracking-widest">
