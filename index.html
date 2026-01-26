@@ -15,12 +15,12 @@
     <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700&family=Lato:wght@300;400;700&display=swap" rel="stylesheet">
 
     <style>
-        /* PLATINUM & SILVER THEME */
+        /* BLACK & GOLD THEME (Gold Dominant) */
         :root {
-            --primary-silver: #E5E4E2; 
-            --accent-steel: #71797E;
+            --primary-gold: #FFD700; 
+            --accent-bronze: #B8860B;
             --dark-bg: #050505; 
-            --card-bg: #151515;
+            --card-bg: #1c1505;
         }
 
         body {
@@ -37,26 +37,26 @@
         /* --- GREEK THEME ENHANCEMENTS --- */
 
         .greek-pattern-border {
-            /* Changed stroke to Silver (#E5E4E2) */
-            background-image: url("data:image/svg+xml,%3Csvg width='40' height='10' viewBox='0 0 40 10' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M0 10 L0 0 L10 0 L10 5 L5 5 L5 10 L15 10 L15 0 L25 0 L25 5 L20 5 L20 10 L30 10 L30 0 L40 0 L40 10' fill='none' stroke='%23E5E4E2' stroke-width='1' opacity='0.3'/%3E%3C/svg%3E");
+            /* Gold Stroke */
+            background-image: url("data:image/svg+xml,%3Csvg width='40' height='10' viewBox='0 0 40 10' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M0 10 L0 0 L10 0 L10 5 L5 5 L5 10 L15 10 L15 0 L25 0 L25 5 L20 5 L20 10 L30 10 L30 0 L40 0 L40 10' fill='none' stroke='%23FFD700' stroke-width='1' opacity='0.3'/%3E%3C/svg%3E");
             background-repeat: repeat-x;
             background-size: 30px 10px;
             background-position: bottom;
         }
 
         .text-inscribed {
-            /* Updated shadow for silver tint */
-            text-shadow: 2px 2px 0px rgba(0, 0, 0, 0.8), -1px -1px 0px rgba(229, 228, 226, 0.2);
+            /* Gold Shadow */
+            text-shadow: 2px 2px 0px rgba(0, 0, 0, 0.8), -1px -1px 0px rgba(255, 215, 0, 0.2);
             letter-spacing: 0.15em;
         }
 
-        /* Shimmer Effect for Buttons (Silver Gradient) */
+        /* Shimmer Effect for Buttons (Gold Gradient) */
         @keyframes shimmer {
             0% { background-position: -200% center; }
             100% { background-position: 200% center; }
         }
         .btn-shimmer {
-            background: linear-gradient(110deg, #E5E4E2 20%, #ffffff 40%, #E5E4E2 60%);
+            background: linear-gradient(110deg, #FFD700 20%, #fffbeb 40%, #FFD700 60%);
             background-size: 200% auto;
             color: #000000;
             animation: shimmer 3s linear infinite;
@@ -65,16 +65,16 @@
         /* Form Styling */
         .custom-input {
             background-color: rgba(255, 255, 255, 0.07); 
-            border: 1px solid rgba(229, 228, 226, 0.3);
+            border: 1px solid rgba(255, 215, 0, 0.3);
             color: white;
             transition: all 0.2s ease;
             backdrop-filter: blur(4px);
         }
         .custom-input:focus {
             background-color: rgba(255, 255, 255, 0.12);
-            border-color: #E5E4E2;
+            border-color: #FFD700;
             outline: none;
-            box-shadow: 0 0 15px rgba(229, 228, 226, 0.15);
+            box-shadow: 0 0 15px rgba(255, 215, 0, 0.15);
         }
         .custom-input::placeholder {
             color: rgba(255, 255, 255, 0.5);
@@ -82,8 +82,8 @@
 
         /* Custom Scrollbar */
         ::-webkit-scrollbar { width: 8px; }
-        ::-webkit-scrollbar-track { background: #151515; }
-        ::-webkit-scrollbar-thumb { background: #71797E; border-radius: 4px; }
+        ::-webkit-scrollbar-track { background: #1a1505; }
+        ::-webkit-scrollbar-thumb { background: #B8860B; border-radius: 4px; }
 
         /* Navigation Overlay Transition */
         #nav-overlay {
@@ -101,7 +101,6 @@
         }
         .reveal-element.active {
             opacity: 1;
-            /* Changed from translateY(0) to none to prevent stacking context trapping */
             transform: none;
         }
 
@@ -113,21 +112,21 @@
         .premium-card-content {
             transform: translateZ(20px);
         }
-        /* Spotlight Gradient Overlay - Silver Tint */
+        /* Spotlight Gradient Overlay - Gold Tint */
         .card-spotlight {
             background: radial-gradient(
                 800px circle at var(--mouse-x) var(--mouse-y), 
-                rgba(229, 228, 226, 0.08),
+                rgba(255, 215, 0, 0.06),
                 transparent 40%
             );
             z-index: 2; 
         }
     </style>
 </head>
-<body class="flex flex-col min-h-screen relative bg-transparent selection:bg-[#E5E4E2] selection:text-black">
+<body class="flex flex-col min-h-screen relative bg-transparent selection:bg-[#FFD700] selection:text-black">
 
-    <!-- CANVAS BACKGROUND (Silver Mist) -->
-    <canvas id="silver-dust" class="fixed inset-0 w-full h-full z-[-1] pointer-events-none"></canvas>
+    <!-- CANVAS BACKGROUND (Gold Dust) -->
+    <canvas id="gold-dust" class="fixed inset-0 w-full h-full z-[-1] pointer-events-none"></canvas>
 
     <!-- BACKGROUND IMAGE OVERLAY (Static Base) -->
     <div class="fixed inset-0 z-[-2] pointer-events-none w-full h-[100dvh] bg-black">
@@ -152,12 +151,12 @@
                 <img src="horse.png" alt="Pegasus" class="h-10 md:h-12 w-auto object-contain invert brightness-0 transition-transform duration-300 group-hover:scale-110">
                 
                 <div class="flex flex-col items-center">
-                    <span class="brand-font font-bold text-white tracking-widest text-lg group-hover:text-[#E5E4E2] transition-colors text-inscribed">PEGASUS</span>
+                    <span class="brand-font font-bold text-white tracking-widest text-lg group-hover:text-[#FFD700] transition-colors text-inscribed">PEGASUS</span>
                 </div>
             </div>
 
             <!-- Menu Trigger -->
-            <button onclick="toggleNav()" class="absolute right-4 sm:right-6 lg:right-8 w-10 h-10 flex items-center justify-center rounded-full text-white/80 hover:text-[#E5E4E2] hover:bg-white/5 transition-all">
+            <button onclick="toggleNav()" class="absolute right-4 sm:right-6 lg:right-8 w-10 h-10 flex items-center justify-center rounded-full text-white/80 hover:text-[#FFD700] hover:bg-white/5 transition-all">
                 <i class="fa-solid fa-bars text-xl"></i>
             </button>
 
@@ -166,30 +165,30 @@
 
     <!-- FULL SCREEN NAVIGATION OVERLAY -->
     <div id="nav-overlay" onclick="if(event.target === this) toggleNav()" class="fixed inset-0 bg-black/40 backdrop-blur-3xl z-[90] flex flex-col items-center justify-center closed">
-        <!-- Background Glow in Menu (Silver) -->
+        <!-- Background Glow in Menu (Gold) -->
         <div class="absolute inset-0 overflow-hidden pointer-events-none">
-             <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[60vw] h-[60vw] bg-[#E5E4E2] opacity-[0.05] blur-[100px] rounded-full"></div>
+             <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[60vw] h-[60vw] bg-[#FFD700] opacity-[0.05] blur-[100px] rounded-full"></div>
         </div>
 
         <!-- Menu Links -->
         <div class="flex flex-col space-y-8 text-center relative z-10 mb-16 mt-32">
             <a onclick="router('home'); toggleNav()" class="group cursor-pointer">
-                <span class="brand-font text-3xl md:text-4xl text-white group-hover:text-[#E5E4E2] transition-colors text-inscribed">Home</span>
-                <div class="h-0.5 w-0 bg-[#E5E4E2] mx-auto mt-2 transition-all duration-300 group-hover:w-full"></div>
+                <span class="brand-font text-3xl md:text-4xl text-white group-hover:text-[#FFD700] transition-colors text-inscribed">Home</span>
+                <div class="h-0.5 w-0 bg-[#FFD700] mx-auto mt-2 transition-all duration-300 group-hover:w-full"></div>
             </a>
             <a onclick="router('events'); toggleNav()" class="group cursor-pointer">
-                <span class="brand-font text-3xl md:text-4xl text-white group-hover:text-[#E5E4E2] transition-colors text-inscribed">Events</span>
-                <div class="h-0.5 w-0 bg-[#E5E4E2] mx-auto mt-2 transition-all duration-300 group-hover:w-full"></div>
+                <span class="brand-font text-3xl md:text-4xl text-white group-hover:text-[#FFD700] transition-colors text-inscribed">Events</span>
+                <div class="h-0.5 w-0 bg-[#FFD700] mx-auto mt-2 transition-all duration-300 group-hover:w-full"></div>
             </a>
             <a onclick="router('contact'); toggleNav()" class="group cursor-pointer">
-                <span class="brand-font text-3xl md:text-4xl text-white group-hover:text-[#E5E4E2] transition-colors text-inscribed">Contact</span>
-                <div class="h-0.5 w-0 bg-[#E5E4E2] mx-auto mt-2 transition-all duration-300 group-hover:w-full"></div>
+                <span class="brand-font text-3xl md:text-4xl text-white group-hover:text-[#FFD700] transition-colors text-inscribed">Contact</span>
+                <div class="h-0.5 w-0 bg-[#FFD700] mx-auto mt-2 transition-all duration-300 group-hover:w-full"></div>
             </a>
         </div>
 
-        <!-- Silver Cross Close Button -->
+        <!-- Golden Cross Close Button -->
         <button onclick="toggleNav()" class="group relative z-10 p-4 rounded-full transition-transform hover:scale-110 active:scale-95">
-            <i class="fa-solid fa-xmark text-5xl text-[#E5E4E2] drop-shadow-[0_0_15px_rgba(229,228,226,0.6)] group-hover:drop-shadow-[0_0_25px_rgba(229,228,226,1)] transition-all"></i>
+            <i class="fa-solid fa-xmark text-5xl text-[#FFD700] drop-shadow-[0_0_15px_rgba(255,215,0,0.6)] group-hover:drop-shadow-[0_0_25px_rgba(255,215,0,1)] transition-all"></i>
         </button>
 
         <div class="absolute bottom-10 text-white/30 text-sm uppercase tracking-widest pointer-events-none">
@@ -207,15 +206,15 @@
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="grid grid-cols-1 md:grid-cols-3 gap-4 items-center">
                 <div class="text-center md:text-left">
-                    <h3 class="brand-font text-xl text-[#E5E4E2] mb-1 text-inscribed">PEGASUS 2026</h3>
+                    <h3 class="brand-font text-xl text-[#FFD700] mb-1 text-inscribed">PEGASUS 2026</h3>
                     <p class="text-gray-400 text-xs">Department of MBA<br>KLE Technological University</p>
                 </div>
                 <div class="text-center">
                     <h4 class="text-white font-bold mb-2 text-xs uppercase tracking-wider">Follow Us</h4>
                     <div class="flex justify-center space-x-4">
-                        <a href="https://www.instagram.com/kle_mba/" target="_blank" rel="noopener noreferrer" class="text-[#A0A0A0] hover:text-[#E1306C] transition-colors"><i class="fa-brands fa-instagram text-lg"></i></a>
-                        <a href="https://www.facebook.com/klecet/" target="_blank" rel="noopener noreferrer" class="text-[#A0A0A0] hover:text-[#1877F2] transition-colors"><i class="fa-brands fa-facebook text-lg"></i></a>
-                        <a href="https://www.linkedin.com/company/kle-technological-university-msscet-belagavi-campus/" target="_blank" rel="noopener noreferrer" class="text-[#A0A0A0] hover:text-[#0A66C2] transition-colors"><i class="fa-brands fa-linkedin text-lg"></i></a>
+                        <a href="https://www.instagram.com/kle_mba/" target="_blank" rel="noopener noreferrer" class="text-[#B8860B] hover:text-[#E1306C] transition-colors"><i class="fa-brands fa-instagram text-lg"></i></a>
+                        <a href="https://www.facebook.com/klecet/" target="_blank" rel="noopener noreferrer" class="text-[#B8860B] hover:text-[#1877F2] transition-colors"><i class="fa-brands fa-facebook text-lg"></i></a>
+                        <a href="https://www.linkedin.com/company/kle-technological-university-msscet-belagavi-campus/" target="_blank" rel="noopener noreferrer" class="text-[#B8860B] hover:text-[#0A66C2] transition-colors"><i class="fa-brands fa-linkedin text-lg"></i></a>
                     </div>
                 </div>
                 <div class="text-center md:text-right">
@@ -227,8 +226,8 @@
 
     <!-- JavaScript Logic -->
     <script>
-        // --- 1. Canvas Silver Mist Particle System ---
-        const canvas = document.getElementById('silver-dust');
+        // --- 1. Canvas Gold Dust Particle System ---
+        const canvas = document.getElementById('gold-dust');
         const ctx = canvas.getContext('2d');
         let particlesArray;
 
@@ -255,8 +254,8 @@
                 if (this.y < 0) this.y = canvas.height;
             }
             draw() {
-                // Changed to Silver/White RGB (229, 228, 226)
-                ctx.fillStyle = `rgba(229, 228, 226, ${this.opacity})`;
+                // Gold RGB (255, 215, 0)
+                ctx.fillStyle = `rgba(255, 215, 0, ${this.opacity})`;
                 ctx.beginPath();
                 ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
                 ctx.closePath();
@@ -367,8 +366,8 @@
             // Remove tilt effect when expanded
             card.style.transform = 'none';
 
-            // Changed expanded border/shadow to Silver
-            card.classList.add('z-[60]', 'border-[#E5E4E2]', 'shadow-[0_0_50px_rgba(229,228,226,0.2)]');
+            // Changed expanded border/shadow to Gold
+            card.classList.add('z-[60]', 'border-[#FFD700]', 'shadow-[0_0_50px_rgba(255,215,0,0.2)]');
             
             const overlay = document.getElementById('blur-overlay');
             if (overlay) overlay.classList.remove('hidden');
@@ -377,7 +376,7 @@
 
         window.closeCard = function() {
             if (expandedCard) {
-                expandedCard.classList.remove('z-[60]', 'border-[#E5E4E2]', 'shadow-[0_0_50px_rgba(229,228,226,0.2)]');
+                expandedCard.classList.remove('z-[60]', 'border-[#FFD700]', 'shadow-[0_0_50px_rgba(255,215,0,0.2)]');
                 
                 // Reset transform explicitly
                 expandedCard.style.transform = ''; 
@@ -436,16 +435,17 @@
             const { title, subtitle, desc, icon } = event;
             const isImage = icon.includes('.');
             const sizeClass = "w-32 h-32 md:w-40 md:h-40 py-6 absolute top-0 right-0";
-            const isSingleWord = title === 'Marketing' || title === 'Finance';
-            const descStyle = isSingleWord ? 'mt-16' : 'mt-8';
+            
+            // Unified margin to ensure consistent spacing across all cards, specifically for mobile
+            const descStyle = 'mt-8';
 
             const imageElement = isImage 
                 ? `<img src="${icon}" alt="${title}" class="${sizeClass} object-contain opacity-100 transition-all duration-300 group-hover:scale-110 z-0 invert brightness-110 transform-gpu premium-card-content">` 
                 : '';
 
-            // Changed Icon color to Silver
+            // Changed Icon color to Gold
             const iconElement = !isImage
-                ? `<i class="${icon} text-3xl md:text-4xl text-[#E5E4E2]/80 group-hover:text-[#E5E4E2] transition-colors drop-shadow-[0_0_15px_rgba(229,228,226,0.5)] premium-card-content"></i>`
+                ? `<i class="${icon} text-3xl md:text-4xl text-[#FFD700]/80 group-hover:text-[#FFD700] transition-colors drop-shadow-[0_0_15px_rgba(255,215,0,0.5)] premium-card-content"></i>`
                 : '';
 
             const titlePadding = isImage ? 'pr-24' : '';
@@ -466,18 +466,18 @@
                     <div class="absolute top-0 left-0 w-full h-[1px] bg-gradient-to-r from-transparent via-white/20 to-transparent opacity-50 pointer-events-none"></div>
                     <div class="absolute top-0 left-0 w-[1px] h-full bg-gradient-to-b from-white/10 via-transparent to-transparent opacity-30 pointer-events-none"></div>
 
-                    <!-- Enhanced Silver Corners -->
-                    <div class="absolute top-0 left-0 w-4 h-4 border-t-2 border-l-2 border-[#E5E4E2] opacity-100 drop-shadow-[0_0_5px_rgba(229,228,226,0.8)] group-hover:w-6 group-hover:h-6 transition-all duration-300"></div>
-                    <div class="absolute top-0 right-0 w-4 h-4 border-t-2 border-r-2 border-[#E5E4E2] opacity-100 drop-shadow-[0_0_5px_rgba(229,228,226,0.8)] group-hover:w-6 group-hover:h-6 transition-all duration-300"></div>
-                    <div class="absolute bottom-0 left-0 w-4 h-4 border-b-2 border-l-2 border-[#E5E4E2] opacity-100 drop-shadow-[0_0_5px_rgba(229,228,226,0.8)] group-hover:w-6 group-hover:h-6 transition-all duration-300"></div>
-                    <div class="absolute bottom-0 right-0 w-4 h-4 border-b-2 border-r-2 border-[#E5E4E2] opacity-100 drop-shadow-[0_0_5px_rgba(229,228,226,0.8)] group-hover:w-6 group-hover:h-6 transition-all duration-300"></div>
+                    <!-- Enhanced Gold Corners -->
+                    <div class="absolute top-0 left-0 w-4 h-4 border-t-2 border-l-2 border-[#FFD700] opacity-100 drop-shadow-[0_0_5px_rgba(255,215,0,0.8)] group-hover:w-6 group-hover:h-6 transition-all duration-300"></div>
+                    <div class="absolute top-0 right-0 w-4 h-4 border-t-2 border-r-2 border-[#FFD700] opacity-100 drop-shadow-[0_0_5px_rgba(255,215,0,0.8)] group-hover:w-6 group-hover:h-6 transition-all duration-300"></div>
+                    <div class="absolute bottom-0 left-0 w-4 h-4 border-b-2 border-l-2 border-[#FFD700] opacity-100 drop-shadow-[0_0_5px_rgba(255,215,0,0.8)] group-hover:w-6 group-hover:h-6 transition-all duration-300"></div>
+                    <div class="absolute bottom-0 right-0 w-4 h-4 border-b-2 border-r-2 border-[#FFD700] opacity-100 drop-shadow-[0_0_5px_rgba(255,215,0,0.8)] group-hover:w-6 group-hover:h-6 transition-all duration-300"></div>
                     
                     <div class="premium-card-content relative z-10">
                         <h4 class="text-xs md:text-sm font-bold text-white uppercase tracking-[0.2em] mb-1 inline-block transition-colors">${subtitle}</h4>
 
                         <div class="flex items-center justify-between mb-6 ${titlePadding}">
-                            <!-- Changed title hover to Silver -->
-                            <h3 class="brand-font text-2xl md:text-3xl text-white group-hover:text-[#E5E4E2] transition-colors drop-shadow-md text-inscribed tracking-widest inline-block">${title}</h3>
+                            <!-- Changed title hover to Gold -->
+                            <h3 class="brand-font text-2xl md:text-3xl text-white group-hover:text-[#FFD700] transition-colors drop-shadow-md text-inscribed tracking-widest inline-block">${title}</h3>
                             ${iconElement}
                         </div>
                         
@@ -487,9 +487,9 @@
                     </div>
 
                     <div class="mt-auto pt-4 relative z-10 premium-card-content">
-                        <!-- Updated Button to Silver Gradient -->
+                        <!-- Updated Button to Gold Gradient -->
                         <button onclick="event.stopPropagation(); router('registration', ${index})" 
-                                class="w-full btn-shimmer bg-gradient-to-r from-[#E5E4E2] via-[#F2F2F2] to-[#E5E4E2] text-black font-bold py-3 px-6 rounded-sm text-sm md:text-base shadow-[0_0_15px_rgba(229,228,226,0.4)] hover:shadow-[0_0_20px_rgba(229,228,226,0.6)] transition-transform duration-200 hover:scale-105 active:scale-95 uppercase tracking-widest">
+                                class="w-full btn-shimmer bg-gradient-to-r from-[#FFD700] via-[#FFF9C4] to-[#FFD700] text-black font-bold py-3 px-6 rounded-sm text-sm md:text-base shadow-[0_0_15px_rgba(255,215,0,0.4)] hover:shadow-[0_0_20px_rgba(255,215,0,0.6)] transition-transform duration-200 hover:scale-105 active:scale-95 uppercase tracking-widest">
                             Register Now
                         </button>
                     </div>
@@ -510,14 +510,14 @@
             const p2Input = event.fields.p2 ? `
                 <div>
                     <label class="block text-white text-xs font-bold mb-1 uppercase tracking-wider">Participant 2 Name</label>
-                    <input type="text" name="${event.fields.p2}" required placeholder="Enter name" class="w-full p-3 rounded-sm border border-white/20 bg-white/5 text-white focus:border-[#E5E4E2] focus:ring-0 custom-input text-sm backdrop-blur-sm">
+                    <input type="text" name="${event.fields.p2}" required placeholder="Enter name" class="w-full p-3 rounded-sm border border-white/20 bg-white/5 text-white focus:border-[#FFD700] focus:ring-0 custom-input text-sm backdrop-blur-sm">
                 </div>
             ` : '';
 
             const phone2Input = event.fields.phone2 ? `
                 <div class="mt-4">
                     <label class="block text-white text-xs font-bold mb-1 uppercase tracking-wider">Contact Number (Participant 2)</label>
-                    <input type="tel" name="${event.fields.phone2}" required placeholder="+91 XXXXX XXXXX" class="w-full p-3 rounded-sm border border-white/20 bg-white/5 text-white focus:border-[#E5E4E2] focus:ring-0 custom-input text-sm backdrop-blur-sm">
+                    <input type="tel" name="${event.fields.phone2}" required placeholder="+91 XXXXX XXXXX" class="w-full p-3 rounded-sm border border-white/20 bg-white/5 text-white focus:border-[#FFD700] focus:ring-0 custom-input text-sm backdrop-blur-sm">
                 </div>
             ` : '';
 
@@ -526,22 +526,22 @@
             return `
                 <div class="pt-12 md:pt-16 pb-10 px-4 max-w-3xl mx-auto">
                     <div class="text-center mb-4 md:mb-6">
-                        <!-- Changed Subtitle Color to Silver/Steel -->
-                        <h2 class="text-[#A0A0A0] tracking-widest uppercase text-sm">${event.title} - ${event.subtitle}</h2>
+                        <!-- Changed Subtitle Color to Gold/Bronze -->
+                        <h2 class="text-[#B8860B] tracking-widest uppercase text-sm">${event.title} - ${event.subtitle}</h2>
                     </div>
 
                     <div id="form-container" class="transform-gpu bg-gradient-to-br from-white/15 to-white/5 backdrop-blur-2xl rounded-sm border border-white/20 p-5 md:p-6 shadow-[0_8px_32px_0_rgba(0,0,0,0.5)] relative overflow-hidden">
                         <!-- Borders remain same -->
-                        <div class="absolute top-0 left-0 w-6 h-6 border-t-2 border-l-2 border-[#E5E4E2]"></div>
-                        <div class="absolute top-0 right-0 w-6 h-6 border-t-2 border-r-2 border-[#E5E4E2]"></div>
-                        <div class="absolute bottom-0 left-0 w-6 h-6 border-b-2 border-l-2 border-[#E5E4E2]"></div>
-                        <div class="absolute bottom-0 right-0 w-6 h-6 border-b-2 border-r-2 border-[#E5E4E2]"></div>
+                        <div class="absolute top-0 left-0 w-6 h-6 border-t-2 border-l-2 border-[#FFD700]"></div>
+                        <div class="absolute top-0 right-0 w-6 h-6 border-t-2 border-r-2 border-[#FFD700]"></div>
+                        <div class="absolute bottom-0 left-0 w-6 h-6 border-b-2 border-l-2 border-[#FFD700]"></div>
+                        <div class="absolute bottom-0 right-0 w-6 h-6 border-b-2 border-r-2 border-[#FFD700]"></div>
 
                         <div id="success-message" class="hidden absolute inset-0 bg-black/95 z-20 flex flex-col items-center justify-center text-center p-8">
-                            <i class="fa-solid fa-circle-check text-6xl text-[#E5E4E2] mb-4"></i>
+                            <i class="fa-solid fa-circle-check text-6xl text-[#FFD700] mb-4"></i>
                             <h2 class="brand-font text-2xl text-white mb-2">Thank You!</h2>
                             <p class="text-gray-400 mb-6 text-sm">We wish you the best of luck for ${event.title}.</p>
-                            <button onclick="location.reload()" class="text-[#E5E4E2] border border-[#E5E4E2] px-6 py-2 rounded-full hover:bg-[#E5E4E2] hover:text-black transition-colors">Register Another</button>
+                            <button onclick="location.reload()" class="text-[#FFD700] border border-[#FFD700] px-6 py-2 rounded-full hover:bg-[#FFD700] hover:text-black transition-colors">Register Another</button>
                         </div>
 
                         <iframe name="hidden_iframe" id="hidden_iframe" style="display:none;" onload="handleIframeLoad()"></iframe>
@@ -550,33 +550,33 @@
                             <div class="space-y-4">
                                 <div>
                                     <label class="block text-white text-xs font-bold mb-1 uppercase tracking-wider">Participant 1 Name *</label>
-                                    <input type="text" name="${event.fields.p1}" required placeholder="Enter name" class="w-full p-3 rounded-sm border border-white/20 bg-white/5 text-white focus:border-[#E5E4E2] focus:ring-0 custom-input text-sm backdrop-blur-sm">
+                                    <input type="text" name="${event.fields.p1}" required placeholder="Enter name" class="w-full p-3 rounded-sm border border-white/20 bg-white/5 text-white focus:border-[#FFD700] focus:ring-0 custom-input text-sm backdrop-blur-sm">
                                 </div>
                                 ${p2Input}
                                 <div>
                                     <label class="block text-white text-xs font-bold mb-1 uppercase tracking-wider">College and Degree</label>
-                                    <input type="text" name="${event.fields.college}" required placeholder="e.g. KLE Tech, MBA" class="w-full p-3 rounded-sm border border-white/20 bg-white/5 text-white focus:border-[#E5E4E2] focus:ring-0 custom-input text-sm backdrop-blur-sm">
+                                    <input type="text" name="${event.fields.college}" required placeholder="e.g. KLE Tech, MBA" class="w-full p-3 rounded-sm border border-white/20 bg-white/5 text-white focus:border-[#FFD700] focus:ring-0 custom-input text-sm backdrop-blur-sm">
                                 </div>
                                 <div>
                                     <label class="block text-white text-xs font-bold mb-1 uppercase tracking-wider">${contactLabel}</label>
-                                    <input type="tel" name="${event.fields.phone1}" required placeholder="+91 XXXXX XXXXX" class="w-full p-3 rounded-sm border border-white/20 bg-white/5 text-white focus:border-[#E5E4E2] focus:ring-0 custom-input text-sm backdrop-blur-sm">
+                                    <input type="tel" name="${event.fields.phone1}" required placeholder="+91 XXXXX XXXXX" class="w-full p-3 rounded-sm border border-white/20 bg-white/5 text-white focus:border-[#FFD700] focus:ring-0 custom-input text-sm backdrop-blur-sm">
                                 </div>
                                 ${phone2Input}
-                                <div class="bg-black/30 p-4 rounded-sm border border-[#E5E4E2]/20 flex flex-col items-center mt-4">
+                                <div class="bg-black/30 p-4 rounded-sm border border-[#FFD700]/20 flex flex-col items-center mt-4">
                                     <div class="w-full mb-4">
                                         <label class="block text-white text-xs font-bold mb-1 uppercase tracking-wider">UTR Number</label>
-                                        <input type="text" name="${event.fields.utr}" required minlength="10" placeholder="Enter UTR Number" class="w-full p-3 rounded-sm border border-white/20 bg-white/5 text-white focus:border-[#E5E4E2] focus:ring-0 custom-input font-mono uppercase text-sm backdrop-blur-sm">
+                                        <input type="text" name="${event.fields.utr}" required minlength="10" placeholder="Enter UTR Number" class="w-full p-3 rounded-sm border border-white/20 bg-white/5 text-white focus:border-[#FFD700] focus:ring-0 custom-input font-mono uppercase text-sm backdrop-blur-sm">
                                     </div>
                                     <div class="flex flex-col items-center justify-center">
                                         <div class="bg-white p-2 rounded-sm shadow-2xl border-2 border-white/10 relative group cursor-pointer hover:scale-105 transition-transform duration-300">
                                             <i class="fa-solid fa-qrcode text-[8rem] text-black opacity-90 leading-none"></i>
                                             <div class="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity bg-black/10 rounded-lg">
-                                                <span class="bg-black/80 text-[#E5E4E2] text-xs font-bold px-2 py-1 rounded">SCAN</span>
+                                                <span class="bg-black/80 text-[#FFD700] text-xs font-bold px-2 py-1 rounded">SCAN</span>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
-                                <button type="submit" class="w-full btn-shimmer bg-gradient-to-r from-[#E5E4E2] via-[#F2F2F2] to-[#E5E4E2] text-black font-bold py-3 rounded-sm mt-2 hover:brightness-110 transition-all shadow-lg uppercase tracking-widest text-sm border border-[#E5E4E2]">
+                                <button type="submit" class="w-full btn-shimmer bg-gradient-to-r from-[#FFD700] via-[#FFF9C4] to-[#FFD700] text-black font-bold py-3 rounded-sm mt-2 hover:brightness-110 transition-all shadow-lg uppercase tracking-widest text-sm border border-[#FFD700]">
                                     Confirm Registration
                                 </button>
                                 <p class="text-[10px] text-center text-gray-500 mt-1">Data sent securely to Google Forms</p>
@@ -592,12 +592,12 @@
                 <div class="relative z-10 text-center px-4 pt-36 md:pt-48 pb-8">
                     <div class="reveal-element">
                         <div class="flex justify-center items-center gap-4 mb-4">
-                            <!-- Changed Gradient to Silver Spectrum -->
-                            <h2 class="bg-gradient-to-b from-[#FFFFFF] via-[#E5E4E2] to-[#71797E] bg-clip-text text-transparent tracking-[0.3em] uppercase text-2xl md:text-4xl font-bold drop-shadow-md">DEPARTMENT OF MBA Presents</h2>
+                            <!-- Changed Gradient to Gold Spectrum -->
+                            <h2 class="bg-gradient-to-b from-[#FFF9C4] via-[#FFD700] to-[#B8860B] bg-clip-text text-transparent tracking-[0.3em] uppercase text-2xl md:text-4xl font-bold drop-shadow-md">DEPARTMENT OF MBA Presents</h2>
                         </div>
                         
                         <h1 class="brand-font text-5xl sm:text-7xl md:text-9xl font-bold text-white mb-6 md:mb-8 text-shadow-lg tracking-wider text-inscribed">
-                            PEGASUS <span class="bg-gradient-to-b from-[#FFFFFF] via-[#E5E4E2] to-[#A0A0A0] bg-clip-text text-transparent [text-shadow:none] drop-shadow-lg">2026</span>
+                            PEGASUS <span class="bg-gradient-to-b from-[#F7E19C] via-[#FFD700] to-[#B8860B] bg-clip-text text-transparent [text-shadow:none] drop-shadow-lg">2026</span>
                         </h1>
                     </div>
 
@@ -611,7 +611,7 @@
                 <div id="main-event-grid" class="px-4 max-w-7xl mx-auto relative pb-12 md:pb-16 pt-0">
                     <div class="text-center mb-10 reveal-element" style="transition-delay: 300ms;">
                         <h2 class="brand-font text-3xl md:text-5xl text-white text-inscribed drop-shadow-lg">Explore Events</h2>
-                        <div class="h-1 w-32 bg-gradient-to-r from-transparent via-[#E5E4E2] to-transparent mx-auto mt-4"></div>
+                        <div class="h-1 w-32 bg-gradient-to-r from-transparent via-[#FFD700] to-transparent mx-auto mt-4"></div>
                     </div>
                     <div class="reveal-element" style="transition-delay: 400ms;">
                         ${eventGridHTML}
@@ -622,7 +622,7 @@
                 <div class="pt-32 md:pt-36 pb-20 px-4 max-w-7xl mx-auto">
                     <div class="text-center mb-12 md:mb-16 reveal-element">
                         <h1 class="brand-font text-4xl md:text-6xl text-white mb-4 text-inscribed">The Arenas</h1>
-                        <p class="text-[#E5E4E2] uppercase tracking-widest text-xs md:text-base">Click a card to learn more</p>
+                        <p class="text-[#FFD700] uppercase tracking-widest text-xs md:text-base">Click a card to learn more</p>
                     </div>
                     <div class="reveal-element" style="transition-delay: 200ms;">
                         ${eventGridHTML}
@@ -636,22 +636,22 @@
                             <h1 class="brand-font text-4xl text-white mb-6 text-inscribed">Get In Touch</h1>
                             <div class="space-y-6 mt-8">
                                 <div class="flex items-start space-x-4">
-                                    <div class="bg-[#E5E4E2] p-3 rounded-full text-black"><i class="fa-solid fa-location-dot text-xl"></i></div>
+                                    <div class="bg-[#FFD700] p-3 rounded-full text-black"><i class="fa-solid fa-location-dot text-xl"></i></div>
                                     <div><h3 class="text-white font-bold text-lg">Address</h3><p class="text-gray-400">KLE Technological University, Belagavi</p></div>
                                 </div>
                                 <div class="flex items-start space-x-4">
-                                    <div class="bg-[#E5E4E2] p-3 rounded-full text-black"><i class="fa-solid fa-envelope text-xl"></i></div>
+                                    <div class="bg-[#FFD700] p-3 rounded-full text-black"><i class="fa-solid fa-envelope text-xl"></i></div>
                                     <div><h3 class="text-white font-bold text-lg">Email</h3><p class="text-gray-400">pegasus.mba@kletech.ac.in</p></div>
                                 </div>
                             </div>
                         </div>
                         <div class="h-80 md:h-[500px] bg-gradient-to-br from-white/15 to-white/5 backdrop-blur-2xl rounded-sm border border-white/20 flex items-center justify-center mt-8 lg:mt-0 relative shadow-[0_8px_32px_0_rgba(0,0,0,0.5)]">
-                            <div class="absolute top-0 left-0 w-6 h-6 border-t-2 border-l-2 border-[#E5E4E2]"></div>
-                            <div class="absolute top-0 right-0 w-6 h-6 border-t-2 border-r-2 border-[#E5E4E2]"></div>
-                            <div class="absolute bottom-0 left-0 w-6 h-6 border-b-2 border-l-2 border-[#E5E4E2]"></div>
-                            <div class="absolute bottom-0 right-0 w-6 h-6 border-b-2 border-r-2 border-[#E5E4E2]"></div>
+                            <div class="absolute top-0 left-0 w-6 h-6 border-t-2 border-l-2 border-[#FFD700]"></div>
+                            <div class="absolute top-0 right-0 w-6 h-6 border-t-2 border-r-2 border-[#FFD700]"></div>
+                            <div class="absolute bottom-0 left-0 w-6 h-6 border-b-2 border-l-2 border-[#FFD700]"></div>
+                            <div class="absolute bottom-0 right-0 w-6 h-6 border-b-2 border-r-2 border-[#FFD700]"></div>
                             
-                            <div class="text-[#E5E4E2] font-bold"><i class="fa-solid fa-map-pin mr-2"></i> Belagavi Campus</div>
+                            <div class="text-[#FFD700] font-bold"><i class="fa-solid fa-map-pin mr-2"></i> Belagavi Campus</div>
                         </div>
                     </div>
                 </div>
