@@ -150,7 +150,7 @@
             
             <!-- Brand (Centered) -->
             <div class="flex items-center gap-3 cursor-pointer group" onclick="router('home')">
-                <!-- Horse Image: Filters force it to be white regardless of source color -->
+                <!-- Horse Image -->
                 <img src="horse.png" alt="Pegasus" class="h-10 md:h-12 w-auto object-contain invert brightness-0 transition-transform duration-300 group-hover:scale-110">
                 
                 <div class="flex flex-col items-center">
@@ -677,32 +677,60 @@
             document.querySelectorAll('.reveal-element').forEach(el => observer.observe(el));
         }
 
-        function router(view, index = null) {
+        // --- HASH-BASED NAVIGATION SYSTEM (Safe for back button) ---
+        // This listens for URL changes (like #register-1) and renders the view accordingly
+        window.addEventListener('hashchange', handleHashChange);
+
+        function handleHashChange() {
+            // Remove the '#' symbol
+            const hash = window.location.hash.substring(1); 
             const app = document.getElementById('app-content');
             
+            // 1. Reset scroll and UI states
             document.documentElement.style.scrollBehavior = 'auto';
             window.scrollTo(0, 0);
-            
             setTimeout(() => {
                  document.documentElement.style.removeProperty('scroll-behavior');
             }, 0);
 
             closeCard();
-            
             const nav = document.getElementById('main-nav');
-            
-            if (view === 'registration' && index !== null) {
-                app.innerHTML = renderRegistration(index);
-            } else if (content[view]) {
-                app.innerHTML = content[view];
+            if(nav) nav.classList.remove('hidden');
+
+            // 2. Logic to determine what to render
+            if (hash.startsWith('register-')) {
+                // If hash looks like "register-0", extract index 0
+                const index = parseInt(hash.split('-')[1]);
+                if (!isNaN(index) && eventData[index]) {
+                    app.innerHTML = renderRegistration(index);
+                } else {
+                    // Invalid index, go to home
+                    window.location.hash = ''; 
+                }
+            } else if (content[hash]) {
+                // Matches 'events' or 'contact'
+                app.innerHTML = content[hash];
             } else {
+                // Default / Empty hash -> Home
                 app.innerHTML = content['home'];
             }
             
-            if(nav) nav.classList.remove('hidden');
-            
-            // Re-run observer on new content
+            // Re-trigger scroll animations
             setTimeout(setupObserver, 50);
+        }
+
+        // Main function called by UI buttons
+        function router(view, index = null) {
+            if (view === 'registration' && index !== null) {
+                // This updates the URL to #register-1, which triggers hashchange
+                window.location.hash = `register-${index}`;
+            } else if (view === 'home') {
+                // Clears hash to go home
+                window.location.hash = ''; 
+            } else {
+                // Updates hash to #events or #contact
+                window.location.hash = view;
+            }
         }
 
         function toggleNav() {
@@ -717,7 +745,8 @@
         }
 
         document.addEventListener('DOMContentLoaded', () => {
-            router('home');
+            // Check current hash on load
+            handleHashChange();
         });
     </script>
 </body>
