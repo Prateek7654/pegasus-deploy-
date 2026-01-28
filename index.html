@@ -524,15 +524,17 @@
             const contactLabel = event.fields.phone2 ? "Contact Number (Participant 1)" : "Contact Number";
 
             return `
-                <div class="pt-12 md:pt-16 pb-10 px-4 max-w-3xl mx-auto">
+                <div class="pt-24 md:pt-28 pb-10 px-4 max-w-3xl mx-auto">
                     
-                    <!-- Added Clear Back Button -->
-                    <button onclick="router('home')" class="group mb-6 flex items-center gap-2 text-gray-400 hover:text-white transition-colors">
-                        <div class="w-8 h-8 rounded-full border border-gray-600 group-hover:border-white flex items-center justify-center transition-colors">
-                            <i class="fa-solid fa-arrow-left text-sm"></i>
-                        </div>
-                        <span class="uppercase tracking-widest text-xs font-bold">Back to Events</span>
-                    </button>
+                    <!-- Clear Back/Close Button - Aligned Right -->
+                    <div class="flex justify-end mb-6">
+                        <button onclick="router('home')" class="group flex items-center gap-2 text-gray-400 hover:text-white transition-colors">
+                            <span class="uppercase tracking-widest text-xs font-bold">Back</span>
+                            <div class="w-8 h-8 rounded-full border border-gray-600 group-hover:border-[#FFD700] group-hover:bg-white/5 flex items-center justify-center transition-all duration-300">
+                                <i class="fa-solid fa-xmark text-sm group-hover:text-[#FFD700] transition-colors"></i>
+                            </div>
+                        </button>
+                    </div>
 
                     <div class="text-center mb-4 md:mb-6">
                         <!-- Changed Subtitle Color to Gold/Bronze -->
