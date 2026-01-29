@@ -532,27 +532,16 @@
         // Helper to preserve indices for routing
         const eventsWithIndices = eventData.map((evt, i) => ({ ...evt, originalIndex: i }));
 
-        // Filter events for display
-        const individualEvents = eventsWithIndices.filter(e => e.title !== 'Best Manager' && e.title !== 'Grand Team Registration'); 
-        const teamEvents = eventsWithIndices.filter(e => e.title === 'Best Manager'); // Just Best Manager (Single "Team" event? Or did you mean BM is Individual? Prompt said: "inside individual include all but Best manager")
-        // Wait, "inside individual include all but Best manager" -> BM is NOT in individual.
-        // So BM is in Team? Or is it alone?
-        // Let's assume BM is the other category.
+        // Categorization based on specific user request
+        const individualEvents = eventsWithIndices.filter(e => e.title !== 'Best Manager' && e.title !== 'Grand Team Registration'); // All except Best Manager
         
-        // Also we have the Grand Team Registration Card.
-        // The prompt asked "remove both the options from the main page" (buttons) and "give 2 options... team events and individual events" was BEFORE that.
-        // Then "remove both the options from the main page".
-        // This implies showing cards directly.
-        // I will show ALL relevant cards in the grid.
-        
-        const allEventCards = eventsWithIndices.filter(e => true); // All 6 cards
-
-        const eventGridHTML = `
-            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8 justify-center">
-                ${allEventCards.map(e => createEventCard(e, e.originalIndex)).join('')}
+        // This is still used for "Separate Participation" grid
+        const separateGridHTML = `
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8">
+                ${individualEvents.map(e => createEventCard(e, e.originalIndex)).join('')}
             </div>
         `;
-
+        
         // HTML Generator for Grand Registration Form
         function createGrandRegistrationHTML() {
             // Helper for generating member fields
@@ -711,7 +700,7 @@
                                 <!-- QR Code -->
                                 <div class="flex flex-col items-center justify-center mt-8">
                                     <div class="bg-white p-3 rounded-2xl shadow-2xl border-2 border-white/10 relative group cursor-pointer hover:scale-105 transition-transform duration-300">
-                                        <img src="pegasusqr.jpeg" alt="Payment QR Code" class="w-40 h-40 object-contain">
+                                        <img src="pegasuscode.png" alt="Payment QR Code" class="w-64 h-64 object-contain">
                                     </div>
                                     <p class="text-xs text-gray-400 mt-3 uppercase tracking-widest font-bold">Scan to Pay</p>
                                 </div>
@@ -729,10 +718,6 @@
         function renderRegistration(index) {
             const event = eventData[index];
             if (!event) return '<div class="text-white text-center pt-32">Event Not Found</div>';
-
-            if (event.title === 'Grand Team Registration') {
-                return createGrandRegistrationHTML();
-            }
 
             // Define labels based on event type
             const isBestManager = event.title === 'Best Manager';
@@ -806,7 +791,7 @@
                                 <!-- Restored Large QR Code -->
                                 <div class="flex flex-col items-center justify-center mt-2">
                                     <div class="bg-white p-2 rounded-xl shadow-2xl border-2 border-white/10 relative group cursor-pointer hover:scale-105 transition-transform duration-300">
-                                        <img src="pegasusqr.jpeg" alt="Payment QR Code" class="w-40 h-40 object-contain">
+                                        <img src="pegasuscode.png" alt="Payment QR Code" class="w-64 h-64 object-contain">
                                     </div>
                                     <p class="text-[8px] text-gray-400 mt-1 uppercase tracking-widest">Scan to Pay</p>
                                 </div>
@@ -844,14 +829,59 @@
                 </div>
 
                 <div id="main-event-grid" class="px-4 max-w-7xl mx-auto relative pb-12 md:pb-16 pt-0">
-                    <div class="text-center mb-10 reveal-element" style="transition-delay: 300ms;">
-                        <h2 class="brand-font text-3xl md:text-5xl text-white text-inscribed drop-shadow-lg">Explore Events</h2>
-                        <div class="h-1 w-32 bg-gradient-to-r from-transparent via-gray-400 to-transparent mx-auto mt-4"></div>
+                    
+                    <!-- Selection Buttons View (Default) - Styled like Cards -->
+                    <div id="selection-view" class="flex flex-col md:flex-row justify-center items-center gap-8 mt-8 reveal-element">
+                        <button onclick="showCategory('team')" class="w-full md:w-96 h-52 md:h-64 rounded-3xl border border-white/20 bg-gradient-to-br from-white/10 to-white/5 backdrop-blur-xl hover:bg-white/10 transition-all duration-300 group flex flex-col items-center justify-center shadow-[0_8px_32px_0_rgba(0,0,0,0.5)] hover:scale-105 hover:border-[#E0E0E0] hover:shadow-[0_0_40px_rgba(224,224,224,0.15)] relative overflow-hidden">
+                            <div class="absolute inset-0 bg-gradient-to-br from-transparent via-white/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+                            
+                            <!-- Silver Corners (CSS only) -->
+                            <div class="absolute top-0 left-0 w-6 h-6 border-t-2 border-l-2 border-white/30 rounded-tl-3xl"></div>
+                            <div class="absolute top-0 right-0 w-6 h-6 border-t-2 border-r-2 border-white/30 rounded-tr-3xl"></div>
+                            <div class="absolute bottom-0 left-0 w-6 h-6 border-b-2 border-l-2 border-white/30 rounded-bl-3xl"></div>
+                            <div class="absolute bottom-0 right-0 w-6 h-6 border-b-2 border-r-2 border-white/30 rounded-br-3xl"></div>
+
+                            <i class="fa-solid fa-users text-6xl text-[#E0E0E0] mb-6 group-hover:scale-110 transition-transform drop-shadow-[0_0_15px_rgba(224,224,224,0.5)] relative z-10"></i>
+                            <span class="brand-font text-2xl md:text-3xl text-white font-bold uppercase tracking-[0.15em] text-inscribed group-hover:text-[#E0E0E0] transition-colors relative z-10 text-center">Grand Participation</span>
+                        </button>
+
+                        <button onclick="showCategory('individual')" class="w-full md:w-96 h-52 md:h-64 rounded-3xl border border-white/20 bg-gradient-to-br from-white/10 to-white/5 backdrop-blur-xl hover:bg-white/10 transition-all duration-300 group flex flex-col items-center justify-center shadow-[0_8px_32px_0_rgba(0,0,0,0.5)] hover:scale-105 hover:border-[#E0E0E0] hover:shadow-[0_0_40px_rgba(224,224,224,0.15)] relative overflow-hidden">
+                            <div class="absolute inset-0 bg-gradient-to-br from-transparent via-white/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+
+                            <!-- Silver Corners (CSS only) -->
+                            <div class="absolute top-0 left-0 w-6 h-6 border-t-2 border-l-2 border-white/30 rounded-tl-3xl"></div>
+                            <div class="absolute top-0 right-0 w-6 h-6 border-t-2 border-r-2 border-white/30 rounded-tr-3xl"></div>
+                            <div class="absolute bottom-0 left-0 w-6 h-6 border-b-2 border-l-2 border-white/30 rounded-bl-3xl"></div>
+                            <div class="absolute bottom-0 right-0 w-6 h-6 border-b-2 border-r-2 border-white/30 rounded-br-3xl"></div>
+
+                            <i class="fa-solid fa-user text-6xl text-[#E0E0E0] mb-6 group-hover:scale-110 transition-transform drop-shadow-[0_0_15px_rgba(224,224,224,0.5)] relative z-10"></i>
+                            <span class="brand-font text-2xl md:text-3xl text-white font-bold uppercase tracking-[0.15em] text-inscribed group-hover:text-[#E0E0E0] transition-colors relative z-10 text-center px-4">Separate Participation</span>
+                        </button>
                     </div>
-                    <!-- Removed reveal-element class so cards appear instantly -->
-                    <div>
-                        ${eventGridHTML}
+
+                    <!-- Category Content Views (Hidden by default) -->
+                    <div id="category-content" class="hidden mt-8">
+                        
+                        <div class="flex justify-start mb-8">
+                            <button onclick="showCategory('back')" class="group flex items-center gap-2 text-gray-400 hover:text-white transition-colors">
+                                <div class="w-8 h-8 rounded-full border border-gray-600 group-hover:border-[#E0E0E0] flex items-center justify-center transition-colors">
+                                    <i class="fa-solid fa-arrow-left text-sm"></i>
+                                </div>
+                                <span class="uppercase tracking-widest text-xs font-bold">Back to Categories</span>
+                            </button>
+                        </div>
+
+                        <!-- Grand Participation directly renders the form, no grid needed anymore -->
+                        <div id="grand-content" class="hidden">
+                             <!-- This container will be filled by the router logic calling renderGrandForm -->
+                        </div>
+
+                        <div id="individual-grid" class="hidden">
+                            <h2 class="text-white text-3xl font-bold tracking-widest uppercase mb-8 text-center drop-shadow-md brand-font">Separate Participation</h2>
+                            ${separateGridHTML}
+                        </div>
                     </div>
+
                 </div>
             `,
             events: `
@@ -860,8 +890,10 @@
                         <h1 class="brand-font text-4xl md:text-6xl text-white mb-4 text-inscribed">The Arenas</h1>
                         <p class="text-[#E0E0E0] uppercase tracking-widest text-xs md:text-base">Click a card to learn more</p>
                     </div>
-                    <div class="reveal-element" style="transition-delay: 200ms;">
-                        ${eventGridHTML}
+                    
+                    <div class="mb-16">
+                        <h3 class="text-2xl text-[#E0E0E0] font-bold uppercase tracking-[0.2em] mb-8 text-center text-inscribed">Separate Participation</h3>
+                        ${separateGridHTML}
                     </div>
                 </div>
             `,
