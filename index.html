@@ -568,7 +568,7 @@
             `;
 
             return `
-                <div class="pt-20 md:pt-24 pb-8 px-4 max-w-3xl mx-auto min-h-screen flex flex-col justify-start">
+                <div class="pt-20 md:pt-24 pb-8 px-1 md:px-4 max-w-3xl mx-auto min-h-screen flex flex-col justify-start">
                     
                     <div class="text-center mb-6">
                         <h1 class="text-white text-3xl font-bold tracking-widest uppercase drop-shadow-[0_0_10px_rgba(255,255,255,0.6)]">Grand Team Registration</h1>
@@ -676,13 +676,6 @@
                                             <label class="block text-[#E0E0E0] text-xs font-bold mb-1 uppercase tracking-wider">UTR No</label>
                                             <input type="text" name="utr_number" required placeholder="Enter UTR Number" class="w-full p-3 rounded-xl border border-white/20 bg-black/40 text-white focus:border-[#E0E0E0] text-xs font-mono custom-input">
                                         </div>
-
-                                        <div>
-                                            <label class="block text-[#E0E0E0] text-xs font-bold mb-1 uppercase tracking-wider">Upload transaction screenshot/file</label>
-                                            <div class="relative">
-                                                <input type="file" name="payment_screenshot" accept="image/*,.pdf" class="block w-full text-xs text-gray-400 file:mr-4 file:py-3 file:px-6 file:rounded-full file:border-0 file:text-xs file:font-bold file:bg-[#E0E0E0] file:text-black hover:file:bg-white cursor-pointer bg-black/40 border border-white/20 rounded-xl">
-                                            </div>
-                                        </div>
                                     </div>
                                 </div>
 
@@ -739,7 +732,7 @@
             ` : '';
 
             return `
-                <div class="pt-20 md:pt-24 pb-4 px-4 max-w-lg mx-auto min-h-screen flex flex-col justify-start">
+                <div class="pt-20 md:pt-24 pb-4 px-1 md:px-4 max-w-lg mx-auto min-h-screen flex flex-col justify-start">
                     
                     <div class="text-center mb-2">
                         <h1 class="text-white text-xl font-bold tracking-widest uppercase drop-shadow-[0_0_10px_rgba(255,255,255,0.6)]">${event.title}</h1>
