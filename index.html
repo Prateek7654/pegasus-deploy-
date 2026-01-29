@@ -45,8 +45,8 @@
         }
 
         .text-inscribed {
-            /* Silver Shadow */
-            text-shadow: 2px 2px 0px rgba(0, 0, 0, 0.8), -1px -1px 0px rgba(224, 224, 224, 0.2);
+            /* Silver Shadow - Reduced Bloom */
+            text-shadow: 1px 1px 0px rgba(0, 0, 0, 0.8);
             letter-spacing: 0.15em;
         }
 
@@ -70,7 +70,8 @@
             font-weight: 800;
             animation: shimmer 2s linear infinite;
             border: 1px solid rgba(255, 255, 255, 0.8);
-            box-shadow: 0 0 20px rgba(255, 255, 255, 0.4), inset 0 0 10px rgba(255, 255, 255, 0.5);
+            /* Removed outer glow */
+            box-shadow: none;
         }
 
         /* Form Styling */
@@ -85,7 +86,8 @@
             background-color: rgba(255, 255, 255, 0.12);
             border-color: #E0E0E0;
             outline: none;
-            box-shadow: 0 0 15px rgba(224, 224, 224, 0.15);
+            /* Removed focus glow */
+            box-shadow: none;
         }
         .custom-input::placeholder {
             color: rgba(255, 255, 255, 0.5);
@@ -126,15 +128,6 @@
         }
         .premium-card-content {
             transform: translateZ(20px);
-        }
-        /* Spotlight Gradient Overlay - Silver Tint */
-        .card-spotlight {
-            background: radial-gradient(
-                800px circle at var(--mouse-x) var(--mouse-y), 
-                rgba(224, 224, 224, 0.06),
-                transparent 40%
-            );
-            z-index: 2; 
         }
     </style>
 </head>
@@ -180,11 +173,7 @@
 
     <!-- FULL SCREEN NAVIGATION OVERLAY -->
     <div id="nav-overlay" onclick="if(event.target === this) toggleNav()" class="fixed inset-0 bg-black/40 backdrop-blur-3xl z-[90] flex flex-col items-center justify-center closed">
-        <!-- Background Glow in Menu (Silver) -->
-        <div class="absolute inset-0 overflow-hidden pointer-events-none">
-             <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[60vw] h-[60vw] bg-[#E0E0E0] opacity-[0.05] blur-[100px] rounded-full"></div>
-        </div>
-
+        
         <!-- Menu Links -->
         <div class="flex flex-col space-y-8 text-center relative z-10 mb-16 mt-32">
             <a onclick="router('home'); toggleNav()" class="group cursor-pointer">
@@ -203,7 +192,7 @@
 
         <!-- Silver Cross Close Button -->
         <button onclick="toggleNav()" class="group relative z-10 p-4 rounded-full transition-transform hover:scale-110 active:scale-95">
-            <i class="fa-solid fa-xmark text-5xl text-[#E0E0E0] drop-shadow-[0_0_15px_rgba(224,224,224,0.6)] group-hover:drop-shadow-[0_0_25px_rgba(224,224,224,1)] transition-all"></i>
+            <i class="fa-solid fa-xmark text-5xl text-[#E0E0E0]"></i>
         </button>
 
         <div class="absolute bottom-10 text-white/30 text-sm uppercase tracking-widest pointer-events-none">
@@ -481,22 +470,17 @@
                      style="animation-delay: ${index * 100}ms"
                      class="card-enter premium-card group cursor-pointer bg-gradient-to-br from-white/10 to-white/5 backdrop-blur-xl p-5 md:p-6 rounded-3xl border border-white/20 transition-all duration-200 relative overflow-hidden flex flex-col h-full min-h-[260px] md:min-h-[320px] shadow-[0_8px_32px_0_rgba(0,0,0,0.5)]">
                     
-                    <!-- Spotlight Effect -->
-                    <div class="card-spotlight absolute inset-0 pointer-events-none opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
-
                     ${imageElement}
 
                     <div class="absolute top-0 left-0 w-full h-[1px] bg-gradient-to-r from-transparent via-white/20 to-transparent opacity-50 pointer-events-none"></div>
                     <div class="absolute top-0 left-0 w-[1px] h-full bg-gradient-to-b from-white/10 via-transparent to-transparent opacity-30 pointer-events-none"></div>
-
-                    <!-- Enhanced Silver Corners - REMOVED -->
                     
                     <div class="premium-card-content relative z-10">
                         <h4 class="text-xs md:text-sm font-bold text-white uppercase tracking-[0.2em] mb-1 inline-block transition-colors">${subtitle}</h4>
 
                         <div class="flex items-center justify-between mb-6 ${titlePadding}">
                             <!-- Changed title hover to Silver -->
-                            <h3 class="brand-font text-2xl md:text-3xl text-white group-hover:text-[#E0E0E0] transition-colors drop-shadow-md text-inscribed tracking-widest inline-block">${title}</h3>
+                            <h3 class="brand-font text-2xl md:text-3xl text-white group-hover:text-[#E0E0E0] transition-colors text-inscribed tracking-widest inline-block">${title}</h3>
                             ${iconElement}
                         </div>
                         
@@ -669,10 +653,11 @@
                                                 <option value="Yes">Yes</option>
                                             </select>
                                             
-                                            <!-- Updated Fee Display: Bright, Explicit, No Brackets -->
+                                            <!-- Updated Fee Display: Single Line, Bright, Explicit -->
                                             <div class="mt-4 p-4 bg-white/10 rounded-xl border border-[#E0E0E0]/50 text-center shadow-[0_0_15px_rgba(255,255,255,0.15)]">
-                                                <p class="text-gray-300 text-[10px] uppercase tracking-[0.2em] mb-1">Total Registration Fee</p>
-                                                <p id="fee-amount" class="text-white font-bold text-4xl drop-shadow-[0_0_15px_rgba(255,255,255,0.8)] transition-all duration-300">₹3000</p>
+                                                <p id="fee-display-text" class="text-white font-bold text-2xl md:text-3xl drop-shadow-[0_0_15px_rgba(255,255,255,0.8)] transition-all duration-300 uppercase tracking-wider">
+                                                    Total amount : ₹3000
+                                                </p>
                                             </div>
                                         </div>
 
@@ -723,20 +708,20 @@
 
             const p2Input = event.fields.p2 ? `
                 <div>
-                    <label class="block text-white text-[10px] font-bold mb-0.5 uppercase tracking-wider">${labels.p2}</label>
+                    <label class="block text-[#E0E0E0] text-[10px] font-bold mb-0.5 uppercase tracking-wider">${labels.p2}</label>
                     <input type="text" name="${event.fields.p2}" required placeholder="Enter name" class="w-full p-3 rounded-xl border border-white/20 bg-white/5 text-white focus:border-[#E0E0E0] focus:ring-0 custom-input text-xs backdrop-blur-sm">
                 </div>
             ` : '';
 
             const phone2Input = event.fields.phone2 ? `
                 <div class="mt-4">
-                    <label class="block text-white text-[10px] font-bold mb-0.5 uppercase tracking-wider">${labels.phone2}</label>
+                    <label class="block text-[#E0E0E0] text-[10px] font-bold mb-0.5 uppercase tracking-wider">${labels.phone2}</label>
                     <input type="tel" name="${event.fields.phone2}" required placeholder="+91 XXXXX XXXXX" class="w-full p-3 rounded-xl border border-white/20 bg-white/5 text-white focus:border-[#E0E0E0] focus:ring-0 custom-input text-xs backdrop-blur-sm">
                 </div>
             ` : '';
 
             return `
-                <div class="pt-20 md:pt-24 pb-4 px-1 md:px-4 max-w-lg mx-auto min-h-screen flex flex-col justify-start">
+                <div class="pt-20 md:pt-24 pb-4 px-4 max-w-lg mx-auto min-h-screen flex flex-col justify-start">
                     
                     <div class="text-center mb-2">
                         <h1 class="text-white text-xl font-bold tracking-widest uppercase drop-shadow-[0_0_10px_rgba(255,255,255,0.6)]">${event.title}</h1>
@@ -756,21 +741,21 @@
                         <form action="${event.formUrl}" method="post" target="hidden_iframe" onsubmit="handleFormSubmit()">
                             <div class="space-y-4">
                                 <div>
-                                    <label class="block text-white text-[10px] font-bold mb-0.5 uppercase tracking-wider">${labels.p1}</label>
+                                    <label class="block text-[#E0E0E0] text-[10px] font-bold mb-0.5 uppercase tracking-wider">${labels.p1}</label>
                                     <input type="text" name="${event.fields.p1}" required placeholder="Enter name" class="w-full p-3 rounded-xl border border-white/20 bg-white/5 text-white focus:border-[#E0E0E0] focus:ring-0 custom-input text-xs backdrop-blur-sm">
                                 </div>
                                 ${p2Input}
                                 <div>
-                                    <label class="block text-white text-[10px] font-bold mb-0.5 uppercase tracking-wider">${labels.college}</label>
+                                    <label class="block text-[#E0E0E0] text-[10px] font-bold mb-0.5 uppercase tracking-wider">${labels.college}</label>
                                     <input type="text" name="${event.fields.college}" required placeholder="e.g. KLE Tech, MBA" class="w-full p-3 rounded-xl border border-white/20 bg-white/5 text-white focus:border-[#E0E0E0] focus:ring-0 custom-input text-xs backdrop-blur-sm">
                                 </div>
                                 <div>
-                                    <label class="block text-white text-[10px] font-bold mb-0.5 uppercase tracking-wider">${labels.phone1}</label>
+                                    <label class="block text-[#E0E0E0] text-[10px] font-bold mb-0.5 uppercase tracking-wider">${labels.phone1}</label>
                                     <input type="tel" name="${event.fields.phone1}" required placeholder="+91 XXXXX XXXXX" class="w-full p-3 rounded-xl border border-white/20 bg-white/5 text-white focus:border-[#E0E0E0] focus:ring-0 custom-input text-xs backdrop-blur-sm">
                                 </div>
                                 ${phone2Input}
                                 <div>
-                                    <label class="block text-white text-[10px] font-bold mb-0.5 uppercase tracking-wider">${labels.utr}</label>
+                                    <label class="block text-[#E0E0E0] text-[10px] font-bold mb-0.5 uppercase tracking-wider">${labels.utr}</label>
                                     <input type="text" name="${event.fields.utr}" required minlength="10" placeholder="UTR Number" class="w-full p-3 rounded-xl border border-white/20 bg-white/5 text-white focus:border-[#E0E0E0] focus:ring-0 custom-input font-mono uppercase text-xs backdrop-blur-sm">
                                 </div>
                                 
@@ -1023,21 +1008,20 @@
 
         // Dynamic Fee Update Function
         window.updateFee = function(value) {
-            const feeText = document.getElementById('fee-amount');
-            if (!feeText) return;
+            const feeDisplay = document.getElementById('fee-display-text');
+            if (!feeDisplay) return;
             
-            // Simple, explicit amount update without bracket text
             if (value === 'Yes') {
-                feeText.innerText = '₹4500';
+                feeDisplay.innerText = 'Total amount : ₹4500';
                 // Add a little pop effect
-                feeText.classList.remove('scale-100');
-                feeText.classList.add('scale-110');
+                feeDisplay.classList.remove('scale-100');
+                feeDisplay.classList.add('scale-105');
                 setTimeout(() => {
-                    feeText.classList.remove('scale-110');
-                    feeText.classList.add('scale-100');
+                    feeDisplay.classList.remove('scale-105');
+                    feeDisplay.classList.add('scale-100');
                 }, 200);
             } else {
-                feeText.innerText = '₹3000';
+                feeDisplay.innerText = 'Total amount : ₹3000';
             }
         }
 
