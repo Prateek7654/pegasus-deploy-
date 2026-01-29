@@ -37,16 +37,16 @@
         /* --- GREEK THEME ENHANCEMENTS --- */
 
         .greek-pattern-border {
-            /* Pure White Stroke - Thicker (1.5) & Full Opacity for Max Brightness */
-            background-image: url("data:image/svg+xml,%3Csvg width='40' height='10' viewBox='0 0 40 10' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M0 10 L0 0 L10 0 L10 5 L5 5 L5 10 L15 10 L15 0 L25 0 L25 5 L20 5 L20 10 L30 10 L30 0 L40 0 L40 10' fill='none' stroke='%23FFFFFF' stroke-width='1.5' opacity='1'/%3E%3C/svg%3E");
+            /* Bright Silver Stroke */
+            background-image: url("data:image/svg+xml,%3Csvg width='40' height='10' viewBox='0 0 40 10' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M0 10 L0 0 L10 0 L10 5 L5 5 L5 10 L15 10 L15 0 L25 0 L25 5 L20 5 L20 10 L30 10 L30 0 L40 0 L40 10' fill='none' stroke='%23E0E0E0' stroke-width='1' opacity='0.6'/%3E%3C/svg%3E");
             background-repeat: repeat-x;
             background-size: 30px 10px;
             background-position: bottom;
         }
 
         .text-inscribed {
-            /* Silver Shadow - Reduced Bloom */
-            text-shadow: 1px 1px 0px rgba(0, 0, 0, 0.8);
+            /* Silver Shadow */
+            text-shadow: 2px 2px 0px rgba(0, 0, 0, 0.8), -1px -1px 0px rgba(224, 224, 224, 0.2);
             letter-spacing: 0.15em;
         }
 
@@ -70,8 +70,7 @@
             font-weight: 800;
             animation: shimmer 2s linear infinite;
             border: 1px solid rgba(255, 255, 255, 0.8);
-            /* Removed outer glow */
-            box-shadow: none;
+            box-shadow: 0 0 20px rgba(255, 255, 255, 0.4), inset 0 0 10px rgba(255, 255, 255, 0.5);
         }
 
         /* Form Styling */
@@ -86,8 +85,7 @@
             background-color: rgba(255, 255, 255, 0.12);
             border-color: #E0E0E0;
             outline: none;
-            /* Removed focus glow */
-            box-shadow: none;
+            box-shadow: 0 0 15px rgba(224, 224, 224, 0.15);
         }
         .custom-input::placeholder {
             color: rgba(255, 255, 255, 0.5);
@@ -128,6 +126,15 @@
         }
         .premium-card-content {
             transform: translateZ(20px);
+        }
+        /* Spotlight Gradient Overlay - Silver Tint */
+        .card-spotlight {
+            background: radial-gradient(
+                800px circle at var(--mouse-x) var(--mouse-y), 
+                rgba(224, 224, 224, 0.06),
+                transparent 40%
+            );
+            z-index: 2; 
         }
     </style>
 </head>
@@ -173,7 +180,11 @@
 
     <!-- FULL SCREEN NAVIGATION OVERLAY -->
     <div id="nav-overlay" onclick="if(event.target === this) toggleNav()" class="fixed inset-0 bg-black/40 backdrop-blur-3xl z-[90] flex flex-col items-center justify-center closed">
-        
+        <!-- Background Glow in Menu (Silver) -->
+        <div class="absolute inset-0 overflow-hidden pointer-events-none">
+             <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[60vw] h-[60vw] bg-[#E0E0E0] opacity-[0.05] blur-[100px] rounded-full"></div>
+        </div>
+
         <!-- Menu Links -->
         <div class="flex flex-col space-y-8 text-center relative z-10 mb-16 mt-32">
             <a onclick="router('home'); toggleNav()" class="group cursor-pointer">
@@ -192,7 +203,7 @@
 
         <!-- Silver Cross Close Button -->
         <button onclick="toggleNav()" class="group relative z-10 p-4 rounded-full transition-transform hover:scale-110 active:scale-95">
-            <i class="fa-solid fa-xmark text-5xl text-[#E0E0E0]"></i>
+            <i class="fa-solid fa-xmark text-5xl text-[#E0E0E0] drop-shadow-[0_0_15px_rgba(224,224,224,0.6)] group-hover:drop-shadow-[0_0_25px_rgba(224,224,224,1)] transition-all"></i>
         </button>
 
         <div class="absolute bottom-10 text-white/30 text-sm uppercase tracking-widest pointer-events-none">
@@ -470,17 +481,22 @@
                      style="animation-delay: ${index * 100}ms"
                      class="card-enter premium-card group cursor-pointer bg-gradient-to-br from-white/10 to-white/5 backdrop-blur-xl p-5 md:p-6 rounded-3xl border border-white/20 transition-all duration-200 relative overflow-hidden flex flex-col h-full min-h-[260px] md:min-h-[320px] shadow-[0_8px_32px_0_rgba(0,0,0,0.5)]">
                     
+                    <!-- Spotlight Effect -->
+                    <div class="card-spotlight absolute inset-0 pointer-events-none opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+
                     ${imageElement}
 
                     <div class="absolute top-0 left-0 w-full h-[1px] bg-gradient-to-r from-transparent via-white/20 to-transparent opacity-50 pointer-events-none"></div>
                     <div class="absolute top-0 left-0 w-[1px] h-full bg-gradient-to-b from-white/10 via-transparent to-transparent opacity-30 pointer-events-none"></div>
+
+                    <!-- Enhanced Silver Corners - REMOVED -->
                     
                     <div class="premium-card-content relative z-10">
                         <h4 class="text-xs md:text-sm font-bold text-white uppercase tracking-[0.2em] mb-1 inline-block transition-colors">${subtitle}</h4>
 
                         <div class="flex items-center justify-between mb-6 ${titlePadding}">
                             <!-- Changed title hover to Silver -->
-                            <h3 class="brand-font text-2xl md:text-3xl text-white group-hover:text-[#E0E0E0] transition-colors text-inscribed tracking-widest inline-block">${title}</h3>
+                            <h3 class="brand-font text-2xl md:text-3xl text-white group-hover:text-[#E0E0E0] transition-colors drop-shadow-md text-inscribed tracking-widest inline-block">${title}</h3>
                             ${iconElement}
                         </div>
                         
@@ -671,7 +687,7 @@
                                 <!-- QR Code -->
                                 <div class="flex flex-col items-center justify-center mt-8">
                                     <div class="bg-white p-3 rounded-2xl shadow-2xl border-2 border-white/10 relative group cursor-pointer hover:scale-105 transition-transform duration-300">
-                                        <i class="fa-solid fa-qrcode text-[10rem] text-black opacity-90 leading-none"></i>
+                                        <img src="paymentqr.jpeg" alt="Payment QR Code" class="w-40 h-40 object-contain">
                                     </div>
                                     <p class="text-xs text-gray-400 mt-3 uppercase tracking-widest font-bold">Scan to Pay</p>
                                 </div>
@@ -762,10 +778,7 @@
                                 <!-- Restored Large QR Code -->
                                 <div class="flex flex-col items-center justify-center mt-2">
                                     <div class="bg-white p-2 rounded-xl shadow-2xl border-2 border-white/10 relative group cursor-pointer hover:scale-105 transition-transform duration-300">
-                                        <i class="fa-solid fa-qrcode text-[10rem] text-black opacity-90 leading-none"></i>
-                                        <div class="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity bg-black/10 rounded-lg">
-                                            <span class="bg-black/80 text-[#E0E0E0] text-xs font-bold px-2 py-1 rounded">SCAN</span>
-                                        </div>
+                                        <img src="paymentqr.jpeg" alt="Payment QR Code" class="w-40 h-40 object-contain">
                                     </div>
                                     <p class="text-[8px] text-gray-400 mt-1 uppercase tracking-widest">Scan to Pay</p>
                                 </div>
