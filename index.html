@@ -422,6 +422,7 @@
                 subtitle: 'Athena',
                 desc: "With the wisdom of Athena, navigate the labyrinth of corporate questions. Only the sharpest intellects will seize the crown of knowledge.",
                 icon: 'athena-quiz.png',
+                externalUrl: "https://docs.google.com/forms/d/e/1FAIpQLSeWP3V9NZXYdOQcuw7FmkZZMNg1bzQIkT_ndqQNYR-MQ7o6WQ/viewform?usp=dialog", // External form link for Quiz
                 formUrl: "https://docs.google.com/forms/d/e/1FAIpQLSeWP3V9NZXYdOQcuw7FmkZZMNg1bzQIkT_ndqQNYR-MQ7o6WQ/formResponse", 
                 fields: { p1: "entry.485328278", p2: "entry.318228743", college: "entry.2133196025", phone1: "entry.1055999876", phone2: "entry.530151173", utr: "entry.698917705" }
             },
@@ -438,6 +439,7 @@
                 subtitle: 'Hermes',
                 desc: "Channel the silver tongue of Hermes, the swift messenger. Pitch with divine persuasion to captivate audiences and dominate the global marketplace.",
                 icon: 'hermes.png',
+                externalUrl: "https://docs.google.com/forms/d/e/1FAIpQLSd3xzrzf0oNf__m88sAczsJYGV2MhHskNFpw54yv84ySn64Yw/viewform?usp=dialog", // External form link for Marketing
                 formUrl: "https://docs.google.com/forms/d/e/1FAIpQLSd3xzrzf0oNf__m88sAczsJYGV2MhHskNFpw54yv84ySn64Yw/formResponse", 
                 fields: { p1: "entry.1815688432", p2: "entry.1253118098", college: "entry.1067998425", phone1: "entry.284112193", phone2: "entry.656533538", utr: "entry.1758698015" }
             },
@@ -446,6 +448,7 @@
                 subtitle: 'Metis',
                 desc: "Embody the wisdom of Metis, the titan of wise counsel. Master the art of managing people, the true titans behind every empire's enduring success.",
                 icon: 'metis.png',
+                externalUrl: "https://docs.google.com/forms/d/e/1FAIpQLScAm2mngQ9QV7pPn6Ph4ssVpvjohXrXl_mkNY2Jo8js-MfhiA/viewform?usp=dialog", // External form link for HR
                 formUrl: "https://docs.google.com/forms/d/e/1FAIpQLScAm2mngQ9QV7pPn6Ph4ssVpvjohXrXl_mkNY2Jo8js-MfhiA/formResponse", 
                 fields: { p1: "entry.1688782507", p2: "entry.1015848407", college: "entry.1740796744", phone1: "entry.1097773082", phone2: "entry.390253753", utr: "entry.777776160" }
             },
@@ -454,6 +457,7 @@
                 subtitle: 'Plutus',
                 desc: "Unlock the boundless vaults of Plutus. Navigate the bulls and bears with divine foresight to secure eternal prosperity and limitless wealth.",
                 icon: 'plutus.png',
+                externalUrl: "https://docs.google.com/forms/d/e/1FAIpQLSebyuvFSQvvw3dJjvi5ZZq57IiZ4ueNTb6V7-KiaM6GKKIrIA/viewform?usp=dialog", // External form link for Finance
                 formUrl: "https://docs.google.com/forms/d/e/1FAIpQLSebyuvFSQvvw3dJjvi5ZZq57IiZ4ueNTb6V7-KiaM6GKKIrIA/formResponse", 
                 fields: { p1: "entry.1627460796", p2: "entry.1764158244", college: "entry.792494853", phone1: "entry.679818487", phone2: "entry.1281336820", utr: "entry.649158358" }
             }
@@ -483,6 +487,15 @@
                 : '';
 
             const titlePadding = (isImage || isUrl) ? 'pr-24' : '';
+
+            // Handle button action
+            let buttonOnClick = 'event.stopPropagation();';
+            let cursorClass = 'cursor-default';
+            
+            if (event.externalUrl) {
+                buttonOnClick = `event.stopPropagation(); window.open('${event.externalUrl}', '_blank');`;
+                cursorClass = 'cursor-pointer hover:scale-105 active:scale-95'; 
+            }
 
             return `
                 <div data-index="${index}"
@@ -518,8 +531,8 @@
 
                     <div class="mt-auto pt-2 relative z-10 premium-card-content">
                         <!-- Updated Button to High-Gloss Silver Gradient and rounded-full -->
-                        <button onclick="event.stopPropagation(); router('registration', ${index})" 
-                                class="w-full btn-shimmer bg-gradient-to-r from-gray-200 via-white to-gray-200 text-black font-bold py-3 px-6 rounded-full text-sm md:text-base shadow-[0_0_15px_rgba(255,255,255,0.2)] hover:shadow-[0_0_20px_rgba(255,255,255,0.4)] transition-transform duration-200 hover:scale-105 active:scale-95 uppercase tracking-widest">
+                        <button onclick="${buttonOnClick}" 
+                                class="w-full btn-shimmer bg-gradient-to-r from-gray-200 via-white to-gray-200 text-black font-bold py-3 px-6 rounded-full text-sm md:text-base shadow-[0_0_15px_rgba(255,255,255,0.2)] hover:shadow-[0_0_20px_rgba(255,255,255,0.4)] transition-transform duration-200 uppercase tracking-widest ${cursorClass}">
                             Register Now
                         </button>
                     </div>
@@ -586,109 +599,13 @@
         }
 
         function renderRegistration(index) {
+            // Logic removed for individual cards as requested, functionality is disabled via createEventCard button update
+            // However, this function is still needed if triggered by hash or other means, but user requested window removal.
+            // Since button action is removed, this won't be called from UI. 
+            // We keep it for safety or future use if needed, but UI interaction is disabled.
             const event = eventData[index];
             if (!event) return '<div class="text-white text-center pt-32">Event Not Found</div>';
-
-            if (event.title === 'Grand Team Registration') {
-                return createGrandRulesHTML();
-            }
-
-            // Define labels based on event type
-            const isBestManager = event.title === 'Best Manager';
-            const labels = isBestManager ? {
-                p1: "Participant name",
-                college: "College name and degree",
-                phone1: "Contact number",
-                utr: "UTR number (from payment history)"
-            } : {
-                p1: "Participant 1 Name",
-                p2: "Participant 2 Name",
-                college: "College name and degree",
-                phone1: "Contact number (participant 1)",
-                phone2: "Contact number (participant 2)",
-                utr: "UTR number (from payment history)"
-            };
-
-            const p2Input = event.fields.p2 ? `
-                <div>
-                    <label class="block text-[#E0E0E0] text-[10px] font-bold mb-0.5 uppercase tracking-wider">${labels.p2}</label>
-                    <input type="text" name="${event.fields.p2}" required placeholder="Enter name" class="w-full p-3 rounded-xl border border-white/20 bg-white/5 text-white focus:border-[#E0E0E0] focus:ring-0 custom-input text-xs backdrop-blur-sm">
-                </div>
-            ` : '';
-
-            const phone2Input = event.fields.phone2 ? `
-                <div class="mt-4">
-                    <label class="block text-[#E0E0E0] text-[10px] font-bold mb-0.5 uppercase tracking-wider">${labels.phone2}</label>
-                    <input type="tel" name="${event.fields.phone2}" required placeholder="+91 XXXXX XXXXX" class="w-full p-3 rounded-xl border border-white/20 bg-white/5 text-white focus:border-[#E0E0E0] focus:ring-0 custom-input text-xs backdrop-blur-sm">
-                </div>
-            ` : '';
-
-            return `
-                <div class="pt-20 md:pt-24 pb-4 px-4 px-1 md:px-4 max-w-lg mx-auto min-h-screen flex flex-col justify-start">
-                    
-                    <!-- Added Clear Back Button -->
-                    <div class="flex justify-end mb-6">
-                        <button onclick="router('home')" class="group flex items-center gap-2 text-gray-400 hover:text-white transition-colors">
-                            <span class="uppercase tracking-widest text-xs font-bold">Back</span>
-                            <div class="w-8 h-8 rounded-full border border-gray-600 group-hover:border-[#E0E0E0] group-hover:bg-white/5 flex items-center justify-center transition-all duration-300">
-                                <i class="fa-solid fa-xmark text-sm group-hover:text-[#E0E0E0] transition-colors"></i>
-                            </div>
-                        </button>
-                    </div>
-
-                    <div class="text-center mb-2">
-                        <h1 class="text-white text-xl font-bold tracking-widest uppercase drop-shadow-[0_0_10px_rgba(255,255,255,0.6)]">${event.title}</h1>
-                    </div>
-
-                    <div id="form-container" class="transform-gpu bg-gradient-to-br from-white/10 to-white/5 backdrop-blur-2xl rounded-3xl border border-white/20 p-4 shadow-[0_8px_32px_0_rgba(0,0,0,0.5)] relative">
-                        
-                        <div id="success-message" class="hidden absolute inset-0 bg-black/95 z-20 flex flex-col items-center justify-center text-center p-8 rounded-3xl">
-                            <i class="fa-solid fa-circle-check text-6xl text-[#E0E0E0] mb-4"></i>
-                            <h2 class="brand-font text-2xl text-white mb-2">Thank You!</h2>
-                            <p class="text-gray-400 mb-6 text-sm">We wish you the best of luck for ${event.title}.</p>
-                            <button onclick="location.reload()" class="text-[#E0E0E0] border border-[#E0E0E0] px-6 py-2 rounded-full hover:bg-[#E0E0E0] hover:text-black transition-colors">Register Another</button>
-                        </div>
-
-                        <iframe name="hidden_iframe" id="hidden_iframe" style="display:none;" onload="handleIframeLoad()"></iframe>
-
-                        <form action="${event.formUrl}" method="post" target="hidden_iframe" onsubmit="handleFormSubmit()">
-                            <div class="space-y-4">
-                                <div>
-                                    <label class="block text-[#E0E0E0] text-[10px] font-bold mb-0.5 uppercase tracking-wider">${labels.p1}</label>
-                                    <input type="text" name="${event.fields.p1}" required placeholder="Enter name" class="w-full p-3 rounded-xl border border-white/20 bg-white/5 text-white focus:border-[#E0E0E0] focus:ring-0 custom-input text-xs backdrop-blur-sm">
-                                </div>
-                                ${p2Input}
-                                <div>
-                                    <label class="block text-[#E0E0E0] text-[10px] font-bold mb-0.5 uppercase tracking-wider">${labels.college}</label>
-                                    <input type="text" name="${event.fields.college}" required placeholder="e.g. KLE Tech, MBA" class="w-full p-3 rounded-xl border border-white/20 bg-white/5 text-white focus:border-[#E0E0E0] focus:ring-0 custom-input text-xs backdrop-blur-sm">
-                                </div>
-                                <div>
-                                    <label class="block text-[#E0E0E0] text-[10px] font-bold mb-0.5 uppercase tracking-wider">${labels.phone1}</label>
-                                    <input type="tel" name="${event.fields.phone1}" required placeholder="+91 XXXXX XXXXX" class="w-full p-3 rounded-xl border border-white/20 bg-white/5 text-white focus:border-[#E0E0E0] focus:ring-0 custom-input text-xs backdrop-blur-sm">
-                                </div>
-                                ${phone2Input}
-                                <div>
-                                    <label class="block text-[#E0E0E0] text-[10px] font-bold mb-0.5 uppercase tracking-wider">${labels.utr}</label>
-                                    <input type="text" name="${event.fields.utr}" required minlength="10" placeholder="UTR Number" class="w-full p-3 rounded-xl border border-white/20 bg-white/5 text-white focus:border-[#E0E0E0] focus:ring-0 custom-input font-mono uppercase text-xs backdrop-blur-sm">
-                                </div>
-                                
-                                <!-- Restored Large QR Code -->
-                                <div class="flex flex-col items-center justify-center mt-2">
-                                    <div class="bg-white p-2 rounded-xl shadow-2xl border-2 border-white/10 relative group cursor-pointer hover:scale-105 transition-transform duration-300">
-                                        <img src="pegasuscode.png" alt="Payment QR Code" class="w-64 h-64 object-contain" decoding="async">
-                                    </div>
-                                    <p class="text-[8px] text-gray-400 mt-1 uppercase tracking-widest">Scan to Pay</p>
-                                </div>
-
-                                <button type="submit" class="w-full btn-shimmer bg-gradient-to-r from-gray-200 via-white to-gray-200 text-black font-bold py-2.5 rounded-full mt-2 hover:brightness-110 transition-all shadow-lg uppercase tracking-widest text-xs border border-[#E0E0E0]">
-                                    Confirm Registration
-                                </button>
-                                <p class="text-[8px] text-center text-gray-500 mt-0">Data sent securely to Google Forms</p>
-                            </div>
-                        </form>
-                    </div>
-                </div>
-            `;
+            return ''; 
         }
         
         const content = {
@@ -714,33 +631,73 @@
 
                 <div id="main-event-grid" class="px-4 max-w-7xl mx-auto relative pb-12 md:pb-16 pt-0">
                     
-                    <!-- Selection Buttons View (Default) - Styled like Cards -->
-                    <div id="selection-view" class="flex flex-col md:flex-row justify-center items-center gap-8 mt-12 reveal-element">
-                        <button onclick="showCategory('team')" class="w-full md:w-96 h-52 md:h-64 rounded-3xl border border-white/20 bg-gradient-to-br from-white/10 to-white/5 backdrop-blur-xl hover:bg-white/10 transition-all duration-300 group flex flex-col items-center justify-center shadow-[0_8px_32px_0_rgba(0,0,0,0.5)] hover:scale-105 hover:border-[#E0E0E0] hover:shadow-[0_0_40px_rgba(224,224,224,0.15)] relative overflow-hidden">
-                            <div class="absolute inset-0 bg-gradient-to-br from-transparent via-white/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+                    <!-- Selection View - Upgraded to Premium Cards -->
+                    <div id="selection-view" class="flex flex-col md:flex-row justify-center items-stretch gap-8 mt-12 reveal-element">
+                        
+                        <!-- Grand Registration Card -->
+                        <div onclick="showCategory('team')"
+                             onmousemove="handleCardMouseMove(event, this)" 
+                             onmouseleave="handleCardMouseLeave(this)"
+                             class="w-full md:w-96 card-enter premium-card group cursor-pointer bg-gradient-to-br from-white/10 to-white/5 backdrop-blur-xl p-6 rounded-3xl border border-white/20 transition-all duration-200 relative overflow-hidden flex flex-col min-h-[340px] shadow-[0_8px_32px_0_rgba(0,0,0,0.5)]">
                             
-                            <!-- Silver Corners (CSS only) -->
-                            <div class="absolute top-0 left-0 w-6 h-6 border-t-2 border-l-2 border-white/30 rounded-tl-3xl"></div>
-                            <div class="absolute top-0 right-0 w-6 h-6 border-t-2 border-r-2 border-white/30 rounded-tr-3xl"></div>
-                            <div class="absolute bottom-0 left-0 w-6 h-6 border-b-2 border-l-2 border-white/30 rounded-bl-3xl"></div>
-                            <div class="absolute bottom-0 right-0 w-6 h-6 border-b-2 border-r-2 border-white/30 rounded-br-3xl"></div>
+                            <!-- Spotlight Effect -->
+                            <div class="card-spotlight absolute inset-0 pointer-events-none opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
 
-                            <i class="fa-solid fa-users-viewfinder text-6xl text-[#E0E0E0] mb-6 group-hover:scale-110 transition-transform drop-shadow-[0_0_15px_rgba(224,224,224,0.5)] relative z-10"></i>
-                            <span class="brand-font text-2xl md:text-3xl text-white font-bold uppercase tracking-[0.15em] text-inscribed group-hover:text-[#E0E0E0] transition-colors relative z-10 text-center">Grand Registration</span>
-                        </button>
+                            <div class="absolute top-0 left-0 w-full h-[1px] bg-gradient-to-r from-transparent via-white/20 to-transparent opacity-50 pointer-events-none"></div>
+                            <div class="absolute top-0 left-0 w-[1px] h-full bg-gradient-to-b from-white/10 via-transparent to-transparent opacity-30 pointer-events-none"></div>
+                            
+                            <div class="premium-card-content relative z-10 flex flex-col h-full">
+                                <h4 class="text-xs md:text-sm font-bold text-white uppercase tracking-[0.2em] mb-1 inline-block transition-colors">Full Contingent</h4>
 
-                        <button onclick="showCategory('individual')" class="w-full md:w-96 h-52 md:h-64 rounded-3xl border border-white/20 bg-gradient-to-br from-white/10 to-white/5 backdrop-blur-xl hover:bg-white/10 transition-all duration-300 group flex flex-col items-center justify-center shadow-[0_8px_32px_0_rgba(0,0,0,0.5)] hover:scale-105 hover:border-[#E0E0E0] hover:shadow-[0_0_40px_rgba(224,224,224,0.15)] relative overflow-hidden">
-                            <div class="absolute inset-0 bg-gradient-to-br from-transparent via-white/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+                                <div class="flex items-start justify-between mb-6">
+                                    <h3 class="brand-font text-2xl md:text-3xl text-white group-hover:text-[#E0E0E0] transition-colors drop-shadow-md text-inscribed tracking-widest inline-block">GRAND<br>REGISTRATION</h3>
+                                    <i class="fa-solid fa-users-viewfinder text-4xl text-[#E0E0E0]/80 group-hover:text-[#E0E0E0] transition-colors drop-shadow-[0_0_15px_rgba(224,224,224,0.5)]"></i>
+                                </div>
+                                
+                                <p class="text-sm md:text-base text-white drop-shadow-sm group-hover:text-white transition-colors mb-6 leading-relaxed font-medium italic mt-auto">
+                                    "Register your entire team for all events: BM, Finance, Marketing, HR, and Business Quiz in a single step."
+                                </p>
 
-                            <!-- Silver Corners (CSS only) -->
-                            <div class="absolute top-0 left-0 w-6 h-6 border-t-2 border-l-2 border-white/30 rounded-tl-3xl"></div>
-                            <div class="absolute top-0 right-0 w-6 h-6 border-t-2 border-r-2 border-white/30 rounded-tr-3xl"></div>
-                            <div class="absolute bottom-0 left-0 w-6 h-6 border-b-2 border-l-2 border-white/30 rounded-bl-3xl"></div>
-                            <div class="absolute bottom-0 right-0 w-6 h-6 border-b-2 border-r-2 border-white/30 rounded-br-3xl"></div>
+                                <div class="mt-auto pt-2">
+                                    <button class="w-full btn-shimmer bg-gradient-to-r from-gray-200 via-white to-gray-200 text-black font-bold py-3 px-6 rounded-full text-sm md:text-base shadow-[0_0_15px_rgba(255,255,255,0.2)] hover:shadow-[0_0_20px_rgba(255,255,255,0.4)] transition-transform duration-200 hover:scale-105 active:scale-95 uppercase tracking-widest pointer-events-none">
+                                        Select
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
 
-                            <i class="fa-solid fa-user-group text-6xl text-[#E0E0E0] mb-6 group-hover:scale-110 transition-transform drop-shadow-[0_0_15px_rgba(224,224,224,0.5)] relative z-10"></i>
-                            <span class="brand-font text-2xl md:text-3xl text-white font-bold uppercase tracking-[0.15em] text-inscribed group-hover:text-[#E0E0E0] transition-colors relative z-10 text-center px-4">Separate Participation</span>
-                        </button>
+                        <!-- Separate Participation Card -->
+                        <div onclick="showCategory('individual')"
+                             onmousemove="handleCardMouseMove(event, this)" 
+                             onmouseleave="handleCardMouseLeave(this)"
+                             class="w-full md:w-96 card-enter premium-card group cursor-pointer bg-gradient-to-br from-white/10 to-white/5 backdrop-blur-xl p-6 rounded-3xl border border-white/20 transition-all duration-200 relative overflow-hidden flex flex-col min-h-[340px] shadow-[0_8px_32px_0_rgba(0,0,0,0.5)]">
+                            
+                            <!-- Spotlight Effect -->
+                            <div class="card-spotlight absolute inset-0 pointer-events-none opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+
+                            <div class="absolute top-0 left-0 w-full h-[1px] bg-gradient-to-r from-transparent via-white/20 to-transparent opacity-50 pointer-events-none"></div>
+                            <div class="absolute top-0 left-0 w-[1px] h-full bg-gradient-to-b from-white/10 via-transparent to-transparent opacity-30 pointer-events-none"></div>
+                            
+                            <div class="premium-card-content relative z-10 flex flex-col h-full">
+                                <h4 class="text-xs md:text-sm font-bold text-white uppercase tracking-[0.2em] mb-1 inline-block transition-colors">Individual Events</h4>
+
+                                <div class="flex items-start justify-between mb-6">
+                                    <h3 class="brand-font text-2xl md:text-3xl text-white group-hover:text-[#E0E0E0] transition-colors drop-shadow-md text-inscribed tracking-widest inline-block">SEPARATE<br>PARTICIPATION</h3>
+                                    <i class="fa-solid fa-user-group text-4xl text-[#E0E0E0]/80 group-hover:text-[#E0E0E0] transition-colors drop-shadow-[0_0_15px_rgba(224,224,224,0.5)]"></i>
+                                </div>
+                                
+                                <p class="text-sm md:text-base text-white drop-shadow-sm group-hover:text-white transition-colors mb-6 leading-relaxed font-medium italic mt-auto">
+                                    "Browse and register for specific events individually: Quiz, Marketing, HR, Finance."
+                                </p>
+
+                                <div class="mt-auto pt-2">
+                                    <button class="w-full btn-shimmer bg-gradient-to-r from-gray-200 via-white to-gray-200 text-black font-bold py-3 px-6 rounded-full text-sm md:text-base shadow-[0_0_15px_rgba(255,255,255,0.2)] hover:shadow-[0_0_20px_rgba(255,255,255,0.4)] transition-transform duration-200 hover:scale-105 active:scale-95 uppercase tracking-widest pointer-events-none">
+                                        Select
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+
                     </div>
 
                     <!-- Category Content Views (Hidden by default) -->
