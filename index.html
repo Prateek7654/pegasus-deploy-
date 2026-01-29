@@ -664,12 +664,14 @@
                                     <div class="space-y-5">
                                         <div>
                                             <label class="block text-[#E0E0E0] text-xs font-bold mb-1 uppercase tracking-wider">Accommodation: option yes / no</label>
-                                            <select name="accommodation" class="w-full p-3 rounded-xl border border-white/20 bg-black/40 text-white focus:border-[#E0E0E0] text-xs custom-input">
+                                            <select name="accommodation" onchange="updateFee(this.value)" class="w-full p-3 rounded-xl border border-white/20 bg-black/40 text-white focus:border-[#E0E0E0] text-xs custom-input">
                                                 <option value="" disabled selected>Select Option</option>
                                                 <option value="Yes">Yes</option>
                                                 <option value="No">No</option>
                                             </select>
-                                            <p class="text-[11px] text-[#A0A0A0] mt-2 italic border-l-2 border-[#E0E0E0] pl-2 py-1 bg-white/5 rounded-r">(If yes, registration fee + accommodation = ₹4500. If no, registration = ₹3000)</p>
+                                            <p id="fee-display" class="text-[11px] text-[#A0A0A0] mt-2 italic border-l-2 border-[#E0E0E0] pl-2 py-1 bg-white/5 rounded-r">
+                                                (Base Registration: ₹3000 | With Accommodation: ₹4500)
+                                            </p>
                                         </div>
 
                                         <div>
@@ -1014,6 +1016,18 @@
             } else {
                 menu.classList.remove('open');
                 menu.classList.add('closed');
+            }
+        }
+
+        // Dynamic Fee Update Function
+        window.updateFee = function(value) {
+            const display = document.getElementById('fee-display');
+            if (!display) return;
+            
+            if (value === 'Yes') {
+                display.innerHTML = 'Total Amount: <span class="text-white font-bold text-sm">₹4500</span> (Registration + Accommodation)';
+            } else if (value === 'No') {
+                display.innerHTML = 'Total Amount: <span class="text-white font-bold text-sm">₹3000</span> (Registration Only)';
             }
         }
 
