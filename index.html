@@ -37,8 +37,8 @@
         /* --- GREEK THEME ENHANCEMENTS --- */
 
         .greek-pattern-border {
-            /* Bright Silver Stroke */
-            background-image: url("data:image/svg+xml,%3Csvg width='40' height='10' viewBox='0 0 40 10' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M0 10 L0 0 L10 0 L10 5 L5 5 L5 10 L15 10 L15 0 L25 0 L25 5 L20 5 L20 10 L30 10 L30 0 L40 0 L40 10' fill='none' stroke='%23E0E0E0' stroke-width='1' opacity='0.6'/%3E%3C/svg%3E");
+            /* Pure White Stroke - Thicker (1.5) & Full Opacity for Max Brightness */
+            background-image: url("data:image/svg+xml,%3Csvg width='40' height='10' viewBox='0 0 40 10' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M0 10 L0 0 L10 0 L10 5 L5 5 L5 10 L15 10 L15 0 L25 0 L25 5 L20 5 L20 10 L30 10 L30 0 L40 0 L40 10' fill='none' stroke='%23FFFFFF' stroke-width='1.5' opacity='1'/%3E%3C/svg%3E");
             background-repeat: repeat-x;
             background-size: 30px 10px;
             background-position: bottom;
@@ -89,6 +89,10 @@
         }
         .custom-input::placeholder {
             color: rgba(255, 255, 255, 0.5);
+        }
+        select.custom-input option {
+            background-color: #1a1a1a;
+            color: white;
         }
 
         /* Custom Scrollbar */
@@ -485,11 +489,7 @@
                     <div class="absolute top-0 left-0 w-full h-[1px] bg-gradient-to-r from-transparent via-white/20 to-transparent opacity-50 pointer-events-none"></div>
                     <div class="absolute top-0 left-0 w-[1px] h-full bg-gradient-to-b from-white/10 via-transparent to-transparent opacity-30 pointer-events-none"></div>
 
-                    <!-- Enhanced Silver Corners -->
-                    <div class="absolute top-0 left-0 w-4 h-4 border-t-2 border-l-2 border-[#E0E0E0] opacity-100 drop-shadow-[0_0_5px_rgba(224,224,224,0.8)] group-hover:w-6 group-hover:h-6 transition-all duration-300"></div>
-                    <div class="absolute top-0 right-0 w-4 h-4 border-t-2 border-r-2 border-[#E0E0E0] opacity-100 drop-shadow-[0_0_5px_rgba(224,224,224,0.8)] group-hover:w-6 group-hover:h-6 transition-all duration-300"></div>
-                    <div class="absolute bottom-0 left-0 w-4 h-4 border-b-2 border-l-2 border-[#E0E0E0] opacity-100 drop-shadow-[0_0_5px_rgba(224,224,224,0.8)] group-hover:w-6 group-hover:h-6 transition-all duration-300"></div>
-                    <div class="absolute bottom-0 right-0 w-4 h-4 border-b-2 border-r-2 border-[#E0E0E0] opacity-100 drop-shadow-[0_0_5px_rgba(224,224,224,0.8)] group-hover:w-6 group-hover:h-6 transition-all duration-300"></div>
+                    <!-- Enhanced Silver Corners - REMOVED -->
                     
                     <div class="premium-card-content relative z-10">
                         <h4 class="text-xs md:text-sm font-bold text-white uppercase tracking-[0.2em] mb-1 inline-block transition-colors">${subtitle}</h4>
@@ -516,11 +516,193 @@
             `;
         }
 
-        const eventGridHTML = `
+        // Helper to preserve indices for routing
+        const eventsWithIndices = eventData.map((evt, i) => ({ ...evt, originalIndex: i }));
+
+        // Categorization based on specific user request
+        const individualEvents = eventsWithIndices.filter(e => e.title !== 'Best Manager'); // All except Best Manager
+        
+        // This is still used for "Separate Participation" grid
+        const separateGridHTML = `
             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8">
-                ${eventData.map((e, i) => createEventCard(e, i)).join('')}
+                ${individualEvents.map(e => createEventCard(e, e.originalIndex)).join('')}
             </div>
         `;
+        
+        // HTML Generator for Grand Registration Form
+        function createGrandRegistrationHTML() {
+            // Helper for generating member fields
+            const createMemberFields = (memberIndex) => `
+                <div class="mb-4 p-4 rounded-2xl bg-white/5 border border-white/10">
+                   <h4 class="text-[#E0E0E0] text-xs font-bold uppercase border-b border-white/20 pb-2 mb-3 tracking-widest flex items-center justify-between">
+                       <span>Team member ${memberIndex}</span>
+                   </h4>
+                   <div class="grid grid-cols-1 gap-3">
+                       <div>
+                            <label class="block text-[#A0A0A0] text-[10px] font-bold uppercase tracking-wider mb-1">Name</label>
+                            <input type="text" name="member_${memberIndex}_name" class="w-full p-2.5 rounded-xl border border-white/20 bg-black/40 text-white focus:border-[#E0E0E0] text-xs custom-input">
+                       </div>
+                       
+                       <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
+                           <div>
+                                <label class="block text-[#A0A0A0] text-[10px] font-bold uppercase tracking-wider mb-1">Contact number</label>
+                                <input type="tel" name="member_${memberIndex}_contact" class="w-full p-2.5 rounded-xl border border-white/20 bg-black/40 text-white focus:border-[#E0E0E0] text-xs custom-input">
+                           </div>
+                           <div>
+                                <label class="block text-[#A0A0A0] text-[10px] font-bold uppercase tracking-wider mb-1">Email</label>
+                                <input type="email" name="member_${memberIndex}_email" class="w-full p-2.5 rounded-xl border border-white/20 bg-black/40 text-white focus:border-[#E0E0E0] text-xs custom-input">
+                           </div>
+                       </div>
+                       
+                       <div>
+                            <label class="block text-[#A0A0A0] text-[10px] font-bold uppercase tracking-wider mb-1">Gender</label>
+                            <select name="member_${memberIndex}_gender" class="w-full p-2.5 rounded-xl border border-white/20 bg-black/40 text-gray-300 focus:border-[#E0E0E0] text-xs custom-input">
+                               <option value="" disabled selected>Option: Male, Female and other</option>
+                               <option value="Male">Male</option>
+                               <option value="Female">Female</option>
+                               <option value="Other">Other</option>
+                           </select>
+                       </div>
+                   </div>
+                </div>
+            `;
+
+            return `
+                <div class="pt-20 md:pt-24 pb-8 px-4 max-w-3xl mx-auto min-h-screen flex flex-col justify-start">
+                    
+                    <div class="text-center mb-6">
+                        <h1 class="text-white text-3xl font-bold tracking-widest uppercase drop-shadow-[0_0_10px_rgba(255,255,255,0.6)]">Grand Team Registration</h1>
+                        <p class="text-gray-400 text-xs uppercase tracking-widest mt-2">Team Event</p>
+                    </div>
+
+                    <div id="form-container" class="transform-gpu bg-gradient-to-br from-white/10 to-white/5 backdrop-blur-2xl rounded-3xl border border-white/20 p-6 shadow-[0_8px_32px_0_rgba(0,0,0,0.5)] relative">
+                         
+                         <div id="success-message" class="hidden absolute inset-0 bg-black/95 z-20 flex flex-col items-center justify-center text-center p-8 rounded-3xl">
+                            <i class="fa-solid fa-circle-check text-6xl text-[#E0E0E0] mb-4"></i>
+                            <h2 class="brand-font text-2xl text-white mb-2">Thank You!</h2>
+                            <p class="text-gray-400 mb-6 text-sm">We have received your grand registration.</p>
+                            <button onclick="location.reload()" class="text-[#E0E0E0] border border-[#E0E0E0] px-6 py-2 rounded-full hover:bg-[#E0E0E0] hover:text-black transition-colors">Register Another</button>
+                        </div>
+
+                        <iframe name="hidden_iframe" id="hidden_iframe" style="display:none;" onload="handleIframeLoad()"></iframe>
+
+                        <form action="https://docs.google.com/forms/d/e/1FAIpQLSeWP3V9NZXYdOQcuw7FmkZZMNg1bzQIkT_ndqQNYR-MQ7o6WQ/formResponse" method="post" target="hidden_iframe" onsubmit="handleFormSubmit()">
+                            <div class="space-y-6">
+                                <!-- Team Leader Details -->
+                                <div class="p-5 bg-white/5 rounded-2xl border border-white/10">
+                                    <h3 class="text-white text-lg font-bold uppercase tracking-widest border-b border-white/20 pb-3 mb-5">Team Leader Info</h3>
+                                    
+                                    <div class="space-y-4">
+                                        <div>
+                                            <label class="block text-[#E0E0E0] text-xs font-bold mb-1 uppercase tracking-wider">Team leader name</label>
+                                            <input type="text" name="team_leader" required class="w-full p-3 rounded-xl border border-white/20 bg-black/40 text-white focus:border-[#E0E0E0] text-xs custom-input">
+                                        </div>
+                                        <div>
+                                            <label class="block text-[#E0E0E0] text-xs font-bold mb-1 uppercase tracking-wider">Contact number (team leaders)</label>
+                                            <input type="tel" name="team_leader_contact" required class="w-full p-3 rounded-xl border border-white/20 bg-black/40 text-white focus:border-[#E0E0E0] text-xs custom-input">
+                                        </div>
+                                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                            <div>
+                                                <label class="block text-[#E0E0E0] text-xs font-bold mb-1 uppercase tracking-wider">College name</label>
+                                                <input type="text" name="college_name" required class="w-full p-3 rounded-xl border border-white/20 bg-black/40 text-white focus:border-[#E0E0E0] text-xs custom-input">
+                                            </div>
+                                            <div>
+                                                <label class="block text-[#E0E0E0] text-xs font-bold mb-1 uppercase tracking-wider">City</label>
+                                                <input type="text" name="city" required class="w-full p-3 rounded-xl border border-white/20 bg-black/40 text-white focus:border-[#E0E0E0] text-xs custom-input">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- Separator -->
+                                <div class="flex items-center gap-4 py-4">
+                                    <div class="h-px bg-white/20 flex-grow"></div>
+                                    <span class="text-[#E0E0E0] text-sm font-bold uppercase tracking-[0.2em] text-inscribed">Event Participants</span>
+                                    <div class="h-px bg-white/20 flex-grow"></div>
+                                </div>
+
+                                <!-- BM -->
+                                <div class="space-y-2">
+                                    <h3 class="text-[#E0E0E0] text-xl font-bold uppercase tracking-[0.2em] mb-4 pl-4 border-l-4 border-[#E0E0E0]">BM</h3>
+                                    ${createMemberFields(1)}
+                                </div>
+
+                                <!-- Finance -->
+                                <div class="space-y-2 pt-6 border-t border-white/5">
+                                    <h3 class="text-[#E0E0E0] text-xl font-bold uppercase tracking-[0.2em] mb-4 pl-4 border-l-4 border-[#E0E0E0]">Finance</h3>
+                                    ${createMemberFields(2)}
+                                    ${createMemberFields(3)}
+                                </div>
+
+                                <!-- Marketing -->
+                                <div class="space-y-2 pt-6 border-t border-white/5">
+                                    <h3 class="text-[#E0E0E0] text-xl font-bold uppercase tracking-[0.2em] mb-4 pl-4 border-l-4 border-[#E0E0E0]">Marketing</h3>
+                                    ${createMemberFields(4)}
+                                    ${createMemberFields(5)}
+                                </div>
+
+                                <!-- HR -->
+                                <div class="space-y-2 pt-6 border-t border-white/5">
+                                    <h3 class="text-[#E0E0E0] text-xl font-bold uppercase tracking-[0.2em] mb-4 pl-4 border-l-4 border-[#E0E0E0]">Human Resources</h3>
+                                    ${createMemberFields(6)}
+                                    ${createMemberFields(7)}
+                                </div>
+
+                                <!-- Business Quiz -->
+                                <div class="space-y-2 pt-6 border-t border-white/5">
+                                    <h3 class="text-[#E0E0E0] text-xl font-bold uppercase tracking-[0.2em] mb-4 pl-4 border-l-4 border-[#E0E0E0]">Business Quiz</h3>
+                                    ${createMemberFields(8)}
+                                    ${createMemberFields(9)}
+                                </div>
+
+                                <div class="border-t-2 border-white/20 my-8"></div>
+
+                                <!-- Logistics -->
+                                <div class="p-5 bg-white/5 rounded-2xl border border-white/10">
+                                    <h3 class="text-white text-lg font-bold uppercase tracking-widest border-b border-white/20 pb-3 mb-5">Payment & Logistics</h3>
+
+                                    <div class="space-y-5">
+                                        <div>
+                                            <label class="block text-[#E0E0E0] text-xs font-bold mb-1 uppercase tracking-wider">Accommodation: option yes / no</label>
+                                            <select name="accommodation" class="w-full p-3 rounded-xl border border-white/20 bg-black/40 text-white focus:border-[#E0E0E0] text-xs custom-input">
+                                                <option value="" disabled selected>Select Option</option>
+                                                <option value="Yes">Yes</option>
+                                                <option value="No">No</option>
+                                            </select>
+                                            <p class="text-[11px] text-[#A0A0A0] mt-2 italic border-l-2 border-[#E0E0E0] pl-2 py-1 bg-white/5 rounded-r">(If yes, registration fee + accommodation = ₹4500. If no, registration = ₹3000)</p>
+                                        </div>
+
+                                        <div>
+                                            <label class="block text-[#E0E0E0] text-xs font-bold mb-1 uppercase tracking-wider">UTR No</label>
+                                            <input type="text" name="utr_number" required placeholder="Enter UTR Number" class="w-full p-3 rounded-xl border border-white/20 bg-black/40 text-white focus:border-[#E0E0E0] text-xs font-mono custom-input">
+                                        </div>
+
+                                        <div>
+                                            <label class="block text-[#E0E0E0] text-xs font-bold mb-1 uppercase tracking-wider">Upload transaction screenshot/file</label>
+                                            <div class="relative">
+                                                <input type="file" name="payment_screenshot" accept="image/*,.pdf" class="block w-full text-xs text-gray-400 file:mr-4 file:py-3 file:px-6 file:rounded-full file:border-0 file:text-xs file:font-bold file:bg-[#E0E0E0] file:text-black hover:file:bg-white cursor-pointer bg-black/40 border border-white/20 rounded-xl">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- QR Code -->
+                                <div class="flex flex-col items-center justify-center mt-8">
+                                    <div class="bg-white p-3 rounded-2xl shadow-2xl border-2 border-white/10 relative group cursor-pointer hover:scale-105 transition-transform duration-300">
+                                        <i class="fa-solid fa-qrcode text-[10rem] text-black opacity-90 leading-none"></i>
+                                    </div>
+                                    <p class="text-xs text-gray-400 mt-3 uppercase tracking-widest font-bold">Scan to Pay</p>
+                                </div>
+
+                                <button type="submit" class="w-full btn-shimmer bg-gradient-to-r from-gray-200 via-white to-gray-200 text-black font-bold py-4 rounded-full mt-6 hover:brightness-110 transition-all shadow-lg uppercase tracking-widest text-sm border border-[#E0E0E0]">
+                                    Confirm Grand Registration
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            `;
+        }
 
         function renderRegistration(index) {
             const event = eventData[index];
@@ -639,14 +821,59 @@
                 </div>
 
                 <div id="main-event-grid" class="px-4 max-w-7xl mx-auto relative pb-12 md:pb-16 pt-0">
-                    <div class="text-center mb-10 reveal-element" style="transition-delay: 300ms;">
-                        <h2 class="brand-font text-3xl md:text-5xl text-white text-inscribed drop-shadow-lg">Explore Events</h2>
-                        <div class="h-1 w-32 bg-gradient-to-r from-transparent via-gray-400 to-transparent mx-auto mt-4"></div>
+                    
+                    <!-- Selection Buttons View (Default) - Styled like Cards -->
+                    <div id="selection-view" class="flex flex-col md:flex-row justify-center items-center gap-8 mt-8 reveal-element">
+                        <button onclick="showCategory('team')" class="w-full md:w-96 h-52 md:h-64 rounded-3xl border border-white/20 bg-gradient-to-br from-white/10 to-white/5 backdrop-blur-xl hover:bg-white/10 transition-all duration-300 group flex flex-col items-center justify-center shadow-[0_8px_32px_0_rgba(0,0,0,0.5)] hover:scale-105 hover:border-[#E0E0E0] hover:shadow-[0_0_40px_rgba(224,224,224,0.15)] relative overflow-hidden">
+                            <div class="absolute inset-0 bg-gradient-to-br from-transparent via-white/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+                            
+                            <!-- Silver Corners (CSS only) -->
+                            <div class="absolute top-0 left-0 w-6 h-6 border-t-2 border-l-2 border-white/30 rounded-tl-3xl"></div>
+                            <div class="absolute top-0 right-0 w-6 h-6 border-t-2 border-r-2 border-white/30 rounded-tr-3xl"></div>
+                            <div class="absolute bottom-0 left-0 w-6 h-6 border-b-2 border-l-2 border-white/30 rounded-bl-3xl"></div>
+                            <div class="absolute bottom-0 right-0 w-6 h-6 border-b-2 border-r-2 border-white/30 rounded-br-3xl"></div>
+
+                            <i class="fa-solid fa-users text-6xl text-[#E0E0E0] mb-6 group-hover:scale-110 transition-transform drop-shadow-[0_0_15px_rgba(224,224,224,0.5)] relative z-10"></i>
+                            <span class="brand-font text-2xl md:text-3xl text-white font-bold uppercase tracking-[0.15em] text-inscribed group-hover:text-[#E0E0E0] transition-colors relative z-10 text-center">Grand Participation</span>
+                        </button>
+
+                        <button onclick="showCategory('individual')" class="w-full md:w-96 h-52 md:h-64 rounded-3xl border border-white/20 bg-gradient-to-br from-white/10 to-white/5 backdrop-blur-xl hover:bg-white/10 transition-all duration-300 group flex flex-col items-center justify-center shadow-[0_8px_32px_0_rgba(0,0,0,0.5)] hover:scale-105 hover:border-[#E0E0E0] hover:shadow-[0_0_40px_rgba(224,224,224,0.15)] relative overflow-hidden">
+                            <div class="absolute inset-0 bg-gradient-to-br from-transparent via-white/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+
+                            <!-- Silver Corners (CSS only) -->
+                            <div class="absolute top-0 left-0 w-6 h-6 border-t-2 border-l-2 border-white/30 rounded-tl-3xl"></div>
+                            <div class="absolute top-0 right-0 w-6 h-6 border-t-2 border-r-2 border-white/30 rounded-tr-3xl"></div>
+                            <div class="absolute bottom-0 left-0 w-6 h-6 border-b-2 border-l-2 border-white/30 rounded-bl-3xl"></div>
+                            <div class="absolute bottom-0 right-0 w-6 h-6 border-b-2 border-r-2 border-white/30 rounded-br-3xl"></div>
+
+                            <i class="fa-solid fa-user text-6xl text-[#E0E0E0] mb-6 group-hover:scale-110 transition-transform drop-shadow-[0_0_15px_rgba(224,224,224,0.5)] relative z-10"></i>
+                            <span class="brand-font text-2xl md:text-3xl text-white font-bold uppercase tracking-[0.15em] text-inscribed group-hover:text-[#E0E0E0] transition-colors relative z-10 text-center px-4">Separate Participation</span>
+                        </button>
                     </div>
-                    <!-- Removed reveal-element class so cards appear instantly -->
-                    <div>
-                        ${eventGridHTML}
+
+                    <!-- Category Content Views (Hidden by default) -->
+                    <div id="category-content" class="hidden mt-8">
+                        
+                        <div class="flex justify-start mb-8">
+                            <button onclick="showCategory('back')" class="group flex items-center gap-2 text-gray-400 hover:text-white transition-colors">
+                                <div class="w-8 h-8 rounded-full border border-gray-600 group-hover:border-[#E0E0E0] flex items-center justify-center transition-colors">
+                                    <i class="fa-solid fa-arrow-left text-sm"></i>
+                                </div>
+                                <span class="uppercase tracking-widest text-xs font-bold">Back to Categories</span>
+                            </button>
+                        </div>
+
+                        <!-- Grand Participation directly renders the form, no grid needed anymore -->
+                        <div id="grand-content" class="hidden">
+                             <!-- This container will be filled by the router logic calling renderGrandForm -->
+                        </div>
+
+                        <div id="individual-grid" class="hidden">
+                            <h2 class="text-white text-3xl font-bold tracking-widest uppercase mb-8 text-center drop-shadow-md brand-font">Separate Participation</h2>
+                            ${separateGridHTML}
+                        </div>
                     </div>
+
                 </div>
             `,
             events: `
@@ -655,8 +882,10 @@
                         <h1 class="brand-font text-4xl md:text-6xl text-white mb-4 text-inscribed">The Arenas</h1>
                         <p class="text-[#E0E0E0] uppercase tracking-widest text-xs md:text-base">Click a card to learn more</p>
                     </div>
-                    <div class="reveal-element" style="transition-delay: 200ms;">
-                        ${eventGridHTML}
+                    
+                    <div class="mb-16">
+                        <h3 class="text-2xl text-[#E0E0E0] font-bold uppercase tracking-[0.2em] mb-8 text-center text-inscribed">Separate Participation</h3>
+                        ${separateGridHTML}
                     </div>
                 </div>
             `,
@@ -703,15 +932,12 @@
         }
 
         // --- HASH-BASED NAVIGATION SYSTEM (Safe for back button) ---
-        // This listens for URL changes (like #register-1) and renders the view accordingly
         window.addEventListener('hashchange', handleHashChange);
 
         function handleHashChange() {
-            // Remove the '#' symbol
             const hash = window.location.hash.substring(1); 
             const app = document.getElementById('app-content');
             
-            // 1. Reset scroll and UI states
             document.documentElement.style.scrollBehavior = 'auto';
             window.scrollTo(0, 0);
             setTimeout(() => {
@@ -722,29 +948,22 @@
             const nav = document.getElementById('main-nav');
             if(nav) nav.classList.remove('hidden');
 
-            // 2. Logic to determine what to render
             if (hash.startsWith('register-')) {
-                // If hash looks like "register-0", extract index 0
                 const index = parseInt(hash.split('-')[1]);
                 if (!isNaN(index) && eventData[index]) {
                     app.innerHTML = renderRegistration(index);
                 } else {
-                    // Invalid index, go to home
                     window.location.hash = ''; 
                 }
             } else if (content[hash]) {
-                // Matches 'events' or 'contact'
                 app.innerHTML = content[hash];
             } else {
-                // Default / Empty hash -> Home
                 app.innerHTML = content['home'];
             }
             
-            // Re-trigger scroll animations
             setTimeout(setupObserver, 50);
         }
 
-        // Main function called by UI buttons
         function router(view, index = null) {
             let targetHash = '';
             if (view === 'registration' && index !== null) {
@@ -757,8 +976,40 @@
             
             if (currentHash === targetHash) {
                 window.scrollTo({ top: 0, behavior: 'smooth' });
+                if (targetHash === '') {
+                    showCategory('back');
+                }
             } else {
                 window.location.hash = targetHash;
+            }
+        }
+
+        function showCategory(type) {
+            const selectionView = document.getElementById('selection-view');
+            const categoryContent = document.getElementById('category-content');
+            const grandContent = document.getElementById('grand-content');
+            const individualGrid = document.getElementById('individual-grid');
+
+            if (!selectionView || !categoryContent) return; 
+
+            if (type === 'team') {
+                selectionView.classList.add('hidden');
+                categoryContent.classList.remove('hidden');
+                grandContent.classList.remove('hidden');
+                individualGrid.classList.add('hidden');
+                // Directly render grand form here
+                grandContent.innerHTML = createGrandRegistrationHTML();
+            } else if (type === 'individual') {
+                selectionView.classList.add('hidden');
+                categoryContent.classList.remove('hidden');
+                grandContent.classList.add('hidden');
+                individualGrid.classList.remove('hidden');
+            } else if (type === 'back') {
+                selectionView.classList.remove('hidden');
+                categoryContent.classList.add('hidden');
+                grandContent.classList.add('hidden');
+                individualGrid.classList.add('hidden');
+                grandContent.innerHTML = ''; // Clear to reset form
             }
         }
 
