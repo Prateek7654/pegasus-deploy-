@@ -239,7 +239,7 @@
                     </div>
                 </div>
                 <div class="text-center md:text-right">
-                    <p class="text-gray-400 text-xs">© 2026 Pegasus DEPARTMENT OF MBA.<br>Developed by Prateek Desai</p>
+                    <p class="text-gray-400 text-xs">© 2026 Pegasus DEPARTMENT OF MBA.</p>
                 </div>
             </div>
         </div>
@@ -512,28 +512,26 @@
 
                     <div class="absolute top-0 left-0 w-full h-[1px] bg-gradient-to-r from-transparent via-white/20 to-transparent opacity-50 pointer-events-none"></div>
                     <div class="absolute top-0 left-0 w-[1px] h-full bg-gradient-to-b from-white/10 via-transparent to-transparent opacity-30 pointer-events-none"></div>
-
                     
                     <div class="premium-card-content relative z-10 flex flex-col h-full">
-                        <h4 class="text-xs md:text-sm font-bold text-white uppercase tracking-[0.2em] mb-1 inline-block transition-colors">${subtitle}</h4>
+                        <!-- Removed Header -->
 
-                        <div class="flex items-center justify-between mb-6 ${titlePadding}">
-                            <!-- Changed title hover to Silver -->
-                            <h3 class="brand-font text-2xl md:text-3xl text-white group-hover:text-[#E0E0E0] transition-colors drop-shadow-md text-inscribed tracking-widest inline-block">${title}</h3>
+                        <div class="flex items-center justify-between mb-6 mt-2">
+                            <h3 class="brand-font text-2xl md:text-3xl text-white group-hover:text-[#E0E0E0] transition-colors drop-shadow-md text-inscribed tracking-widest inline-block">${title.replace(/ /g, '<br>')}</h3>
                             ${iconElement}
                         </div>
                         
-                        <p class="text-sm md:text-base text-white drop-shadow-sm group-hover:text-white transition-colors mb-2 leading-relaxed font-medium italic ${descStyle}">
-                            "${desc}"
+                        <p class="text-base md:text-lg text-white drop-shadow-md group-hover:text-white transition-colors mb-2 leading-relaxed font-bold tracking-wide mt-auto">
+                            ${desc}
                         </p>
-                    </div>
 
-                    <div class="mt-auto pt-2 relative z-10 premium-card-content">
-                        <!-- Updated Button to High-Gloss Silver Gradient and rounded-full -->
-                        <button onclick="${buttonOnClick}" 
-                                class="w-full btn-shimmer bg-gradient-to-r from-gray-200 via-white to-gray-200 text-black font-bold py-3 px-6 rounded-full text-sm md:text-base shadow-[0_0_15px_rgba(255,255,255,0.2)] hover:shadow-[0_0_20px_rgba(255,255,255,0.4)] transition-transform duration-200 uppercase tracking-widest ${cursorClass}">
-                            Register Now
-                        </button>
+                        <div class="mt-6 pt-2">
+                            <!-- Updated Button to High-Gloss Silver Gradient and rounded-full -->
+                            <button onclick="${buttonOnClick}" 
+                                    class="w-full btn-shimmer bg-gradient-to-r from-gray-200 via-white to-gray-200 text-black font-bold py-3 px-6 rounded-full text-sm md:text-base shadow-[0_0_15px_rgba(255,255,255,0.2)] hover:shadow-[0_0_20px_rgba(255,255,255,0.4)] transition-transform duration-200 uppercase tracking-widest ${cursorClass}">
+                                Register Now
+                            </button>
+                        </div>
                     </div>
                 </div>
             `;
@@ -573,32 +571,32 @@
                         <div class="h-px w-32 bg-[#E0E0E0] mx-auto opacity-50"></div>
                     </div>
 
-                    <!-- Rules Content - Left aligned to remove gaps, Flex for hanging indent -->
-                    <div class="space-y-6 text-white text-xl md:text-2xl font-medium tracking-wide leading-relaxed text-left font-times w-full px-4 md:px-12">
+                    <!-- Rules Content - Uniform, Bright, Aligned, Times New Roman, Justified -->
+                    <div class="space-y-6 text-white text-xl md:text-2xl font-medium tracking-wide leading-relaxed text-justify font-times w-full px-4 md:px-12">
                         
                         <div class="flex items-start gap-3 md:gap-4">
                             <span class="flex-shrink-0 mt-1 text-[#E0E0E0]">•</span>
-                            <p class="drop-shadow-md">It is mandatory for students to participate in all events.</p>
+                            <p class="drop-shadow-md text-left">It is mandatory for students to participate in all events.</p>
                         </div>
                         
                         <div class="flex items-start gap-3 md:gap-4">
                             <span class="flex-shrink-0 mt-1 text-[#E0E0E0]">•</span>
-                            <p class="drop-shadow-md">Events included are Best Manager, Quiz, Finance, Marketing, and Human Resource.</p>
+                            <p class="drop-shadow-md text-left">Events included are Best Manager, Quiz, Finance, Marketing, and Human Resource.</p>
                         </div>
                         
                         <div class="flex items-start gap-3 md:gap-4">
                             <span class="flex-shrink-0 mt-1 text-[#E0E0E0]">•</span>
-                            <p class="drop-shadow-md">Only students from the same college are eligible to register.</p>
+                            <p class="drop-shadow-md text-left">Only students from the same college are eligible to register.</p>
                         </div>
                         
                         <div class="flex items-start gap-3 md:gap-4">
                             <span class="flex-shrink-0 mt-1 text-[#E0E0E0]">•</span>
-                            <p class="drop-shadow-md">Complete the registration and participate in every event as required.</p>
+                            <p class="drop-shadow-md text-left">Complete the registration and participate in every event as required.</p>
                         </div>
 
-                         <div class="flex items-start gap-3 md:gap-4">
+                        <div class="flex items-start gap-3 md:gap-4">
                             <span class="flex-shrink-0 mt-1 text-[#E0E0E0]">•</span>
-                            <p class="drop-shadow-md">All participants will be mandatorily included in both the Cultural Event and the Icebreaker session.</p>
+                            <p class="drop-shadow-md text-left">All participants will be mandatorily included in both the Cultural Event and the Icebreaker session.</p>
                         </div>
 
                     </div>
@@ -649,13 +647,13 @@
                 <div id="main-event-grid" class="px-4 max-w-7xl mx-auto relative pb-12 md:pb-16 pt-0">
                     
                     <!-- Selection Views - Styled EXACTLY like Event Cards -->
-                    <div id="selection-view" class="flex flex-col md:flex-row justify-center items-stretch gap-8 mt-12 reveal-element">
+                    <div id="selection-view" class="flex flex-col md:flex-row justify-center items-stretch gap-6 mt-4 reveal-element">
                         
-                        <!-- Grand Registration Card -->
+                        <!-- Group Participation Card -->
                         <div onclick="showCategory('team')"
                              onmousemove="handleCardMouseMove(event, this)" 
                              onmouseleave="handleCardMouseLeave(this)"
-                             class="w-full md:w-96 card-enter premium-card group cursor-pointer bg-gradient-to-br from-white/10 to-white/5 backdrop-blur-xl p-5 md:p-6 rounded-3xl border border-white/20 transition-all duration-200 relative overflow-hidden flex flex-col min-h-[260px] md:min-h-[320px] shadow-[0_8px_32px_0_rgba(0,0,0,0.5)]">
+                             class="w-full md:w-96 card-enter premium-card group cursor-pointer bg-gradient-to-br from-white/10 to-white/5 backdrop-blur-xl p-5 md:p-6 rounded-3xl border border-white/20 transition-all duration-200 relative overflow-hidden flex flex-col min-h-[220px] md:min-h-[260px] shadow-[0_8px_32px_0_rgba(0,0,0,0.5)]">
                             
                             <!-- Spotlight Effect -->
                             <div class="card-spotlight absolute inset-0 pointer-events-none opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
@@ -666,16 +664,16 @@
                             <div class="premium-card-content relative z-10 flex flex-col h-full">
                                 <!-- Removed Header -->
 
-                                <div class="flex items-center justify-between mb-6 mt-2">
-                                    <h3 class="brand-font text-2xl md:text-3xl text-white group-hover:text-[#E0E0E0] transition-colors drop-shadow-md text-inscribed tracking-widest inline-block">GROUP<br>REGISTRATION</h3>
+                                <div class="flex items-center justify-between mb-2 mt-1">
+                                    <h3 class="brand-font text-2xl md:text-3xl text-white group-hover:text-[#E0E0E0] transition-colors drop-shadow-md text-inscribed tracking-widest inline-block">GROUP<br>PARTICIPATION</h3>
                                     <i class="fa-solid fa-users-viewfinder text-3xl md:text-4xl text-[#E0E0E0]/80 group-hover:text-[#E0E0E0] transition-colors drop-shadow-[0_0_15px_rgba(224,224,224,0.5)]"></i>
                                 </div>
                                 
-                                <p class="text-base md:text-lg text-white drop-shadow-md group-hover:text-white transition-colors mb-2 leading-relaxed font-bold tracking-wide mt-auto">
+                                <p class="text-base md:text-lg text-white drop-shadow-md group-hover:text-white transition-colors mb-2 leading-snug font-bold tracking-wide mt-auto">
                                     Register your entire team for all events: BM, Finance, Marketing, HR, and Business Quiz.
                                 </p>
 
-                                <div class="mt-6 pt-2">
+                                <div class="mt-4 pt-2">
                                     <button class="w-full btn-shimmer bg-gradient-to-r from-gray-200 via-white to-gray-200 text-black font-bold py-3 px-6 rounded-full text-sm md:text-base shadow-[0_0_15px_rgba(255,255,255,0.2)] hover:shadow-[0_0_20px_rgba(255,255,255,0.4)] transition-transform duration-200 hover:scale-105 active:scale-95 uppercase tracking-widest pointer-events-none">
                                         Select
                                     </button>
@@ -687,7 +685,7 @@
                         <div onclick="showCategory('individual')"
                              onmousemove="handleCardMouseMove(event, this)" 
                              onmouseleave="handleCardMouseLeave(this)"
-                             class="w-full md:w-96 card-enter premium-card group cursor-pointer bg-gradient-to-br from-white/10 to-white/5 backdrop-blur-xl p-5 md:p-6 rounded-3xl border border-white/20 transition-all duration-200 relative overflow-hidden flex flex-col min-h-[260px] md:min-h-[320px] shadow-[0_8px_32px_0_rgba(0,0,0,0.5)]">
+                             class="w-full md:w-96 card-enter premium-card group cursor-pointer bg-gradient-to-br from-white/10 to-white/5 backdrop-blur-xl p-5 md:p-6 rounded-3xl border border-white/20 transition-all duration-200 relative overflow-hidden flex flex-col min-h-[220px] md:min-h-[260px] shadow-[0_8px_32px_0_rgba(0,0,0,0.5)]">
                             
                             <!-- Spotlight Effect -->
                             <div class="card-spotlight absolute inset-0 pointer-events-none opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
@@ -698,16 +696,16 @@
                             <div class="premium-card-content relative z-10 flex flex-col h-full">
                                 <!-- Removed Header -->
 
-                                <div class="flex items-center justify-between mb-6 mt-2">
+                                <div class="flex items-center justify-between mb-2 mt-1">
                                     <h3 class="brand-font text-2xl md:text-3xl text-white group-hover:text-[#E0E0E0] transition-colors drop-shadow-md text-inscribed tracking-widest inline-block">SEPARATE<br>PARTICIPATION</h3>
                                     <i class="fa-solid fa-user-group text-3xl md:text-4xl text-[#E0E0E0]/80 group-hover:text-[#E0E0E0] transition-colors drop-shadow-[0_0_15px_rgba(224,224,224,0.5)]"></i>
                                 </div>
                                 
-                                <p class="text-base md:text-lg text-white drop-shadow-md group-hover:text-white transition-colors mb-2 leading-relaxed font-bold tracking-wide mt-auto">
+                                <p class="text-base md:text-lg text-white drop-shadow-md group-hover:text-white transition-colors mb-2 leading-snug font-bold tracking-wide mt-auto">
                                     Browse and register for a specific event as a team of 2.
                                 </p>
 
-                                <div class="mt-6 pt-2">
+                                <div class="mt-4 pt-2">
                                     <button class="w-full btn-shimmer bg-gradient-to-r from-gray-200 via-white to-gray-200 text-black font-bold py-3 px-6 rounded-full text-sm md:text-base shadow-[0_0_15px_rgba(255,255,255,0.2)] hover:shadow-[0_0_20px_rgba(255,255,255,0.4)] transition-transform duration-200 hover:scale-105 active:scale-95 uppercase tracking-widest pointer-events-none">
                                         Select
                                     </button>
@@ -718,17 +716,8 @@
                     </div>
 
                     <!-- Category Content Views (Hidden by default) -->
-                    <div id="category-content" class="hidden mt-8">
+                    <div id="category-content" class="hidden pt-28 px-4 md:px-0">
                         
-                        <div class="flex justify-start mb-8">
-                            <button onclick="showCategory('back')" class="group flex items-center gap-2 text-gray-400 hover:text-white transition-colors">
-                                <div class="w-8 h-8 rounded-full border border-gray-600 group-hover:border-[#E0E0E0] flex items-center justify-center transition-colors">
-                                    <i class="fa-solid fa-arrow-left text-sm"></i>
-                                </div>
-                                <span class="uppercase tracking-widest text-xs font-bold">Back to Categories</span>
-                            </button>
-                        </div>
-
                         <!-- Grand Participation directly renders the rules/form, no grid needed -->
                         <div id="grand-content" class="hidden">
                              <!-- This container will be filled by the router logic calling createGrandRulesHTML -->
